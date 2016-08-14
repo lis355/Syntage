@@ -4,7 +4,6 @@ using Jacobi.Vst.Framework;
 using Jacobi.Vst.Framework.Plugin;
 using Syntage.Framework.Parameters;
 using Syntage.Logic.Audio;
-using Syntage.Plugin;
 
 namespace Syntage.Logic
 {

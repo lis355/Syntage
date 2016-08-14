@@ -78,7 +78,6 @@
     <Compile Include="Logic\Oscillator.cs" />
     <Compile Include="Logic\Routing.cs" />
     <Compile Include="Plugin\PluginCommandStub.cs" />
-    <Compile Include="Plugin\PluginParameters.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -92,7 +91,6 @@
     <Compile Include="UI\BlackKey.xaml.cs">
       <DependentUpon>BlackKey.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\IParameterController.cs" />
     <Compile Include="UI\Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
     </Compile>
@@ -102,7 +100,7 @@
     <Compile Include="UI\Switch.xaml.cs">
       <DependentUpon>Switch.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\UIDispatcher.cs" />
+    <Compile Include="UI\IKey.cs" />
     <Compile Include="UI\App\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -121,12 +119,9 @@
     <Compile Include="UI\Knob.xaml.cs">
       <DependentUpon>Knob.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\UIThread.cs" />
     <Compile Include="UI\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\ViewController.cs" />
-    <Compile Include="UI\WpfControlWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="UI\App\App.xaml">

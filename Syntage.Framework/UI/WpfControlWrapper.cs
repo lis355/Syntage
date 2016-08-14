@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Interop;
 
-namespace Syntage.UI
+namespace Syntage.Framework.UI
 {
     public class WpfControlWrapper<T> where T : UserControl, new()
     {

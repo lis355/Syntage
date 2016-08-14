@@ -1,8 +1,8 @@
 ﻿using Syntage.Framework.Parameters;
 
-namespace Syntage.UI
+namespace Syntage.Framework.UI
 {
-    public interface IParameterController
+    public interface IUIParameterController
     {
         void SetParameter(Parameter parameter);
         void UpdateController();

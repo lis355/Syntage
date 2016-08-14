@@ -1,7 +1,5 @@
 ﻿using System;
 using Jacobi.Vst.Core;
-using Jacobi.Vst.Core.Host;
-using Jacobi.Vst.Core.Plugin;
 using Jacobi.Vst.Framework;
 using Jacobi.Vst.Framework.Plugin;
 using Syntage.Framework.Parameters;
@@ -14,7 +12,7 @@ namespace Syntage.Framework
         public Action OnOpen;
         public Action OnClose;
 
-        public ParametersManager ParametersManager { get; private set; }
+        public ParametersManager ParametersManager { get; }
 
         protected SyntagePlugin(string name, VstProductInfo productInfo, VstPluginCategory category, VstPluginCapabilities capabilities,
             int initialDelay, int pluginID) : base(name, productInfo, category, capabilities, initialDelay, pluginID)

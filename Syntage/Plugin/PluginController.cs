@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
 using Syntage.Framework;
@@ -16,7 +15,6 @@ namespace Syntage.Plugin
     {
         public AudioProcessor AudioProcessor { get; }
         public MidiListener MidiListener { get; }
-        public PluginUI View { get; }
         
         public PluginController() : base(
             "Syntage",
@@ -30,7 +28,7 @@ namespace Syntage.Plugin
 
             MidiListener = new MidiListener();
             AudioProcessor = new AudioProcessor(this);
-            View = new PluginUI(this);
+            PluginUI.Instance.PluginController = this;
 
             ParametersManager.SetParameters(AudioProcessor.CreateParameters());
 
@@ -48,7 +46,7 @@ namespace Syntage.Plugin
 
         protected override IVstPluginEditor CreateEditor(IVstPluginEditor instance)
         {
-            return View;
+            return PluginUI.Instance;
         }
 
         protected override IVstPluginBypass CreateBypass(IVstPluginBypass instance)

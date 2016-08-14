@@ -1,58 +1,87 @@
 ﻿using System;
-using Jacobi.Vst.Core;
-using Jacobi.Vst.Framework;
+using System.Collections.Generic;
+using Syntage.Framework.MIDI;
+using Syntage.Framework.UI;
 using Syntage.Plugin;
 
 namespace Syntage.UI
 {
-    public class PluginUI : IVstPluginEditor
+    public class PluginUI : PluginWpfUI<View>
     {
-        private readonly Plugin.PluginController _pluginController;
-        private readonly WpfControlWrapper<View> _uiWrapper = new WpfControlWrapper<View>();
-
-        public PluginUI(Plugin.PluginController pluginController)
+        private static PluginUI _instance;
+        public static PluginUI Instance
         {
-            _pluginController = pluginController;
+            get { return _instance ?? (_instance = new PluginUI()); }
         }
 
-        public View Control
+        private const int KKeyStartNum = 12;
+        private readonly Dictionary<int, IKey> _keys = new Dictionary<int, IKey>();
+
+        public PluginController PluginController { get; set; }
+
+        private PluginUI()
         {
-            get { return _uiWrapper.Control; }
         }
 
-        public System.Drawing.Rectangle Bounds
+        public override void Open(IntPtr hWnd)
         {
-            get { return _uiWrapper.Bounds; }
+            base.Open(hWnd);
+            
+            BindParameters(PluginController.ParametersManager.Parameters);
+            
+            Control.Oscilloscope.SetOscillogpaph(PluginController.AudioProcessor.Oscillograph);
+
+            PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn;
+            PluginController.MidiListener.OnNoteOff += MidiListenerOnNoteOff;
         }
 
-        public void Close()
+        public override void ProcessIdle()
         {
-            _uiWrapper.Close();
+            base.ProcessIdle();
+
+            Control.Oscilloscope.Update();
+        }
+        
+        public void Log(string m)
+        {
+            _instance.Control.LogLabel.Content = m;
         }
 
-        public bool KeyDown(byte ascii, VstVirtualKey virtualKey, VstModifierKeys modifers)
+        public void RegisterNextPianoKey(IKey key)
         {
-            // no-op
-            return false;
+            int num = _keys.Count;
+            _keys.Add(num, key);
+
+            key.OnPressFromUI += () => KeyOnPressFromUI(num + KKeyStartNum);
+            key.OnReleaseFromUI += () => KeyOnReleaseFromUI(num + KKeyStartNum);
         }
 
-        public bool KeyUp(byte ascii, VstVirtualKey virtualKey, VstModifierKeys modifers)
+        private void KeyOnReleaseFromUI(int num)
         {
-            // no-op
-            return false;
+            var noteEvent = new MidiListener.NoteEventArgs { Note = num % 12, Octava = num / 12, Velocity = 127 };
+            PluginController.MidiListener.NoteReleasedFromUI(noteEvent);
+
+            //UILog(string.Format("Key released {0}{1} frequency {2:F2} hZ", DSPFunctions.ToNoteName(noteEvent.Note), noteEvent.Octava,
+            //	DSPFunctions.GetMidiNoteFrequency(noteEvent.Note, noteEvent.Octava)));
         }
 
-        public VstKnobMode KnobMode { get; set; }
-
-        public void Open(IntPtr hWnd)
+        private void KeyOnPressFromUI(int num)
         {
-            _uiWrapper.Open(hWnd);
-            Control.Controller = new ViewController(_uiWrapper.Control, _pluginController);
+            var noteEvent = new MidiListener.NoteEventArgs { Note = num % 12, Octava = num / 12, Velocity = 127 };
+            PluginController.MidiListener.NotePressedFromUI(noteEvent);
+
+            //UILog(string.Format("Key pressed {0}{1} frequency {2:F2} hZ", DSPFunctions.ToNoteName(noteEvent.Note), noteEvent.Octava,
+            //	DSPFunctions.GetMidiNoteFrequency(noteEvent.Note, noteEvent.Octava)));
         }
 
-        public void ProcessIdle()
+        private void MidiListenerOnNoteOff(object sender, MidiListener.NoteEventArgs e)
         {
-            Control.Controller.Update();
+            UIThread.Instance.InvokeUIAction(() => _keys[e.NoteAbsolute - KKeyStartNum].Release());
+        }
+
+        private void MidiListenerOnNoteOn(object sender, MidiListener.NoteEventArgs e)
+        {
+            UIThread.Instance.InvokeUIAction(() => _keys[e.NoteAbsolute - KKeyStartNum].Press());
         }
     }
 }

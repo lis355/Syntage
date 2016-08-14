@@ -9,7 +9,8 @@
              MouseEnter="Key_OnMouseEnter"
              MouseLeave="Key_OnMouseLeave"
              MouseDown="Key_OnMouseDown"
-             MouseUp="Key_OnMouseUp">
+             MouseUp="Key_OnMouseUp"
+             Loaded="Key_OnLoaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

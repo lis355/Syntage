@@ -6,6 +6,7 @@ using Jacobi.Vst.Core;
 using Jacobi.Vst.Core.Plugin;
 using Jacobi.Vst.Framework;
 using Jacobi.Vst.Framework.Plugin;
+using Syntage.UI;
 
 namespace Syntage.Framework
 {
@@ -194,12 +195,14 @@ namespace Syntage.Framework
             base.EditorClose();
         }
 
-        //public override void EditorIdle()
-        //{
-        //    LogMethod(MethodBase.GetCurrentMethod());
-		//
-        //    base.EditorIdle();
-        //}
+        public override void EditorIdle()
+        {
+            LogMethod(MethodBase.GetCurrentMethod());
+
+            UIThread.Instance.Update();
+
+            base.EditorIdle();
+        }
 
         public override byte[] GetChunk(bool isPreset)
         {

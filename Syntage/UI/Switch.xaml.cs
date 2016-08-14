@@ -4,10 +4,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
+using Syntage.Framework.UI;
 
 namespace Syntage.UI
 {
-	public partial class Switch : UserControl, IParameterController
+	public partial class Switch : UserControl, IUIParameterController
 	{
 		private bool _isMouseOn;
 
@@ -38,7 +39,11 @@ namespace Syntage.UI
 
 			NameLabel.Content = _parameter.Name;
 			_shortLabel = _parameter.Label;
-		}
+
+            UpdateController();
+
+            parameter.OnValueChange += changeType => UIThread.Instance.InvokeUIAction(UpdateController);
+        }
 
 		private double GetRealValue()
 		{
@@ -84,7 +89,7 @@ namespace Syntage.UI
 					_parameter.SetValueFromUI(_value);
 					_parameter.FinishEditValueFromUI();
 
-					UIDispatcher.Instance.UILog(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
+                    PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
 				}
 				else
 				{

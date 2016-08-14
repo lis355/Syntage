@@ -13,8 +13,6 @@ namespace Syntage.UI
         public BlackKey()
         {
             InitializeComponent();
-
-            UIDispatcher.Instance.RegisterNextPianoKey(this);
         }
 
         public event Action OnPressFromUI;
@@ -56,6 +54,11 @@ namespace Syntage.UI
             _isMouseOn = false;
 
             VisualStateManager.GoToElementState(this, "Normal", true);
+        }
+
+        private void Key_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            PluginUI.Instance.RegisterNextPianoKey(this);
         }
     }
 }

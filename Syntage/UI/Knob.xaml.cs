@@ -4,10 +4,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
+using Syntage.Framework.UI;
 
 namespace Syntage.UI
 {
-	public partial class Knob : UserControl, IParameterController
+	public partial class Knob : UserControl, IUIParameterController
 	{
 		private const double KAngleLimit = 45;
 		private const double KAngleMax = 90 - KAngleLimit;
@@ -48,7 +49,11 @@ namespace Syntage.UI
 
 			NameLabel.Content = _parameter.Name;
 			_shortLabel = _parameter.Label;
-		}
+
+            UpdateController();
+
+            parameter.OnValueChange += changeType => UIThread.Instance.InvokeUIAction(UpdateController);
+        }
 
 	    private double GetRealValue()
 		{
@@ -111,8 +116,8 @@ namespace Syntage.UI
 				if (_parameter != null)
 				{
 					_parameter.SetValueFromUI(_value);
-					
-					UIDispatcher.Instance.UILog(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
+
+                    PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
 				}
 				else
 				{

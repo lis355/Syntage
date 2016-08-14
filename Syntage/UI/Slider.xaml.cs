@@ -4,10 +4,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
+using Syntage.Framework.UI;
 
 namespace Syntage.UI
 {
-	public partial class Slider : UserControl, IParameterController
+	public partial class Slider : UserControl, IUIParameterController
 	{
 		private const double KDeltaFactor = 0.015;
 
@@ -48,7 +49,11 @@ namespace Syntage.UI
 
 			NameLabel.Content = _parameter.Name;
 			_shortLabel = _parameter.Label;
-		}
+
+            UpdateController();
+
+            parameter.OnValueChange += changeType => UIThread.Instance.InvokeUIAction(UpdateController);
+        }
         
 	    public void UpdateController()
 		{
@@ -111,7 +116,7 @@ namespace Syntage.UI
 				{
 					_parameter.SetValueFromUI(_value);
 
-					UIDispatcher.Instance.UILog(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
+                    PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
 				}
 				else
 				{
