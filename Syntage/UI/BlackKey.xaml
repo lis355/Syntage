@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Syntage.UI.BlackKey"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Width="10"
+             Height="50"
+             MouseEnter="Key_OnMouseEnter"
+             MouseLeave="Key_OnMouseLeave"
+             MouseDown="Key_OnMouseDown"
+             MouseUp="Key_OnMouseUp">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ViewResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Duration x:Key="AnimationDuration">0:00:00.1</Duration>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="Common">
+            <VisualState x:Name="Normal">
+                <Storyboard>
+                    <ColorAnimation To="Black"
+                                    Duration="{StaticResource AnimationDuration}"
+                                    Storyboard.TargetName="KeyRectBrush"
+                                    Storyboard.TargetProperty="(Color)" />
+                </Storyboard>
+            </VisualState>
+            <VisualState x:Name="MouseOver">
+                <Storyboard>
+                    <ColorAnimation To="{StaticResource PaletteColor2}"
+                                    Duration="{StaticResource AnimationDuration}"
+                                    Storyboard.TargetName="KeyRectBrush"
+                                    Storyboard.TargetProperty="(Color)" />
+                </Storyboard>
+            </VisualState>
+            <VisualState x:Name="Pressed">
+                <Storyboard>
+                    <ColorAnimation To="{StaticResource PaletteColor1}"
+                                    Duration="{StaticResource AnimationDuration}"
+                                    Storyboard.TargetName="KeyRectBrush"
+                                    Storyboard.TargetProperty="(Color)" />
+                </Storyboard>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+    <Rectangle Stroke="Black">
+        <Rectangle.Fill>
+            <SolidColorBrush x:Name="KeyRectBrush"
+                             Color="Black"></SolidColorBrush>
+        </Rectangle.Fill>
+    </Rectangle>
+</UserControl>

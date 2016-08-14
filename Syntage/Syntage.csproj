@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{16519991-1BFB-451A-9F55-FB05B246A35F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Syntage</RootNamespace>
+    <AssemblyName>Syntage</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\out\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\out\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Jacobi.Vst.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Jacobi.Vst.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Jacobi.Vst.Framework, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Jacobi.Vst.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Logic\ADSR.cs" />
+    <Compile Include="Logic\Audio\AudioChannel.cs" />
+    <Compile Include="Logic\AudioProcessor.cs" />
+    <Compile Include="Logic\AudioProcessorPart.cs" />
+    <Compile Include="Logic\Audio\AudioStream.cs" />
+    <Compile Include="Logic\Audio\AudioStreamProvider.cs" />
+    <Compile Include="Logic\Clip.cs" />
+    <Compile Include="Logic\Distortion.cs" />
+    <Compile Include="Logic\IGenerator.cs" />
+    <Compile Include="Logic\Input.cs" />
+    <Compile Include="Logic\IProcessor.cs" />
+    <Compile Include="Logic\Noise.cs" />
+    <Compile Include="Logic\MasterBus.cs" />
+    <Compile Include="Logic\Oscillator.cs" />
+    <Compile Include="Logic\Routing.cs" />
+    <Compile Include="Plugin\PluginCommandStub.cs" />
+    <Compile Include="Plugin\PluginParameters.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\Oscillograph.cs" />
+    <Compile Include="UI\App\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Arc.cs" />
+    <Compile Include="UI\BlackKey.xaml.cs">
+      <DependentUpon>BlackKey.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\IParameterController.cs" />
+    <Compile Include="UI\Key.xaml.cs">
+      <DependentUpon>Key.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Slider.xaml.cs">
+      <DependentUpon>Slider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Switch.xaml.cs">
+      <DependentUpon>Switch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UIDispatcher.cs" />
+    <Compile Include="UI\App\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Oktava.xaml.cs">
+      <DependentUpon>Oktava.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Piano.xaml.cs">
+      <DependentUpon>Piano.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PluginUI.cs" />
+    <Compile Include="Plugin\PluginController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Oscilloscope.xaml.cs">
+      <DependentUpon>Oscilloscope.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Knob.xaml.cs">
+      <DependentUpon>Knob.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UIThread.cs" />
+    <Compile Include="UI\View.xaml.cs">
+      <DependentUpon>View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ViewController.cs" />
+    <Compile Include="UI\WpfControlWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="UI\App\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="UI\BlackKey.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Key.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\App\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Oktava.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Piano.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Oscilloscope.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Knob.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Slider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Switch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Orbitron.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <None Include="UI\App\App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\ViewResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InitPreset.txt" />
+    <Content Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Syntage.Framework\Syntage.Framework.csproj">
+      <Project>{392d6c09-0673-44ab-9fae-c9e43aa3837e}</Project>
+      <Name>Syntage.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "$(TargetDir)\vst\" mkdir "$(TargetDir)\vst\"
+copy "$(TargetDir)$(TargetFileName)" "$(TargetDir)\vst\$(TargetName).net.vstdll" 
+copy "$(TargetDir)Syntage.Framework.dll" "$(TargetDir)\vst\Syntage.Framework.dll" 
+copy "$(TargetDir)Jacobi.Vst.Interop.dll" "$(TargetDir)\vst\$(TargetName).dll"
+copy "$(TargetDir)Jacobi.Vst.Core.dll" "$(TargetDir)\vst\Jacobi.Vst.Core.dll"
+copy "$(TargetDir)Jacobi.Vst.Framework.dll" "$(TargetDir)\vst\Jacobi.Vst.Framework.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
