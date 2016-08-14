@@ -7,7 +7,8 @@ namespace Syntage.Framework.Parameters
 {
     public class ParametersManager
     {
-        private List<Parameter> _parameters;
+        private List<Parameter> _parametersList;
+        private Dictionary<string, Parameter> _parametersDict;
         private List<Program> _programs;
         private int _activeProgram;
 
@@ -20,7 +21,7 @@ namespace Syntage.Framework.Parameters
 
         public IEnumerable<Parameter> Parameters
         {
-            get { return _parameters; }
+            get { return _parametersList; }
         }
 
         public IEnumerable<Program> Programs
@@ -30,12 +31,16 @@ namespace Syntage.Framework.Parameters
 
         public void SetParameters(IEnumerable<Parameter> parameters)
         {
-            _parameters = new List<Parameter>(parameters);
-            for (int i = 0; i < _parameters.Count; ++i)
+            _parametersList = new List<Parameter>(parameters);
+            _parametersDict = new Dictionary<string, Parameter>();
+
+            for (int i = 0; i < _parametersList.Count; ++i)
             {
-                var parameter = _parameters[i];
+                var parameter = _parametersList[i];
                 parameter.Index = i;
                 parameter.Manger = this;
+
+                _parametersDict.Add(parameter.Name, parameter);
             }
         }
 
@@ -52,20 +57,19 @@ namespace Syntage.Framework.Parameters
 
         public void SetParameter(int index, float value)
         {
-            _parameters[index].SetValueFromHost(value);
+            _parametersList[index].SetValueFromHost(value);
         }
 
         public float GetParameter(int index)
         {
-            return (float)_parameters[index].RealValue;
+            return (float)_parametersList[index].RealValue;
         }
 
         public void SetProgram(int programNumber)
         {
-            // TODO optimize
             _activeProgram = programNumber;
             foreach (var parameter in ActiveProgram.Parameters)
-                _parameters.Find( x=> x.Name == parameter.Key).SetValueFromPlugin(parameter.Value);
+                _parametersDict[parameter.Key].SetValueFromPlugin(parameter.Value);
         }
 
         public int GetProgram()
@@ -85,27 +89,27 @@ namespace Syntage.Framework.Parameters
 
         public string GetParameterLabel(int index)
         {
-            return _parameters[index].Label;
+            return _parametersList[index].Label;
         }
 
         public string GetParameterDisplay(int index)
         {
-            return _parameters[index].GetDisplayValue();
+            return _parametersList[index].GetDisplayValue();
         }
 
         public string GetParameterName(int index)
         {
-            return _parameters[index].Name;
+            return _parametersList[index].Name;
         }
 
         public bool CanParameterBeAutomated(int index)
         {
-            return _parameters[index].CanBeAutomated;
+            return _parametersList[index].CanBeAutomated;
         }
 
         public bool String2Parameter(int index, string str)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public string GetProgramNameIndexed(int index)
@@ -136,7 +140,7 @@ namespace Syntage.Framework.Parameters
                 var paramName = sline[0];
                 var valueS = sline[1];
 
-                var parameter = Parameters.FirstOrDefault( x=> x.Name == paramName);//TODO optimize
+                var parameter = _parametersDict[paramName];
                 if (parameter == null)
                     throw new NullReferenceException();
 

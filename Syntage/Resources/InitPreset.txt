@@ -5,7 +5,7 @@ AFine	0
 APan	0.5
 AEAtk	0
 AEDec	0
-AEStn	0.5
+AEStn	1
 AERel	0
 BVol	1
 BOsc	Saw

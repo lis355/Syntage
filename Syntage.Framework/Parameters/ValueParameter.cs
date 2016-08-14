@@ -7,8 +7,6 @@ namespace Syntage.Framework.Parameters
     [DebuggerDisplay("{Name}")]
     public abstract class Parameter<T> : Parameter where T : struct
 	{
-        private T? _defaultValue;
-
         protected Parameter(string name, string description, string label,
 			double min, double max, double step, bool canBeAutomated = true) :
             base(name, description, label, canBeAutomated)
@@ -23,9 +21,9 @@ namespace Syntage.Framework.Parameters
             RealStep = Step / Range;
 	    }
 
-        public void SetDefaultValue(T? value)
+        public void SetDefaultValue(T value)
         {
-            DefaultValue = value;
+            RealDefaultValue = ToReal(value);
         }
 
         public double Min { get; }
@@ -41,19 +39,7 @@ namespace Syntage.Framework.Parameters
 
         public T? DefaultValue
         {
-            get { return _defaultValue; }
-            set
-            {
-                if (!value.HasValue)
-                    throw new ArgumentNullException();
-
-                var defaultValueReal = ToReal(value.Value);
-                if (defaultValueReal < 0
-                    || defaultValueReal > 1)
-                    throw new ArgumentNullException();
-
-                _defaultValue = value;
-            }
+            get { return (RealDefaultValue.HasValue) ? FromReal(RealDefaultValue.Value) : (T?)null; }
         }
 
         public abstract T FromReal(double value);
