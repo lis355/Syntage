@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Syntage.UI
+namespace Syntage.Framework.UI
 {
     public class UIThread
     {

@@ -6,7 +6,7 @@ using Jacobi.Vst.Core;
 using Jacobi.Vst.Core.Plugin;
 using Jacobi.Vst.Framework;
 using Jacobi.Vst.Framework.Plugin;
-using Syntage.UI;
+using Syntage.Framework.UI;
 
 namespace Syntage.Framework
 {

@@ -21,6 +21,7 @@ namespace Syntage.UI
 
         private PluginUI()
         {
+            Framework.Tools.Log.Instance.OnLog += Log;
         }
 
         public override void Open(IntPtr hWnd)
@@ -44,7 +45,7 @@ namespace Syntage.UI
         
         public void Log(string m)
         {
-            _instance.Control.LogLabel.Content = m;
+            UIThread.Instance.InvokeUIAction(() => _instance.Control.LogLabel.Content = m);
         }
 
         public void RegisterNextPianoKey(IKey key)

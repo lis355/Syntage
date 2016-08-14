@@ -19,10 +19,9 @@ namespace Syntage.Framework.Parameters
 		    Min = min;
 		    Max = max;
 
-            Step = (Max - Min) / Math.Min(1, (int)(1 / DSPFunctions.Clamp01(step / (Max - Min))));
-
-
-        }
+            Step = Range / Math.Max(1, (int)(1 / DSPFunctions.Clamp01(step / Range)));
+            RealStep = Step / Range;
+	    }
 
         public void SetDefaultValue(T? value)
         {
@@ -31,9 +30,10 @@ namespace Syntage.Framework.Parameters
 
         public double Min { get; }
 		public double Max { get; }
+        public double Range { get { return Max - Min; } }
         public double Step { get; }
-		
-	    public T Value
+
+        public T Value
 	    {
 		    get { return FromReal(RealValue); }
 		    set { SetValueFromPlugin(ToReal(value)); }
