@@ -164,6 +164,16 @@
                                  KnobBackColor="{StaticResource PaletteColor2}" />
                     </StackPanel>
                 </Grid>
+                <ui:Knob x:Name="FPass"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="385,225,0,0" 
+                         KnobBackColor="MediumSlateBlue"/>
+                <ui:Knob x:Name="FCutoff"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="445,225,0,0"
+                         KnobBackColor="#EED768" />
             </Grid>
         </Grid>
     </UserControl.Content>

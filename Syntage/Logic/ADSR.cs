@@ -26,7 +26,7 @@ namespace Syntage.Logic
 			
 	        public EState State { get; private set; }
 
-	        public NoteEnvelope(ADSR owner)
+	        internal NoteEnvelope(ADSR owner)
 	        {
 		        _ownerEnvelope = owner;
 		        _timeDelta = 1.0 / _ownerEnvelope.Processor.SampleRate;
@@ -34,7 +34,7 @@ namespace Syntage.Logic
 
 			public double GetNextMultiplier()
 			{
-				_multiplier = 0;
+				_multiplier = 1;
 
 		        switch (State)
 		        {

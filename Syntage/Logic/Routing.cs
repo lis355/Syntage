@@ -45,8 +45,11 @@ namespace Syntage.Logic
 			    // смешиваем шум и звук с осцилляторов
 			    stream.Mix(stream, 1, noiseStream, 1);
 
+                // фильтр
+                Processor.Filter.Process(stream);
+
 			    // эффект дисторшн
-				Processor.Distortion.Process(stream);
+				//Processor.Distortion.Process(stream);
 
 				// клиппинг перед мастером
 				if (Processor.Clip.ClipSample.Value)

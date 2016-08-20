@@ -68,7 +68,9 @@
     <Compile Include="Logic\AudioProcessorPart.cs" />
     <Compile Include="Logic\Audio\AudioStream.cs" />
     <Compile Include="Logic\Audio\AudioStreamProvider.cs" />
+    <Compile Include="Logic\ButterworthFilter.cs" />
     <Compile Include="Logic\Clip.cs" />
+    <Compile Include="Logic\ConvolutionTable.cs" />
     <Compile Include="Logic\Distortion.cs" />
     <Compile Include="Logic\IGenerator.cs" />
     <Compile Include="Logic\Input.cs" />

@@ -22,6 +22,7 @@ namespace Syntage.Logic
         public ADSR EnvelopeA { get; }
         public Oscillator OscillatorB { get; }
         public Noise NoiseGenerator { get; }
+        public ButterworthFilter Filter { get; }
         public Distortion Distortion { get; }
         public Clip Clip { get; }
         public MasterBus MasterBus { get; }
@@ -39,6 +40,7 @@ namespace Syntage.Logic
             OscillatorA = new Oscillator(this, EnvelopeA);
             OscillatorB = new Oscillator(this);
             NoiseGenerator = new Noise(this);
+            Filter = new ButterworthFilter(this);
             Distortion = new Distortion(this);
             Clip = new Clip(this);
             MasterBus = new MasterBus(this);
@@ -79,6 +81,7 @@ namespace Syntage.Logic
             parameters.AddRange(EnvelopeA.CreateParameters("AE"));
             parameters.AddRange(OscillatorB.CreateParameters("B"));
             parameters.AddRange(NoiseGenerator.CreateParameters("N"));
+            parameters.AddRange(Filter.CreateParameters("F"));
             parameters.AddRange(Distortion.CreateParameters("D"));
             parameters.AddRange(Clip.CreateParameters("K"));
 			parameters.AddRange(MasterBus.CreateParameters("M"));
