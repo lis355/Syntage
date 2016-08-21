@@ -73,7 +73,6 @@
     <Compile Include="Logic\ConvolutionTable.cs" />
     <Compile Include="Logic\Distortion.cs" />
     <Compile Include="Logic\IGenerator.cs" />
-    <Compile Include="Logic\Input.cs" />
     <Compile Include="Logic\IProcessor.cs" />
     <Compile Include="Logic\Noise.cs" />
     <Compile Include="Logic\MasterBus.cs" />

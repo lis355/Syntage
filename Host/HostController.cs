@@ -89,7 +89,7 @@ namespace SimplyHost
 
                     _audioGenerator = new AudioGenerator(_host, _plugin);
                     _audioPlayer = new WaveOut();
-                    _audioPlayer.DesiredLatency = 150;
+                    _audioPlayer.DesiredLatency = 110;
 
                     _audioPlayer.Init(_audioGenerator);
                     _audioPlayer.Play();

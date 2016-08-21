@@ -1,5 +1,5 @@
 CPwr	On
-AVol	0
+AVol	1
 AOsc	Sine
 AFine	0
 APan	0.5
@@ -11,12 +11,12 @@ BVol	1
 BOsc	Saw
 BFine	0
 BPan	0.75
-CMix	0
+CMix	0.5
 MVol	1
-NVol	1
+NVol	0
 DTrshd	1    
 KClip	True
 OPwr	On	
 OStp	2
-FPass	LowPass
+FPass	None
 FCutoff 300

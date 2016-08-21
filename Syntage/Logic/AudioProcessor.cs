@@ -15,8 +15,6 @@ namespace Syntage.Logic
         
         public readonly Plugin.PluginController PluginController;
 
-        public Input Input { get; }
-
         public Routing Commutator { get; }
         public Oscillator OscillatorA { get; }
         public ADSR EnvelopeA { get; }
@@ -32,8 +30,6 @@ namespace Syntage.Logic
         {
             PluginController = pluginController;
             _mainStream = (AudioStream)CreateAudioStream();
-
-            Input = new Input(this);
 
             Commutator = new Routing(this);
             EnvelopeA = new ADSR(this);

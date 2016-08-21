@@ -36,6 +36,9 @@ namespace Syntage.Logic
         {
             _envelope = envelope;
             _stream = Processor.CreateAudioStream();
+
+            audioProcessor.PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn;
+            audioProcessor.PluginController.MidiListener.OnNoteOff += MidiListenerOnNoteOff;
         }
 
         public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
@@ -50,7 +53,17 @@ namespace Syntage.Logic
             return new List<Parameter> {Volume, OscillatorType, Fine, Panning};
         }
 
-        public void StartNote(int absoluteNote)
+        private void MidiListenerOnNoteOn(object sender, Framework.MIDI.MidiListener.NoteEventArgs e)
+        {
+            StartNote(e.NoteAbsolute);
+        }
+
+        private void MidiListenerOnNoteOff(object sender, Framework.MIDI.MidiListener.NoteEventArgs e)
+        {
+            FinishNote(e.NoteAbsolute);
+        }
+
+        private void StartNote(int absoluteNote)
         {
             _tone = new Tone
             {
@@ -59,7 +72,7 @@ namespace Syntage.Logic
             };
         }
 
-        public void FinishNote(int absoluteNote)
+        private void FinishNote(int absoluteNote)
         {
             if (_tone != null
                 && absoluteNote == _tone.Note)

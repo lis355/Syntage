@@ -18,7 +18,8 @@ namespace Syntage.Logic
 		{
 			Power = new BypassParameter(parameterPrefix + "Pwr", "Power", Processor);
 			OscillatorsMix = new RealParameter(parameterPrefix + "Mix", "Oscillators Mix", "Mix", 0, 1, 0.01);
-            
+            OscillatorsMix.SetDefaultValue(0.5);
+
             return new List<Parameter> {Power, OscillatorsMix};
 		}
         
@@ -52,8 +53,8 @@ namespace Syntage.Logic
 				//Processor.Distortion.Process(stream);
 
 				// клиппинг перед мастером
-				if (Processor.Clip.ClipSample.Value)
-					Processor.Clip.Process(stream);
+				//if (Processor.Clip.ClipSample.Value)
+				//	Processor.Clip.Process(stream);
 
 				// мастер-обработка
 				Processor.MasterBus.Process(stream);

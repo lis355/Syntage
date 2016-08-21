@@ -18,7 +18,7 @@ namespace Syntage.Logic
         {
             ClipSample = new BooleanParameter(parameterPrefix + "Clip", "Clip", "Clip");
 
-            return new List<Parameter> { ClipSample };
+            return new List<Parameter> {ClipSample};
         }
 
         public void Process(IAudioStream stream)
