@@ -1,6 +1,4 @@
-﻿using Syntage.Logic.Audio;
-
-namespace Syntage.Logic
+﻿namespace Syntage.Logic.Audio
 {
     public interface IProcessor
     {

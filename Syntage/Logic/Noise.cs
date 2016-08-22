@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syntage.Framework.MIDI;
 using Syntage.Framework.Parameters;
 using Syntage.Logic.Audio;
 
@@ -10,7 +9,6 @@ namespace Syntage.Logic
     {
         private readonly IAudioStream _stream;
         private readonly Random _random = new Random();
-        private int _isActive;
 
         public VolumeParameter Volume { get; private set; }
 
@@ -18,19 +16,6 @@ namespace Syntage.Logic
             base(audioProcessor)
         {
             _stream = audioProcessor.CreateAudioStream();
-
-            audioProcessor.PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn;
-            audioProcessor.PluginController.MidiListener.OnNoteOff += MidiListenerOnNoteOff;
-        }
-
-        private void MidiListenerOnNoteOn(object sender, MidiListener.NoteEventArgs e)
-        {
-            _isActive++;
-        }
-
-        private void MidiListenerOnNoteOff(object sender, MidiListener.NoteEventArgs e)
-        {
-            _isActive--;
         }
 
         public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
@@ -43,7 +28,7 @@ namespace Syntage.Logic
 
         public IAudioStream Generate()
         {
-            if (_isActive <= 0)
+            if (Processor.Input.PressedNotesCount == 0)
             {
                 _stream.Clear();
             }

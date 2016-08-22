@@ -4,11 +4,11 @@ using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public class MasterBus : AudioProcessorPartWithParameters, IProcessor
+    public class Master : AudioProcessorPartWithParameters, IProcessor
     {
         public VolumeParameter MasterVolume { get; private set; }
 
-        public MasterBus(AudioProcessor audioProcessor) :
+        public Master(AudioProcessor audioProcessor) :
             base(audioProcessor)
         {
         }

@@ -30,16 +30,22 @@ namespace Syntage.UI
 
         private void Key_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            ((UIElement)sender).CaptureMouse();
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                ((UIElement)sender).CaptureMouse();
 
-            OnPressFromUI?.Invoke();
+                OnPressFromUI?.Invoke();
+            }
         }
 
         private void Key_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            OnReleaseFromUI?.Invoke();
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                OnReleaseFromUI?.Invoke();
 
-            ((UIElement)sender).ReleaseMouseCapture();
+                ((UIElement)sender).ReleaseMouseCapture();
+            }
         }
 
         private void Key_OnMouseEnter(object sender, MouseEventArgs e)

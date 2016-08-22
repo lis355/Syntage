@@ -3,10 +3,10 @@ AVol	1
 AOsc	Sine
 AFine	0
 APan	0.5
-AEAtk	0
-AEDec	0
-AEStn	1
-AERel	0
+EAtk	0
+EDec	0
+EStn	1
+ERel	0
 BVol	1
 BOsc	Saw
 BFine	0

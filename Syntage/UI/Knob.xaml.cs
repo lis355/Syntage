@@ -80,26 +80,32 @@ namespace Syntage.UI
 
 		private void Knob_OnMouseDown(object sender, MouseButtonEventArgs e)
 		{
-			((UIElement)sender).CaptureMouse();
+		    if (e.ChangedButton == MouseButton.Left)
+		    {
+		        ((UIElement)sender).CaptureMouse();
 
-			_isMouseDown = true;
-			_mouseStartPoint = e.GetPosition(this);
-			_knobStartValue = GetRealValue();
+		        _isMouseDown = true;
+		        _mouseStartPoint = e.GetPosition(this);
+		        _knobStartValue = GetRealValue();
 
-			VisualStateManager.GoToElementState(this, "Pressed", true);
+		        VisualStateManager.GoToElementState(this, "Pressed", true);
 
-			_parameter?.BeginEditValueFromUI();
+		        _parameter?.BeginEditValueFromUI();
+		    }
 		}
 
 		private void Knob_OnMouseUp(object sender, MouseButtonEventArgs e)
 		{
-			((UIElement)sender).ReleaseMouseCapture();
+		    if (e.ChangedButton == MouseButton.Left)
+		    {
+		        ((UIElement)sender).ReleaseMouseCapture();
 
-			_isMouseDown = false;
+		        _isMouseDown = false;
 
-			VisualStateManager.GoToElementState(this, (_isMouseOn) ? "MouseOver" : "Normal", false);
+		        VisualStateManager.GoToElementState(this, (_isMouseOn) ? "MouseOver" : "Normal", false);
 
-			_parameter?.FinishEditValueFromUI();
+		        _parameter?.FinishEditValueFromUI();
+		    }
 		}
 
 		private void Knob_OnMouseMove(object sender, MouseEventArgs e)

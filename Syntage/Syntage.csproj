@@ -72,10 +72,11 @@
     <Compile Include="Logic\Clip.cs" />
     <Compile Include="Logic\ConvolutionTable.cs" />
     <Compile Include="Logic\Distortion.cs" />
-    <Compile Include="Logic\IGenerator.cs" />
-    <Compile Include="Logic\IProcessor.cs" />
+    <Compile Include="Logic\Audio\IGenerator.cs" />
+    <Compile Include="Logic\Input.cs" />
+    <Compile Include="Logic\Audio\IProcessor.cs" />
     <Compile Include="Logic\Noise.cs" />
-    <Compile Include="Logic\MasterBus.cs" />
+    <Compile Include="Logic\Master.cs" />
     <Compile Include="Logic\Oscillator.cs" />
     <Compile Include="Logic\Routing.cs" />
     <Compile Include="Plugin\PluginCommandStub.cs" />

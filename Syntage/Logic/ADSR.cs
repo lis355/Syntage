@@ -2,34 +2,34 @@
 using System.Collections.Generic;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
+using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public class ADSR : AudioProcessorPartWithParameters
+    public class ADSR : AudioProcessorPartWithParameters, IProcessor
     {
-        public enum EState
+        private class NoteEnvelope
         {
-            None,
-            Attack,
-            Decay,
-            Sustain,
-            Release
-        }
+            public enum EState
+            {
+                None,
+                Attack,
+                Decay,
+                Sustain,
+                Release
+            }
 
-        public class NoteEnvelope
-        {
-			private readonly ADSR _ownerEnvelope;
-			private readonly double _timeDelta;
+            private readonly ADSR _ownerEnvelope;
+			private double _timeDelta;
 			private double _time;
 			private double _multiplier;
 	        private double _releaseStartMultiplier;
 			
 	        public EState State { get; private set; }
 
-	        internal NoteEnvelope(ADSR owner)
+            public NoteEnvelope(ADSR owner)
 	        {
 		        _ownerEnvelope = owner;
-		        _timeDelta = 1.0 / _ownerEnvelope.Processor.SampleRate;
 	        }
 
 			public double GetNextMultiplier()
@@ -39,7 +39,7 @@ namespace Syntage.Logic
 		        switch (State)
 		        {
 					case EState.Attack:
-						_multiplier = DSPFunctions.Lerp(0, 1, 1 - _time / _ownerEnvelope.Attack.Value);
+                        _multiplier = DSPFunctions.Lerp(0, 1, 1 - _time / _ownerEnvelope.Attack.Value);
 						if (_time < 0)
 							SetState(EState.Decay);
 						break;
@@ -83,7 +83,8 @@ namespace Syntage.Logic
 						break;
 
 					case EState.Attack:
-						_time = _ownerEnvelope.Attack.Value;
+                        _timeDelta = 1.0 / _ownerEnvelope.Processor.SampleRate;
+                        _time = _ownerEnvelope.Attack.Value;
 						break;
 
 					case EState.Decay:
@@ -107,16 +108,22 @@ namespace Syntage.Logic
 			}
 		}
 
-		public RealParameter Attack { get; private set; }
+        private readonly NoteEnvelope _noteEnvelope;
+        private int _lastPressedNotesCount;
+            
+        public RealParameter Attack { get; private set; }
 	    public RealParameter Decay { get; private set; }
 	    public RealParameter Sustain { get; private set; }
 	    public RealParameter Release { get; private set; }
 
 	    public ADSR(AudioProcessor audioProcessor) : base(audioProcessor)
 	    {
-	    }
+	        _noteEnvelope = new NoteEnvelope(this);
 
-	    public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
+            Processor.Input.OnPressedNotesChanged += OnPressedNotesChanged;
+        }
+        
+        public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
 	    {
 		    Attack = new RealParameter(parameterPrefix + "Atk", "Envelope Attack", "", 0.01, 1, 0.01);
 		    Decay = new RealParameter(parameterPrefix + "Dec", "Envelope Decay", "", 0.01, 1, 0.01);
@@ -125,10 +132,39 @@ namespace Syntage.Logic
 
 		    return new List<Parameter> {Attack, Decay, Sustain, Release};
 	    }
+        
+        public void Process(IAudioStream stream)
+        {
+            if (_noteEnvelope.State != NoteEnvelope.EState.None)
+            {
+                var lc = stream.Channels[0];
+                var rc = stream.Channels[1];
 
-	    public NoteEnvelope CreateEnvelope()
-	    {
-		    return new NoteEnvelope(this);
-	    }
+                var count = Processor.CurrentStreamLenght;
+                for (int i = 0; i < count; ++i)
+                {
+                    var multiplier = _noteEnvelope.GetNextMultiplier();
+                    lc.Samples[i] *= multiplier;
+                    rc.Samples[i] *= multiplier;
+                }
+            }
+        }
+
+        private void OnPressedNotesChanged()
+        {
+            var currentPressedNotesCount = Processor.Input.PressedNotesCount;
+            if (_lastPressedNotesCount == 0
+                && currentPressedNotesCount == 1)
+            {
+                _noteEnvelope.Press();
+            }
+            else if (_lastPressedNotesCount == 1
+                && currentPressedNotesCount == 0)
+            {
+                _noteEnvelope.Release();
+            }
+
+            _lastPressedNotesCount = currentPressedNotesCount;
+        }
     }
 }

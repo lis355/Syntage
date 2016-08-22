@@ -23,7 +23,6 @@ namespace Syntage.Logic
         }
 
         private readonly IAudioStream _stream;
-        private readonly ADSR _envelope;
         private Tone _tone;
 
         public VolumeParameter Volume { get; private set; }
@@ -31,10 +30,9 @@ namespace Syntage.Logic
         public RealParameter Fine { get; private set; }
         public RealParameter Panning { get; private set; }
 
-        public Oscillator(AudioProcessor audioProcessor, ADSR envelope = null) :
+        public Oscillator(AudioProcessor audioProcessor) :
             base(audioProcessor)
         {
-            _envelope = envelope;
             _stream = Processor.CreateAudioStream();
 
             audioProcessor.PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn;
@@ -98,25 +96,13 @@ namespace Syntage.Logic
                 var frequency = DSPFunctions.GetNoteFrequency(tone.Note + Fine.Value);
 
                 var sample = GenerateNextSample(frequency, tone.Time);
+                sample *= Volume.Value;
+
                 var panR = Panning.Value;
                 var panL = 1 - panR;
-                var volume = Volume.Value;
-
-                var lc = sample * volume * panL;
-                var rc = sample * volume * panR;
-
-                //if (tone.Envelope != null)
-                //{
-                //	var envelopeMultiplier = tone.Envelope.GetNextMultiplier();
-                //	lc *= envelopeMultiplier;
-                //	rc *= envelopeMultiplier;
-                //    
-                //	if (tone.Envelope.State == ADSR.EState.None)
-                //		_tones.Remove(tone);
-                //}
-
-                _stream.Channels[0].Samples[i] += lc;
-                _stream.Channels[1].Samples[i] += rc;
+                
+                _stream.Channels[0].Samples[i] += sample * panL;
+                _stream.Channels[1].Samples[i] += sample * panR;
 
                 tone.Time += timeDelta;
             }

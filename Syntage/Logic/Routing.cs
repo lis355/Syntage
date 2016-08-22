@@ -45,6 +45,9 @@ namespace Syntage.Logic
 
 			    // смешиваем шум и звук с осцилляторов
 			    stream.Mix(stream, 1, noiseStream, 1);
+                
+                // огибающая
+                Processor.Envelope.Process(stream);
 
                 // фильтр
                 Processor.Filter.Process(stream);
@@ -57,7 +60,7 @@ namespace Syntage.Logic
 				//	Processor.Clip.Process(stream);
 
 				// мастер-обработка
-				Processor.MasterBus.Process(stream);
+				Processor.Master.Process(stream);
 			}
 
 			// отправляем результат в осциллограф

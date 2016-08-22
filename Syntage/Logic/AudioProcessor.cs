@@ -15,15 +15,17 @@ namespace Syntage.Logic
         
         public readonly Plugin.PluginController PluginController;
 
+        public Input Input { get; }
+
         public Routing Commutator { get; }
         public Oscillator OscillatorA { get; }
-        public ADSR EnvelopeA { get; }
         public Oscillator OscillatorB { get; }
         public Noise NoiseGenerator { get; }
+        public ADSR Envelope { get; }
         public ButterworthFilter Filter { get; }
         public Distortion Distortion { get; }
         public Clip Clip { get; }
-        public MasterBus MasterBus { get; }
+        public Master Master { get; }
 		public Oscillograph Oscillograph { get; }
 
         public AudioProcessor(Plugin.PluginController pluginController) : base(0, 2, 0)
@@ -31,15 +33,17 @@ namespace Syntage.Logic
             PluginController = pluginController;
             _mainStream = (AudioStream)CreateAudioStream();
 
+            Input = new Input(this);
+
             Commutator = new Routing(this);
-            EnvelopeA = new ADSR(this);
-            OscillatorA = new Oscillator(this, EnvelopeA);
+            Envelope = new ADSR(this);
+            OscillatorA = new Oscillator(this);
             OscillatorB = new Oscillator(this);
             NoiseGenerator = new Noise(this);
             Filter = new ButterworthFilter(this);
             Distortion = new Distortion(this);
             Clip = new Clip(this);
-            MasterBus = new MasterBus(this);
+            Master = new Master(this);
 			Oscillograph = new Oscillograph(this);
 		}
 
@@ -74,13 +78,13 @@ namespace Syntage.Logic
 
             parameters.AddRange(Commutator.CreateParameters("C"));
             parameters.AddRange(OscillatorA.CreateParameters("A"));
-            parameters.AddRange(EnvelopeA.CreateParameters("AE"));
+            parameters.AddRange(Envelope.CreateParameters("E"));
             parameters.AddRange(OscillatorB.CreateParameters("B"));
             parameters.AddRange(NoiseGenerator.CreateParameters("N"));
             parameters.AddRange(Filter.CreateParameters("F"));
             parameters.AddRange(Distortion.CreateParameters("D"));
             parameters.AddRange(Clip.CreateParameters("K"));
-			parameters.AddRange(MasterBus.CreateParameters("M"));
+			parameters.AddRange(Master.CreateParameters("M"));
 			parameters.AddRange(Oscillograph.CreateParameters("O"));
 			
 			return parameters;

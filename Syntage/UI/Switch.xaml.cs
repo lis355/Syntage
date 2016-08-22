@@ -67,35 +67,41 @@ namespace Syntage.UI
 
 		private void Knob_OnMouseDown(object sender, MouseButtonEventArgs e)
 		{
-			((UIElement)sender).CaptureMouse();
+		    if (e.ChangedButton == MouseButton.Left)
+		    {
+		        ((UIElement)sender).CaptureMouse();
+		    }
 		}
 
 		private void Knob_OnMouseUp(object sender, MouseButtonEventArgs e)
 		{
-			((UIElement)sender).ReleaseMouseCapture();
+		    if (e.ChangedButton == MouseButton.Left)
+		    {
+		        ((UIElement)sender).ReleaseMouseCapture();
 
-			if (_isMouseOn)
-				VisualStateManager.GoToElementState(this, (!IsRealValueTrue()) ? "MouseOverOff" : "MouseOverOn", true);
-			else
-				VisualStateManager.GoToElementState(this, (!IsRealValueTrue()) ? "NormalOff" : "NormalOn", true);
+		        if (_isMouseOn)
+		            VisualStateManager.GoToElementState(this, (!IsRealValueTrue()) ? "MouseOverOff" : "MouseOverOn", true);
+		        else
+		            VisualStateManager.GoToElementState(this, (!IsRealValueTrue()) ? "NormalOff" : "NormalOn", true);
 
-			if (_isMouseOn)
-			{
-				_value = 1 - GetRealValue();
+		        if (_isMouseOn)
+		        {
+		            _value = 1 - GetRealValue();
 
-				if (_parameter != null)
-				{
-					_parameter.BeginEditValueFromUI();
-					_parameter.SetValueFromUI(_value);
-					_parameter.FinishEditValueFromUI();
+		            if (_parameter != null)
+		            {
+		                _parameter.BeginEditValueFromUI();
+		                _parameter.SetValueFromUI(_value);
+		                _parameter.FinishEditValueFromUI();
 
-                    PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
-				}
-				else
-				{
-                    UpdateController();
-				}
-			}
+		                PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
+		            }
+		            else
+		            {
+		                UpdateController();
+		            }
+		        }
+		    }
 		}
 
 		private void Knob_OnMouseMove(object sender, MouseEventArgs e)

@@ -1,6 +1,4 @@
-﻿using Syntage.Logic.Audio;
-
-namespace Syntage.Logic
+﻿namespace Syntage.Logic.Audio
 {
     // Генератор не создает каждый раз новый буфер, он использует старый
     public interface IGenerator
