@@ -53,28 +53,16 @@ namespace Syntage.Logic
 
         private void MidiListenerOnNoteOn(object sender, Framework.MIDI.MidiListener.NoteEventArgs e)
         {
-            StartNote(e.NoteAbsolute);
+            _tone = new Tone
+            {
+                Time = 0,
+                Note = e.NoteAbsolute
+            };
         }
 
         private void MidiListenerOnNoteOff(object sender, Framework.MIDI.MidiListener.NoteEventArgs e)
         {
-            FinishNote(e.NoteAbsolute);
-        }
-
-        private void StartNote(int absoluteNote)
-        {
-            _tone = new Tone
-            {
-                Time = 0,
-                Note = absoluteNote
-            };
-        }
-
-        private void FinishNote(int absoluteNote)
-        {
-            if (_tone != null
-                && absoluteNote == _tone.Note)
-                _tone = null;
+            //FinishNote(e.NoteAbsolute);
         }
 
         public IAudioStream Generate()
