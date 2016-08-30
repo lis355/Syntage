@@ -13,7 +13,12 @@ namespace Syntage.Framework.Parameters
 
 		protected static string PrintDouble(double value)
 		{
-			return value.ToString("F2");
+			return value.ToString("F2", CultureInfo.InvariantCulture);
+		}
+
+		protected static double ParseDouble(string value)
+		{
+			return double.Parse(value, CultureInfo.InvariantCulture);
 		}
 
 		public override double FromReal(double value)
@@ -28,7 +33,7 @@ namespace Syntage.Framework.Parameters
 
 		public override double FromStringToValue(string s)
 		{
-			return DSPFunctions.Clamp(double.Parse(s, CultureInfo.InvariantCulture), Min, Max);
+			return DSPFunctions.Clamp(ParseDouble(s), Min, Max);
 		}
 
 		public override string FromValueToString(double value)

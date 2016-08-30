@@ -37,8 +37,8 @@ namespace SimplyHost
                 ctx.PluginCommandStub.SetSampleRate(1000 * _host.GetSampleRate());
 
                 ctx.PluginCommandStub.Open();
-
-                return ctx;
+	            
+				return ctx;
             }
             catch (Exception e)
             {
@@ -94,12 +94,10 @@ namespace SimplyHost
                     _audioPlayer.Init(_audioGenerator);
                     _audioPlayer.Play();
 
-	                //Plugin.PluginCommandStub.ProcessEvents(new VstEvent[]
-	                //{
-		            //    new VstMidiEvent(0, 0, 0, new byte[] {144, (byte)(60 + 9), 127, 0}, 0, 0)
-	                //});
-                }
-            }
+					// Press note at start
+					//SendEventNotePress(9);
+				}
+			}
 
             if (_plugin == null)
             {
@@ -132,12 +130,7 @@ namespace SimplyHost
 
             int note = GetKeyNote(keyEventArgs);
 			if (note >= 0)
-			{
-				_plugin.PluginCommandStub.ProcessEvents(new VstEvent[]
-				{
-					new VstMidiEvent(0, 0, 0, new byte[] {144, (byte)(60 + note), 127, 0}, 0, 0)
-				});
-			}
+				SendEventNotePress(note);
 		}
 
 		public void KeyUp(KeyEventArgs keyEventArgs)
@@ -146,12 +139,25 @@ namespace SimplyHost
 
             int note = GetKeyNote(keyEventArgs);
 			if (note >= 0)
+				SendEventNoteRelease(note);
+		}
+
+	    private void SendEventNotePress(int note)
+	    {
+		    SendEventNote(144, note, 127);
+	    }
+
+		private void SendEventNoteRelease(int note)
+		{
+			SendEventNote(128, note, 127);
+		}
+
+		private void SendEventNote(byte cmd, int note, byte velocity)
+		{
+			_plugin.PluginCommandStub.ProcessEvents(new VstEvent[]
 			{
-				_plugin.PluginCommandStub.ProcessEvents(new VstEvent[]
-				{
-					new VstMidiEvent(0, 0, 0, new byte[] {128, (byte)(60 + note), 127, 0}, 0, 0)
-				});
-			}
+				new VstMidiEvent(0, 0, 0, new byte[] {cmd, (byte)(60 + note), velocity, 0}, 0, 0)
+			});
 		}
 
 		private static int GetKeyNote(KeyEventArgs keyEventArgs)
@@ -185,5 +191,20 @@ namespace SimplyHost
         {
             _plugin.PluginCommandStub.SetBypass(bypass);
         }
+
+	    public void PrintParameters()
+	    {
+		    var parameterStrings = new List<string>();
+		    for (int i = 0; i < _plugin.PluginInfo.ParameterCount; ++i)
+		    {
+			    parameterStrings.Add(string.Format("{0,-10}{1}",
+				    _plugin.PluginCommandStub.GetParameterName(i),
+				    _plugin.PluginCommandStub.GetParameterDisplay(i)));
+		    }
+
+		    var presetString = string.Join(Environment.NewLine, parameterStrings);
+			MessageBox.Show(presetString);
+			Clipboard.SetText(presetString);
+	    }
     }
 }

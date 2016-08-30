@@ -8,6 +8,9 @@ namespace Syntage.Framework.UI
 {
     public class WpfControlWrapper<T> where T : UserControl, new()
     {
+        private const int KWsVisible = 0x10000000;
+        private const int KWsChild = 0x40000000;
+
         private HwndSource _hwndSource;
 
         public Rectangle Bounds { get; private set; }
@@ -26,7 +29,7 @@ namespace Syntage.Framework.UI
             hwndParams.ParentWindow = hWnd;
             hwndParams.Width = Bounds.Width;
             hwndParams.Height = Bounds.Height;
-            hwndParams.WindowStyle = 0x10000000 | 0x40000000; // WS_VISIBLE | WS_CHILD
+            hwndParams.WindowStyle = KWsVisible | KWsChild;
 
             _hwndSource = new HwndSource(hwndParams);
             _hwndSource.RootVisual = Control;

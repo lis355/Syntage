@@ -33,11 +33,11 @@ namespace Syntage.Framework.MIDI
                 bool off = false;
                 bool on = false;
                 
-                if (midiMessage.HasStatusByte((byte)EMidiChannelMessage.NoteOff))
+                if (midiMessage.HasStatusByte(EMidiChannelMessage.NoteOff))
                 {
                     off = true;
                 }
-                else if (midiMessage.HasStatusByte((byte)EMidiChannelMessage.NoteOn))
+                else if (midiMessage.HasStatusByte(EMidiChannelMessage.NoteOn))
                 {
                     if (midiMessage.Data2 == 0) // Velocity
                     {

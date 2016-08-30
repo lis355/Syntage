@@ -47,16 +47,5 @@ namespace Syntage.Framework.UI
         public virtual void ProcessIdle()
         {
         }
-
-        public void BindParameters(IEnumerable<Parameter> parameters)
-        {
-            foreach (var parameter in parameters)
-            {
-                var name = parameter.Name;
-                var element = Control.FindName(name);
-                var parameterController = element as IUIParameterController;
-                parameterController?.SetParameter(parameter);
-            }
-        }
     }
 }

@@ -6,7 +6,10 @@ namespace Syntage.Framework.Tools
 	public class DSPFunctions
 	{
 		public const double Pi2 = 2 * Math.PI;
-		public static readonly double KMinA = DbToAmplitude(-80);
+		public static readonly double KMinADb = -80;
+		public static readonly double KMaxADb = 0;
+		public static readonly double KMinA = DbToAmplitude(KMinADb);
+		public static readonly double KMaxA = DbToAmplitude(KMaxADb);
 
 		public static double Lerp(double a, double b, double t)
 		{
@@ -32,13 +35,13 @@ namespace Syntage.Framework.Tools
 
 		public static double AmplitudeToDb(double a)
 		{
-			a = Clamp01(a);
+			a = Clamp(a, KMinA, KMaxA);
 			return 20f * Math.Log10(a);
 		}
 
 		public static double DbToAmplitude(double db)
 		{
-			db = Math.Min(0, db);
+			db = Clamp(db, KMinADb, KMaxADb);
 			return Math.Pow(10, db / 20.0);
 		}
         

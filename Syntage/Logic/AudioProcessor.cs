@@ -4,6 +4,7 @@ using Jacobi.Vst.Framework;
 using Jacobi.Vst.Framework.Plugin;
 using Syntage.Framework.Parameters;
 using Syntage.Logic.Audio;
+using Syntage.Plugin;
 
 namespace Syntage.Logic
 {
@@ -13,7 +14,7 @@ namespace Syntage.Logic
         private readonly AudioStream _mainStream;
         private bool _bypass;
         
-        public readonly Plugin.PluginController PluginController;
+        public readonly PluginController PluginController;
 
         public Input Input { get; }
 
@@ -28,7 +29,8 @@ namespace Syntage.Logic
         public Master Master { get; }
 		public Oscillograph Oscillograph { get; }
 
-        public AudioProcessor(Plugin.PluginController pluginController) : base(0, 2, 0)
+        public AudioProcessor(Plugin.PluginController pluginController) :
+			base(0, 2, 0)
         {
             PluginController = pluginController;
             _mainStream = (AudioStream)CreateAudioStream();

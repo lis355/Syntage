@@ -49,17 +49,8 @@ namespace Syntage.UI
 
 			NameLabel.Content = _parameter.Name;
 			_shortLabel = _parameter.Label;
-
-            UpdateController();
-
-            parameter.OnValueChange += changeType => UIThread.Instance.InvokeUIAction(UpdateController);
         }
-
-	    private double GetRealValue()
-		{
-			return _parameter?.RealValue ?? _value;
-		}
-
+		
 		public void UpdateController()
 		{
 			RotateTransformKnob.Angle = KnobRealValueToAngle(GetRealValue());
@@ -72,6 +63,11 @@ namespace Syntage.UI
 			KnobArc.StartAngle = KnobRealValueToAngle(GetRealValue());
 			KnobArc.EndAngle = KnobRealValueToAngle(0);
         }
+
+		private double GetRealValue()
+		{
+			return _parameter?.RealValue ?? _value;
+		}
 
 		public static double KnobRealValueToAngle(double value)
 		{
@@ -121,9 +117,7 @@ namespace Syntage.UI
 
 				if (_parameter != null)
 				{
-					_parameter.SetValueFromUI(_value);
-
-                    PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
+					SetValue();
 				}
 				else
 				{
@@ -156,9 +150,16 @@ namespace Syntage.UI
                 _value = _parameter.RealDefaultValue.Value;
 
 	            _parameter.BeginEditValueFromUI();
-                _parameter.SetValueFromUI(_value);
-                _parameter.FinishEditValueFromUI();
+		        SetValue();
+				_parameter.FinishEditValueFromUI();
             }
 	    }
+
+		private void SetValue()
+		{
+			_parameter.SetValueFromUI(_value);
+
+			PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
+		}
 	}
 }

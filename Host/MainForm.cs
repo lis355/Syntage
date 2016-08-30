@@ -59,5 +59,10 @@ namespace SimplyHost
 
             _hostController.SetBypass(_bypass);
         }
-    }
+
+		private void printParametersToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			_hostController.PrintParameters();
+		}
+	}
 }

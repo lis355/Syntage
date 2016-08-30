@@ -28,16 +28,9 @@ namespace SimplyHost
 #pragma warning restore 618
 
                 _plugin.PluginCommandStub.SetBlockSize(count / channelsCount);
-
-                //Plugin.PluginCommandStub.MainsChanged(true);
-                //Plugin.PluginCommandStub.StartProcess();
-
                 _plugin.PluginCommandStub.ProcessReplacing(null, outputBuffers);
 
-                //Plugin.PluginCommandStub.StopProcess();
-                //Plugin.PluginCommandStub.MainsChanged(false);
-
-                int outIndex = 0;
+				int outIndex = 0;
                 for (var i = 0; i < count / channelsCount; ++i)
                     foreach (var outputBuffer in outputBuffers)
                         buffer[outIndex++] = outputBuffer[i];

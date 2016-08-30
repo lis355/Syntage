@@ -54,9 +54,7 @@ namespace Syntage.UI
 				a1 = a1 < 0 ? a1 + 2 * Math.PI : a1;
 
 				if (a1 < a0)
-				{
 					a1 += Math.PI * 2;
-				}
 
 				var d = SweepDirection.Counterclockwise;
 				bool large;

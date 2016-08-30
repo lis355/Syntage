@@ -49,10 +49,6 @@ namespace Syntage.UI
 
 			NameLabel.Content = _parameter.Name;
 			_shortLabel = _parameter.Label;
-
-            UpdateController();
-
-            parameter.OnValueChange += changeType => UIThread.Instance.InvokeUIAction(UpdateController);
         }
         
 	    public void UpdateController()
@@ -120,9 +116,7 @@ namespace Syntage.UI
 
 				if (_parameter != null)
 				{
-					_parameter.SetValueFromUI(_value);
-
-                    PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
+					SetValue();
 				}
 				else
 				{
@@ -155,9 +149,16 @@ namespace Syntage.UI
                 _value = _parameter.RealDefaultValue.Value;
 
                 _parameter.BeginEditValueFromUI();
-                _parameter.SetValueFromUI(_value);
-                _parameter.FinishEditValueFromUI();
+	            SetValue();
+				_parameter.FinishEditValueFromUI();
             }
         }
-    }
+
+		private void SetValue()
+		{
+			_parameter.SetValueFromUI(_value);
+
+			PluginUI.Instance.Log(string.Format("{0} = {1} {2}", _parameter.Name, _parameter.GetDisplayValue(), _parameter.Label));
+		}
+	}
 }

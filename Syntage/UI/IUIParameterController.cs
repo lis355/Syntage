@@ -1,6 +1,6 @@
 ﻿using Syntage.Framework.Parameters;
 
-namespace Syntage.Framework.UI
+namespace Syntage.UI
 {
     public interface IUIParameterController
     {

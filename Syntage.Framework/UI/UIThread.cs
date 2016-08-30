@@ -7,12 +7,12 @@ namespace Syntage.Framework.UI
     {
         public static readonly UIThread Instance = new UIThread();
 
-        private readonly List<Action> _uiActions = new List<Action>();
-
         private UIThread()
         {
         }
 
+		private readonly List<Action> _uiActions = new List<Action>();
+		
         public void InvokeUIAction(Action action)
         {
             _uiActions.Add(action);

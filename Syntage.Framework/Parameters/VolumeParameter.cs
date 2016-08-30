@@ -13,12 +13,18 @@ namespace Syntage.Framework.Parameters
 
 	    public double GetDb()
 	    {
-	        return DSPFunctions.AmplitudeToDb(Math.Max(DSPFunctions.KMinA, Value));
+	        return DSPFunctions.AmplitudeToDb(Value);
 	    }
+
+		public override double FromStringToValue(string s)
+		{
+			var volumeDb = DSPFunctions.Clamp(ParseDouble(s), DSPFunctions.KMinADb, DSPFunctions.KMaxADb);
+			return (volumeDb - DSPFunctions.KMinADb) / (DSPFunctions.KMaxADb - DSPFunctions.KMinADb);
+		}
 
 		public override string FromValueToString(double value)
 		{
-			return PrintDouble(GetDb());
+			return PrintDouble(DSPFunctions.AmplitudeToDb(value));
 		}
 	}
 }

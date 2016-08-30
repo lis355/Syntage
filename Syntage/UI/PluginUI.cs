@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Syntage.Framework.MIDI;
 using Syntage.Framework.UI;
 using Syntage.Plugin;
+using Syntage.Framework.Parameters;
 
 namespace Syntage.UI
 {
@@ -57,7 +58,24 @@ namespace Syntage.UI
             key.OnReleaseFromUI += () => KeyOnReleaseFromUI(num + KKeyStartNum);
         }
 
-        private void KeyOnReleaseFromUI(int num)
+		private void BindParameters(IEnumerable<Parameter> parameters)
+		{
+			foreach (var parameter in parameters)
+			{
+				var name = parameter.Name;
+				var element = Control.FindName(name);
+				var parameterController = element as IUIParameterController;
+				if (parameterController != null)
+				{
+					parameterController.SetParameter(parameter);
+					parameterController.UpdateController();
+
+					parameter.OnValueChange += changeType => UIThread.Instance.InvokeUIAction(() => parameterController.UpdateController());
+				}
+			}
+		}
+
+		private void KeyOnReleaseFromUI(int num)
         {
             var noteEvent = new MidiListener.NoteEventArgs { Note = num % 12, Octava = num / 12, Velocity = 127 };
             PluginController.MidiListener.NoteReleasedFromUI(noteEvent);

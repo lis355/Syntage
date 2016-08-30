@@ -29,16 +29,19 @@ namespace Syntage.Framework.Tools
                 _writeToFile = value;
                 if (_writeToFile)
                 {
-                    _path = string.Format("{0}\\{1}{2}",Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Assembly.GetExecutingAssembly().GetName().Name, "Log.txt");
+                    _path = string.Format("{0}\\{1}{2}", 
+                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
+                        Assembly.GetExecutingAssembly().GetName().Name,
+                        "Log.txt");
 
                     if (File.Exists(_path))
                         File.Delete(_path);
 
-                    File.WriteAllText(_path, string.Empty);                    
+                    File.WriteAllText(_path, string.Empty);
                 }
             }
         }
-        
+
         public static void Print(object message)
         {
             Instance.Write(message);

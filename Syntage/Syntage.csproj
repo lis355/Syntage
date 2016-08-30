@@ -93,6 +93,7 @@
     <Compile Include="UI\BlackKey.xaml.cs">
       <DependentUpon>BlackKey.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\IUIParameterController.cs" />
     <Compile Include="UI\Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
     </Compile>

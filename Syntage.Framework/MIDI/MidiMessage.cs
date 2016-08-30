@@ -42,5 +42,10 @@ namespace Syntage.Framework.MIDI
         {
             return (StatusByte & 0xF0) == status;
         }
+
+        public bool HasStatusByte(EMidiChannelMessage status)
+        {
+            return HasStatusByte((byte)status);
+        }
     }
 }
