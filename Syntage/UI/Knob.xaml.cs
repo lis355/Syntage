@@ -112,7 +112,7 @@ namespace Syntage.UI
 
 				_value = _knobStartValue - delta * KDeltaFactor;
 				_value = DSPFunctions.Clamp01(_value);
-				_value = (int)(_value * _invertedStep) / _invertedStep;
+				_value = ((int)(_value * _invertedStep)) / _invertedStep;
 
 				if (_parameter != null)
 				{

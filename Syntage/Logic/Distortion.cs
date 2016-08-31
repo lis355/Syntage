@@ -7,24 +7,30 @@ namespace Syntage.Logic
 {
     public class Distortion : AudioProcessorPartWithParameters, IProcessor
     {
-        public RealParameter Treshold { get; private set; }
+		public EnumParameter<EPowerStatus> Power { get; private set; }
+		
+		public RealParameter Treshold { get; private set; }
 
         public Distortion(AudioProcessor audioProcessor) :
             base(audioProcessor)
         {
         }
 
-        public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
-        {
-            Treshold = new RealParameter(parameterPrefix + "Trshd", "Treshold", "Trshd", 0, 1, 0.01);
+	    public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
+	    {
+		    Power = new EnumParameter<EPowerStatus>(parameterPrefix + "Pwr", "Power", "", false);
+		    Treshold = new RealParameter(parameterPrefix + "Trshd", "Treshold", "Trshd", 0.1, 1, 0.01);
 
-            return new List<Parameter> {Treshold};
-        }
+		    return new List<Parameter> {Power, Treshold};
+	    }
 
-        public void Process(IAudioStream stream)
+	    public void Process(IAudioStream stream)
         {
+			if (Power.Value == EPowerStatus.Off)
+				return;
+
             var treshold = Treshold.Value;
-            stream.ProcessAllSamples(f => ((f > 0) ? Math.Min(f, treshold) : Math.Max(f, -treshold)));
+            stream.ProcessAllSamples(f => ((f > 0) ? Math.Min(f, treshold) : Math.Max(f, -treshold)) / treshold);
         }
     }
 }

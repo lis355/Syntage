@@ -17,8 +17,8 @@ namespace Syntage.Logic
         {
             get { return _pressedNotes.Count; }
         }
-
-        public event Action OnPressedNotesChanged;
+		
+        public event EventHandler<EventArgs> OnPressedNotesChanged;
 
         public Input(AudioProcessor audioProcessor) :
             base(audioProcessor)
@@ -34,14 +34,14 @@ namespace Syntage.Logic
 
             _pressedNotes.Add(e);
 
-            OnPressedNotesChanged?.Invoke();
-        }
+            OnPressedNotesChanged?.Invoke(this, EventArgs.Empty);
+		}
 
         private void MidiListenerOnNoteOff(object sender, MidiListener.NoteEventArgs e)
         {
             _pressedNotes.RemoveAll(x => x.NoteAbsolute == e.NoteAbsolute);
 
-            OnPressedNotesChanged?.Invoke();
+            OnPressedNotesChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

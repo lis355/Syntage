@@ -38,13 +38,13 @@ namespace Syntage.Logic
 		        switch (_state)
 		        {
 					case EState.Attack:
-                        _multiplier = DSPFunctions.Lerp(0, 1, 1 - _time / _ownerEnvelope.Attack.Value);
+                        _multiplier = DSPFunctions.Lerp(_startMultiplier, 1, 1 - _time / _ownerEnvelope.Attack.Value);
 						if (_time < 0)
 							SetState(EState.Decay);
 						break;
 
 					case EState.Decay:
-						_multiplier = DSPFunctions.Lerp(1, _ownerEnvelope.Sustain.Value, 1 - _time / _ownerEnvelope.Decay.Value);
+						_multiplier = DSPFunctions.Lerp(_startMultiplier, _ownerEnvelope.Sustain.Value, 1 - _time / _ownerEnvelope.Decay.Value);
 						if (_time < 0)
 							SetState(EState.Sustain);
 						break;
@@ -94,21 +94,22 @@ namespace Syntage.Logic
 						break;
 
 					case EState.Release:
-						_startMultiplier = _multiplier;
 						_time = _ownerEnvelope.Release.Value;
 						break;
 
 					default:
-						throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+						throw new ArgumentOutOfRangeException();
 				}
 
+				_startMultiplier = _multiplier;
                 _state = newState;
 			}
 		}
 
         private readonly NoteEnvelope _noteEnvelope;
-            
-        public RealParameter Attack { get; private set; }
+	    private int _lastPressedNotesCount;
+
+		public RealParameter Attack { get; private set; }
 	    public RealParameter Decay { get; private set; }
 	    public RealParameter Sustain { get; private set; }
 	    public RealParameter Release { get; private set; }
@@ -119,8 +120,8 @@ namespace Syntage.Logic
 
             Processor.Input.OnPressedNotesChanged += OnPressedNotesChanged;
         }
-        
-        public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
+
+	    public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
 	    {
 		    Attack = new RealParameter(parameterPrefix + "Atk", "Envelope Attack", "", 0.01, 1, 0.01);
 		    Decay = new RealParameter(parameterPrefix + "Dec", "Envelope Decay", "", 0.01, 1, 0.01);
@@ -144,17 +145,21 @@ namespace Syntage.Logic
             }
         }
 
-        private void OnPressedNotesChanged()
+		private void OnPressedNotesChanged(object sender, EventArgs e)
         {
             var currentPressedNotesCount = Processor.Input.PressedNotesCount;
-            if (currentPressedNotesCount > 0)
+            if (currentPressedNotesCount > 0
+				&& _lastPressedNotesCount == 0)
             {
                 _noteEnvelope.Press();
             }
-            else if (currentPressedNotesCount == 0)
+            else if (currentPressedNotesCount == 0
+				&& _lastPressedNotesCount > 0)
             {
                 _noteEnvelope.Release();
             }
+
+			_lastPressedNotesCount = currentPressedNotesCount;
         }
     }
 }

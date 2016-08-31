@@ -152,7 +152,7 @@
                          VerticalAlignment="Top"
                          KnobBackColor="{StaticResource PaletteColor2}"
                          Margin="355,3,0,0" />
-                <ui:Switch x:Name="OPwr_Copy"
+                <ui:Switch x:Name="DPwr"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            SwitchColor="ForestGreen"

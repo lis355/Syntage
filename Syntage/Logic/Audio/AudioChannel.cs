@@ -27,9 +27,7 @@ namespace Syntage.Logic.Audio
         
         public void Clear()
         {
-            int count = Count;
-            for (int j = 0; j < count; ++j)
-                Samples[j] = 0;
+			Array.Clear(Samples, 0, Count);
         }
 
         public void ProcessAllSamples(Func<double, double> action)
