@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
-using Syntage.Framework.UI;
 
 namespace Syntage.UI
 {

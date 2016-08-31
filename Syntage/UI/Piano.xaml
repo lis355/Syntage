@@ -6,19 +6,9 @@
              xmlns:local="clr-namespace:Syntage.UI"
              mc:Ignorable="d" 
              Height="80"
-             Width="736"
-             >
+             Width="729">
     <Grid Margin="0,1,0,0">
-        <Rectangle Stroke="Black"></Rectangle>
-    <StackPanel Orientation="Horizontal">
-        <local:Oktava />
-        <local:Oktava />
-        <local:Oktava />
-        <local:Oktava />
-        <local:Oktava />
-        <local:Oktava />
-        <local:Oktava />
-        <local:Oktava />
-        </StackPanel>
+        <Rectangle Stroke="Black" />
+        <Canvas x:Name="KeysPanel"/>
     </Grid>
 </UserControl>

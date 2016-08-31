@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ui="clr-namespace:Syntage.UI"
              mc:Ignorable="d"
-             Width="737"
+             Width="730"
              Height="400">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -36,7 +36,7 @@
                 </Grid.Background>
                 <Label Content="Syntage"
                        FontSize="24"
-                       Margin="585,0,28,272"
+                       Margin="585,0,10,272"
                        Height="40"
                        VerticalAlignment="Bottom" />
                 <Label x:Name="LogLabel"

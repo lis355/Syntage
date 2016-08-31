@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             Width="15"
-             Height="80"
+             d:DesignWidth="15"
+             d:DesignHeight="80"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
              MouseEnter="Key_OnMouseEnter"
              MouseLeave="Key_OnMouseLeave"
              MouseDown="Key_OnMouseDown"
@@ -23,7 +24,7 @@
         <VisualStateGroup x:Name="Common">
             <VisualState x:Name="Normal">
                 <Storyboard>
-                    <ColorAnimation To="WhiteSmoke"
+                    <ColorAnimation To="{Binding Path=KeyBackColor}"
                                     Duration="{StaticResource AnimationDuration}"
                                     Storyboard.TargetName="KeyRectBrush"
                                     Storyboard.TargetProperty="(Color)" />
@@ -51,7 +52,7 @@
         Stroke="Black">
         <Rectangle.Fill>
             <SolidColorBrush x:Name="KeyRectBrush"
-                             Color="WhiteSmoke"></SolidColorBrush>
+                             Color="{Binding Path=KeyBackColor}"></SolidColorBrush>
         </Rectangle.Fill>
     </Rectangle>
 </UserControl>

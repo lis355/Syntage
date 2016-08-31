@@ -90,9 +90,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Arc.cs" />
-    <Compile Include="UI\BlackKey.xaml.cs">
-      <DependentUpon>BlackKey.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\IUIParameterController.cs" />
     <Compile Include="UI\Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
@@ -103,12 +100,8 @@
     <Compile Include="UI\Switch.xaml.cs">
       <DependentUpon>Switch.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\IKey.cs" />
     <Compile Include="UI\App\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Oktava.xaml.cs">
-      <DependentUpon>Oktava.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Piano.xaml.cs">
       <DependentUpon>Piano.xaml</DependentUpon>
@@ -131,10 +124,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="UI\BlackKey.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Key.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -142,10 +131,6 @@
     <Page Include="UI\App\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Oktava.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Piano.xaml">
       <SubType>Designer</SubType>

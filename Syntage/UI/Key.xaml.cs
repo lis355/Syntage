@@ -2,10 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Syntage.UI
 {
-    public partial class Key : UserControl, IKey
+    public partial class Key : UserControl
     {
         private bool _isMouseOn;
 
@@ -17,7 +18,28 @@ namespace Syntage.UI
         public event Action OnPressFromUI;
         public event Action OnReleaseFromUI;
 
-        public void Press()
+		public int KeyNumber
+		{
+			get { return (int)GetValue(KeyNumberProperty); }
+			set { SetValue(KeyNumberProperty, value); }
+		}
+
+		public static readonly DependencyProperty KeyNumberProperty =
+			DependencyProperty.Register("KeyNumber", typeof(int), typeof(Key),
+				new FrameworkPropertyMetadata(-1, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public Color KeyBackColor
+		{
+			get { return (Color)GetValue(KeyBackColorProperty); }
+			set { SetValue(KeyBackColorProperty, value); }
+		}
+
+		public static readonly DependencyProperty KeyBackColorProperty =
+			DependencyProperty.Register("KeyBackColor", typeof(Color), typeof(Key),
+				new FrameworkPropertyMetadata(Colors.WhiteSmoke, FrameworkPropertyMetadataOptions.AffectsRender));
+
+
+		public void Press()
         {
             VisualStateManager.GoToElementState(this, "Pressed", true);
         }
@@ -63,7 +85,7 @@ namespace Syntage.UI
 
         private void Key_OnLoaded(object sender, RoutedEventArgs e)
         {
-            PluginUI.Instance.RegisterNextPianoKey(this);
+            PluginUI.Instance.RegisterPianoKey(this);
         }
     }
 }

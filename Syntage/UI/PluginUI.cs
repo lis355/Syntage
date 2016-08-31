@@ -16,7 +16,7 @@ namespace Syntage.UI
         }
 
         private const int KKeyStartNum = 12;
-        private readonly Dictionary<int, IKey> _keys = new Dictionary<int, IKey>();
+        private readonly Dictionary<int, Key> _keys = new Dictionary<int, Key>();
 
         public PluginController PluginController { get; set; }
 
@@ -30,14 +30,14 @@ namespace Syntage.UI
             base.Open(hWnd);
             
             BindParameters(PluginController.ParametersManager.Parameters);
-            
+
             Control.Oscilloscope.SetOscillogpaph(PluginController.AudioProcessor.Oscillograph);
 
             PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn;
             PluginController.MidiListener.OnNoteOff += MidiListenerOnNoteOff;
         }
 
-        public override void ProcessIdle()
+	    public override void ProcessIdle()
         {
             base.ProcessIdle();
 
@@ -49,13 +49,13 @@ namespace Syntage.UI
             UIThread.Instance.InvokeUIAction(() => _instance.Control.LogLabel.Content = m);
         }
 
-        public void RegisterNextPianoKey(IKey key)
+        public void RegisterPianoKey(Key key)
         {
-            int num = _keys.Count;
-            _keys.Add(num, key);
+            int number = key.KeyNumber;
+            _keys.Add(number, key);
 
-            key.OnPressFromUI += () => KeyOnPressFromUI(num + KKeyStartNum);
-            key.OnReleaseFromUI += () => KeyOnReleaseFromUI(num + KKeyStartNum);
+            key.OnPressFromUI += () => KeyOnPressFromUI(KKeyStartNum + number);
+            key.OnReleaseFromUI += () => KeyOnReleaseFromUI(KKeyStartNum + number);
         }
 
 		private void BindParameters(IEnumerable<Parameter> parameters)
@@ -74,7 +74,7 @@ namespace Syntage.UI
 				}
 			}
 		}
-
+		
 		private void KeyOnReleaseFromUI(int num)
         {
             var noteEvent = new MidiListener.NoteEventArgs { Note = num % 12, Octava = num / 12, Velocity = 127 };

@@ -6,16 +6,16 @@ using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public enum EOscillatorType
-    {
-        Sine,
-        Triangle,
-        Square,
-        Saw
-    }
-
     public class Oscillator : AudioProcessorPartWithParameters, IGenerator
     {
+		public enum EOscillatorType
+		{
+			Sine,
+			Triangle,
+			Square,
+			Saw
+		}
+
         private class Tone
         {
             public int Note;
