@@ -20,7 +20,7 @@
             <system:Double x:Key="KnobScaleAnimation">0.85</system:Double>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.FontFamily>../Resources/#Orbitron</UserControl.FontFamily>
+    <UserControl.FontFamily>../Resources/#Visitor TT1 BRK</UserControl.FontFamily>
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup x:Name="Common">
             <VisualState x:Name="Normal">
@@ -61,11 +61,13 @@
             </VisualState>
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
-    <Grid>
+    <Grid Height="120"
+          VerticalAlignment="Bottom">
         <StackPanel>
             <Label x:Name="ValueLabel"
                    HorizontalAlignment="Center"
-                   FontSize="8">246</Label>
+                   FontSize="10"
+                   TextOptions.TextFormattingMode="Display">246</Label>
             <Grid x:Name="SliderGrid"
                   Width="20"
                   Height="80">
@@ -81,11 +83,12 @@
                 <Rectangle Stroke="Black"
                            RadiusX="4"
                            RadiusY="4"
-                           Width="8" Fill="Transparent"></Rectangle>
+                           Width="10" Fill="Transparent"></Rectangle>
             </Grid>
             <Label x:Name="NameLabel"
                    HorizontalAlignment="Center"
-                   FontSize="8">NONE</Label>
+                   FontSize="10"
+                   TextOptions.TextFormattingMode="Display">NONE</Label>
         </StackPanel>
         <Ellipse x:Name="EllipseButton"
                  Margin="0,-40,0,0"

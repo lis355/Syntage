@@ -16,7 +16,7 @@ namespace Syntage.Logic
 
         public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
         {
-            Power = new EnumParameter<EPowerStatus>(parameterPrefix + "Clip", "Clip", "Clip");
+            Power = new EnumParameter<EPowerStatus>(parameterPrefix + "Clip", "Clip", "Clip", false);
 
             return new List<Parameter> {Power};
         }

@@ -6,7 +6,8 @@
              xmlns:ui="clr-namespace:Syntage.UI"
              mc:Ignorable="d"
              Width="730"
-             Height="400">
+             Height="400"
+             SnapsToDevicePixels="True">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,7 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.FontFamily>../Resources/#Orbitron</UserControl.FontFamily>
+    <UserControl.FontFamily>../Resources/#Visitor TT1 BRK</UserControl.FontFamily>
     <UserControl.BorderThickness>1</UserControl.BorderThickness>
     <UserControl.BorderBrush>Black</UserControl.BorderBrush>
     <UserControl.Content>
@@ -35,9 +36,9 @@
                     </LinearGradientBrush>
                 </Grid.Background>
                 <Label Content="Syntage"
-                       FontSize="24"
-                       Margin="585,0,10,272"
-                       Height="40"
+                       FontSize="50"
+                       Margin="489,-2,18,272"
+                       Height="48"
                        VerticalAlignment="Bottom" />
                 <Label x:Name="LogLabel"
                        Content="Log"
@@ -59,14 +60,14 @@
                          Margin="355,98,0,0" />
                 <ui:Slider x:Name="MVol"
                            HorizontalAlignment="Left"
-                           Margin="466,26,0,0"
+                           Margin="400,26,0,0"
                            VerticalAlignment="Top"
                            SliderBackColor="#FF722D" />
                 <ui:Switch x:Name="CPwr"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            SwitchColor="OrangeRed"
-                           Margin="525,-2,0,0" />
+                           Margin="438,-2,0,0" />
                 <ui:Knob x:Name="OStp"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
@@ -197,6 +198,16 @@
                          VerticalAlignment="Top"
                          Margin="400,189,0,0"
                          KnobBackColor="PaleVioletRed" />
+                <ComboBox x:Name="LFOParamsList"
+                          HorizontalAlignment="Left"
+                          Margin="331,264,0,0"
+                          VerticalAlignment="Top"
+                          Width="183"
+                          IsTabStop="False"
+                          Focusable="False"
+                          FontSize="15"
+                          TextOptions.TextFormattingMode="Display"
+                          SelectionChanged="LFOParamsListOnSelectionChanged" />
             </Grid>
         </Grid>
     </UserControl.Content>

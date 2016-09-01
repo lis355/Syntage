@@ -9,6 +9,8 @@ namespace Syntage.Framework.Parameters
 
 	public abstract class Parameter
     {
+        private IParameterModifier _parameterModifier;
+
         public string Name { get; }
         public string Description { get; }
         public string Label { get; }
@@ -72,8 +74,33 @@ namespace Syntage.Framework.Parameters
 
         public ParametersManager Manger { get; set; }
         public int Index { get; set; }
+        
+        public IParameterModifier ParameterModifier
+        {
+            get { return _parameterModifier; }
+            set
+            {
+                if (_parameterModifier == value)
+                    return;
 
-	    protected Parameter(string systemName, string description, string label, bool canBeAutomated = true)
+                if (_parameterModifier != null
+                    && !CanBeAutomated)
+                    throw new ArgumentException();
+
+                _parameterModifier = value;
+            }
+        }
+
+        public double ProcessedRealValue(int sampleNumber)
+        {
+            if (_parameterModifier == null)
+                return RealValue;
+
+            var modifiedRealValue = _parameterModifier.ModifyRealValue(RealValue, sampleNumber);
+            return modifiedRealValue;
+        }
+
+        protected Parameter(string systemName, string description, string label, bool canBeAutomated = true)
 	    {
 	        Name = systemName;
 	        Description = description;

@@ -159,7 +159,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Orbitron.ttf">
+    <Resource Include="Resources\Visitor TT1 BRK.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <None Include="UI\App\App.config" />

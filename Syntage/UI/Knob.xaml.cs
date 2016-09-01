@@ -54,10 +54,7 @@ namespace Syntage.UI
 		{
 			RotateTransformKnob.Angle = KnobRealValueToAngle(GetRealValue());
 
-			if (_parameter != null)
-				ValueLabel.Content = _parameter.GetDisplayValue() + ((string.IsNullOrEmpty(_shortLabel)) ? "" : " " + _shortLabel);
-			else
-				ValueLabel.Content = _value.ToString("F2");
+		    ValueLabel.Content = (_parameter != null) ? _parameter.GetDisplayValue() : _value.ToString("F2");
 
 			KnobArc.StartAngle = KnobRealValueToAngle(GetRealValue());
 			KnobArc.EndAngle = KnobRealValueToAngle(0);

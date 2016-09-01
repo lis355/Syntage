@@ -53,8 +53,8 @@ namespace Syntage.Logic
             var count = Processor.CurrentStreamLenght;
             for (int i = 0; i < count; ++i)
             {
-                leftChannel.Samples[i] = ProcessSample(leftChannel.Samples[i], _lbuffer);
-                rightChannel.Samples[i] = ProcessSample(rightChannel.Samples[i], _rbuffer);
+                leftChannel.Samples[i] = ProcessSample(leftChannel.Samples[i], i, _lbuffer);
+                rightChannel.Samples[i] = ProcessSample(rightChannel.Samples[i], i, _rbuffer);
             }
         }
 
@@ -65,16 +65,16 @@ namespace Syntage.Logic
             _rbuffer = new Buffer(size);
         }
 
-        private double ProcessSample(double sample, Buffer buffer)
+        private double ProcessSample(double sample, int sampleNumber, Buffer buffer)
         {
             var dry = DryLevel.Value;
             var wet = 1 - dry;
             var bufSample = buffer.Data[buffer.Index];
             var output = dry * sample + wet * bufSample;
 
-            buffer.Data[buffer.Index] = sample + Feedback.Value * bufSample;
+            buffer.Data[buffer.Index] = sample + Feedback.ProcessedValue(sampleNumber) * bufSample;
 
-            int length = (int)(DelaySeconds.Value * Processor.SampleRate);
+            int length = (int)(DelaySeconds.ProcessedValue(sampleNumber) * Processor.SampleRate);
             buffer.Index = (buffer.Index + 1) % length;
 
             return output;

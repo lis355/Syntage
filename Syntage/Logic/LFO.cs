@@ -9,12 +9,12 @@ namespace Syntage.Logic
     public class LFO : AudioProcessorPartWithParameters, IProcessor, IParameterModifier
     {
         private double _time;
+        private Parameter _target;
 
         public EnumParameter<WaveGenerator.EOscillatorType> OscillatorType { get; private set; }
         public FrequencyParameter Frequency { get; private set; }
         public BooleanParameter MatchKey { get; private set; }
         public RealParameter Gain { get; private set; }
-        public Parameter TargetParameter { get; set; }
 
         public LFO(AudioProcessor audioProcessor) :
 			base(audioProcessor)
@@ -30,6 +30,24 @@ namespace Syntage.Logic
             Gain = new RealParameter(parameterPrefix + "Gain", "LFO Gain", "Gain", 0, 1, 0.01, false);
 
             return new List<Parameter> {OscillatorType, Frequency, MatchKey, Gain};
+        }
+
+        public Parameter Target
+        {
+            get { return _target; }
+            set
+            {
+                if (_target == value)
+                    return;
+
+                if (_target != null)
+                    _target.ParameterModifier = null;
+
+                _target = value;
+
+                if (_target != null)
+                    _target.ParameterModifier = this;
+            }
         }
 
         private void MidiListenerOnNoteOn(object sender, MidiListener.NoteEventArgs e)

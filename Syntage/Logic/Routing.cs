@@ -38,8 +38,8 @@ namespace Syntage.Logic
 				var oscBStream = Processor.OscillatorB.Generate();
 
 				// смешиваем звук с осциллятора А и B
-				stream.Mix(oscAStream, 1 - OscillatorsMix.Value, oscBStream, OscillatorsMix.Value);
-                
+			    MixOscillators(stream, oscAStream, oscBStream);
+
                 // огибающая
                 Processor.Envelope.Process(stream);
 
@@ -65,5 +65,16 @@ namespace Syntage.Logic
 			// отправляем результат в осциллограф
 			Processor.Oscillograph.Process(stream);
 		}
+
+	    private void MixOscillators(IAudioStream stream, IAudioStream oscAStream, IAudioStream oscBStream)
+	    {
+            var count = Processor.CurrentStreamLenght;
+	        for (int i = 0; i < count; ++i)
+	        {
+	            var oscillatorsMix = OscillatorsMix.ProcessedValue(i);
+                stream.Channels[0].Samples[i] = oscAStream.Channels[0].Samples[i] * (1 - oscillatorsMix) + oscBStream.Channels[0].Samples[i] * oscillatorsMix;
+                stream.Channels[1].Samples[i] = oscAStream.Channels[1].Samples[i] * (1 - oscillatorsMix) + oscBStream.Channels[1].Samples[i] * oscillatorsMix;
+            }
+        }
 	}
 }

@@ -58,10 +58,7 @@ namespace Syntage.UI
 			
 			EllipseButton.Margin = new Thickness(margin.Left, heightS - GetRealValue() * 2 * heightS, margin.Right, margin.Bottom);
 
-			if (_parameter != null)
-				ValueLabel.Content = _parameter.GetDisplayValue() + ((string.IsNullOrEmpty(_shortLabel)) ? "" : " " + _shortLabel);
-			else
-				ValueLabel.Content = _value.ToString("F2");
+	        ValueLabel.Content = (_parameter != null) ? _parameter.GetDisplayValue() : _value.ToString("F2");
 
 			margin = RectangleBackgroundSlider.Margin;
 			RectangleBackgroundSlider.Margin = new Thickness(margin.Left, (1 - GetRealValue()) * height, margin.Right, margin.Bottom);

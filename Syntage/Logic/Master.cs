@@ -15,7 +15,7 @@ namespace Syntage.Logic
 
         public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
         {
-            MasterVolume = new VolumeParameter(parameterPrefix + "Vol", "Master Volume");
+            MasterVolume = new VolumeParameter(parameterPrefix + "Vol", "Master Volume", false);
 
             return new List<Parameter> {MasterVolume};
         }

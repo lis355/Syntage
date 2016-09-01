@@ -55,7 +55,7 @@ namespace Syntage.Logic
 
         public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
         {
-            FilterType = new EnumParameter<EFilterPass>(parameterPrefix + "Pass", "Filter Type");
+            FilterType = new EnumParameter<EFilterPass>(parameterPrefix + "Pass", "Filter Type", "Filter", false);
             CutoffFrequency = new FrequencyParameter(parameterPrefix + "Cutoff", "Filter Cutoff Frequency", "Cutoff");
 
             return new List<Parameter> {FilterType, CutoffFrequency};

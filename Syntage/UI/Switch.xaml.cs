@@ -52,15 +52,12 @@ namespace Syntage.UI
 
 		public void UpdateController()
 		{
-			if (_parameter != null)
-				ValueLabel.Content = _parameter.GetDisplayValue() + ((string.IsNullOrEmpty(_shortLabel)) ? "" : " " + _shortLabel);
-			else
-				ValueLabel.Content = _value.ToString("F2");
+		    ValueLabel.Content = (_parameter != null) ? _parameter.GetDisplayValue() : _value.ToString("F2");
 
-			VisualStateManager.GoToElementState(this, (!IsRealValueTrue()) ?  "NormalOff" : "NormalOn", true);
+		    VisualStateManager.GoToElementState(this, (!IsRealValueTrue()) ?  "NormalOff" : "NormalOn", true);
 		}
 
-		private void Knob_OnMouseDown(object sender, MouseButtonEventArgs e)
+	    private void Knob_OnMouseDown(object sender, MouseButtonEventArgs e)
 		{
 		    if (e.ChangedButton == MouseButton.Left)
 		    {

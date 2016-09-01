@@ -20,7 +20,7 @@
             <system:Double x:Key="KnobScaleAnimation">0.9</system:Double>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.FontFamily>../Resources/#Orbitron</UserControl.FontFamily>
+    <UserControl.FontFamily>../Resources/#Visitor TT1 BRK</UserControl.FontFamily>
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup x:Name="Common">
             <VisualState x:Name="Normal">
@@ -78,7 +78,8 @@
     <StackPanel>
         <Label x:Name="ValueLabel"
                HorizontalAlignment="Center"
-               FontSize="8">246</Label>
+                   FontSize="10"
+                   TextOptions.TextFormattingMode="Display">246</Label>
         <Grid Width="30"
               Height="30"
               RenderTransformOrigin="0.5,0.5">
@@ -110,7 +111,8 @@
         </Grid>
         <Label x:Name="NameLabel"
                HorizontalAlignment="Center"
-               FontSize="8">NONE</Label>
+                   FontSize="10"
+                   TextOptions.TextFormattingMode="Display">NONE</Label>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -135,7 +135,7 @@ namespace Syntage.Logic
         }
 
         public int CurrentStreamLenght { get; private set; }
-
+        
         public override void Process(VstAudioBuffer[] inChannels, VstAudioBuffer[] outChannels)
         {
             CurrentStreamLenght = outChannels[0].SampleCount;

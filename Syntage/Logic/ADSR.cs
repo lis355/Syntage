@@ -25,36 +25,39 @@ namespace Syntage.Logic
 			private double _multiplier;
 	        private double _startMultiplier;
             private EState _state;
-            
+            private int _sampleNumber;
+
             public NoteEnvelope(ADSR owner)
 	        {
 		        _ownerEnvelope = owner;
 	        }
 
-			public double GetNextMultiplier()
+			public double GetNextMultiplier(int sampleNumber)
 			{
-				_multiplier = 0;
+			    _sampleNumber = sampleNumber;
+
+                _multiplier = 0;
 
 		        switch (_state)
 		        {
 					case EState.Attack:
-                        _multiplier = DSPFunctions.Lerp(_startMultiplier, 1, 1 - _time / _ownerEnvelope.Attack.Value);
+                        _multiplier = DSPFunctions.Lerp(_startMultiplier, 1, 1 - _time / _ownerEnvelope.Attack.ProcessedValue(_sampleNumber));
 						if (_time < 0)
 							SetState(EState.Decay);
 						break;
 
 					case EState.Decay:
-						_multiplier = DSPFunctions.Lerp(_startMultiplier, _ownerEnvelope.Sustain.Value, 1 - _time / _ownerEnvelope.Decay.Value);
+						_multiplier = DSPFunctions.Lerp(_startMultiplier, _ownerEnvelope.Sustain.ProcessedValue(_sampleNumber), 1 - _time / _ownerEnvelope.Decay.ProcessedValue(_sampleNumber));
 						if (_time < 0)
 							SetState(EState.Sustain);
 						break;
 
 					case EState.Sustain:
-						_multiplier = _ownerEnvelope.Sustain.Value;
+						_multiplier = _ownerEnvelope.Sustain.ProcessedValue(_sampleNumber);
 						break;
 
 					case EState.Release:
-						_multiplier = DSPFunctions.Lerp(_startMultiplier, 0, 1 - _time / _ownerEnvelope.Release.Value);
+						_multiplier = DSPFunctions.Lerp(_startMultiplier, 0, 1 - _time / _ownerEnvelope.Release.ProcessedValue(_sampleNumber));
 						if (_time < 0)
 							SetState(EState.None);
 						break;
@@ -83,18 +86,18 @@ namespace Syntage.Logic
                         
                     case EState.Attack:
                         _timeDelta = 1.0 / _ownerEnvelope.Processor.SampleRate;
-                        _time = _ownerEnvelope.Attack.Value;
+                        _time = _ownerEnvelope.Attack.ProcessedValue(_sampleNumber);
 						break;
 
 					case EState.Decay:
-						_time = _ownerEnvelope.Decay.Value;
+						_time = _ownerEnvelope.Decay.ProcessedValue(_sampleNumber);
 						break;
 
 					case EState.Sustain:
 						break;
 
 					case EState.Release:
-						_time = _ownerEnvelope.Release.Value;
+						_time = _ownerEnvelope.Release.ProcessedValue(_sampleNumber);
 						break;
 
 					default:
@@ -139,7 +142,7 @@ namespace Syntage.Logic
             var count = Processor.CurrentStreamLenght;
             for (int i = 0; i < count; ++i)
             {
-                var multiplier = _noteEnvelope.GetNextMultiplier();
+                var multiplier = _noteEnvelope.GetNextMultiplier(i);
                 lc.Samples[i] *= multiplier;
                 rc.Samples[i] *= multiplier;
             }

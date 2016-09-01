@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Controls;
 using Syntage.Framework.MIDI;
 using Syntage.Framework.UI;
 using Syntage.Plugin;
@@ -30,6 +32,7 @@ namespace Syntage.UI
             base.Open(hWnd);
             
             BindParameters(PluginController.ParametersManager.Parameters);
+            FillLFOParameters(PluginController.ParametersManager.Parameters);
 
             Control.Oscilloscope.SetOscillogpaph(PluginController.AudioProcessor.Oscillograph);
 
@@ -37,7 +40,7 @@ namespace Syntage.UI
             PluginController.MidiListener.OnNoteOff += MidiListenerOnNoteOff;
         }
 
-	    public override void ProcessIdle()
+        public override void ProcessIdle()
         {
             base.ProcessIdle();
 
@@ -74,8 +77,29 @@ namespace Syntage.UI
 				}
 			}
 		}
-		
-		private void KeyOnReleaseFromUI(int num)
+
+        private void FillLFOParameters(IEnumerable<Parameter> parameters)
+        {
+            var paramBox = new TextBlock();
+            paramBox.Text = "--";
+            Control.LFOParamsList.Items.Add(paramBox);
+            Control.LFOParamsList.SelectedIndex = 0;
+
+            foreach (var parameter in parameters.Where(parameter => parameter.CanBeAutomated))
+            {
+                paramBox = new TextBlock();
+                paramBox.Text = parameter.Name;
+                Control.LFOParamsList.Items.Add(paramBox);
+            }
+
+            Control.LFOParameterChanged += x =>
+            {
+                var parameter = PluginController.ParametersManager.Parameters.FirstOrDefault(y => y.Name == x.Text);
+                PluginController.AudioProcessor.LFOModifier.Target = parameter;
+            };
+        }
+
+        private void KeyOnReleaseFromUI(int num)
         {
             var noteEvent = new MidiListener.NoteEventArgs { Note = num % 12, Octava = num / 12, Velocity = 127 };
             PluginController.MidiListener.NoteReleasedFromUI(noteEvent);

@@ -29,8 +29,18 @@ namespace Syntage.Logic
 			if (Power.Value == EPowerStatus.Off)
 				return;
 
-            var treshold = Treshold.Value;
-            stream.ProcessAllSamples(f => ((f > 0) ? Math.Min(f, treshold) : Math.Max(f, -treshold)) / treshold);
+            var count = Processor.CurrentStreamLenght;
+	        for (int i = 0; i < count; ++i)
+	        {
+	            var treshold = Treshold.ProcessedValue(i);
+                stream.Channels[0].Samples[i] = DistortSample(stream.Channels[0].Samples[i], treshold);
+                stream.Channels[1].Samples[i] = DistortSample(stream.Channels[1].Samples[i], treshold);
+            }
+        }
+
+        private double DistortSample(double sample, double treshold)
+        {
+            return ((sample > 0) ? Math.Min(sample, treshold) : Math.Max(sample, -treshold)) / treshold;
         }
     }
 }
