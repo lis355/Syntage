@@ -34,15 +34,18 @@ namespace Syntage.Logic
 				// создаем звук на осциляторе А
 				var oscAStream = Processor.OscillatorA.Generate();
 
+                // огибающая A
+                Processor.EnvelopeA.Process(oscAStream);
+
 				// создаем звук на осциляторе B
 				var oscBStream = Processor.OscillatorB.Generate();
+               
+                // огибающая B
+                Processor.EnvelopeB.Process(oscBStream);
 
-				// смешиваем звук с осциллятора А и B
-			    MixOscillators(stream, oscAStream, oscBStream);
-
-                // огибающая
-                Processor.Envelope.Process(stream);
-
+                // смешиваем звук с осциллятора А и B
+                MixOscillators(stream, oscAStream, oscBStream);
+                
                 // фильтр
                 Processor.Filter.Process(stream);
 

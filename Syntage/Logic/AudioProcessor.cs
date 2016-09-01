@@ -21,8 +21,9 @@ namespace Syntage.Logic
 
         public Routing Commutator { get; }
         public Oscillator OscillatorA { get; }
+        public ADSR EnvelopeA { get; }
         public Oscillator OscillatorB { get; }
-        public ADSR Envelope { get; }
+        public ADSR EnvelopeB { get; }
         public ButterworthFilter Filter { get; }
         public Distortion Distortion { get; }
         public Delay Delay { get; }
@@ -40,9 +41,10 @@ namespace Syntage.Logic
             Input = new Input(this);
 
             Commutator = new Routing(this);
-            Envelope = new ADSR(this);
             OscillatorA = new Oscillator(this);
+            EnvelopeA = new ADSR(this);
             OscillatorB = new Oscillator(this);
+            EnvelopeB = new ADSR(this);
             Filter = new ButterworthFilter(this);
             Distortion = new Distortion(this);
             Clip = new Clip(this);
@@ -105,8 +107,9 @@ namespace Syntage.Logic
 
             parameters.AddRange(Commutator.CreateParameters("C"));
             parameters.AddRange(OscillatorA.CreateParameters("A"));
-            parameters.AddRange(Envelope.CreateParameters("E"));
+            parameters.AddRange(EnvelopeA.CreateParameters("EA"));
             parameters.AddRange(OscillatorB.CreateParameters("B"));
+            parameters.AddRange(EnvelopeB.CreateParameters("EB"));
             parameters.AddRange(Filter.CreateParameters("F"));
             parameters.AddRange(Distortion.CreateParameters("D"));
             parameters.AddRange(Delay.CreateParameters("Dly"));

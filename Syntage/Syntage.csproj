@@ -91,6 +91,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Arc.cs" />
+    <Compile Include="UI\Group.xaml.cs">
+      <DependentUpon>Group.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\IUIParameterController.cs" />
     <Compile Include="UI\Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
@@ -125,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="UI\Group.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Key.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -179,7 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\InitPreset.txt" />
-    <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

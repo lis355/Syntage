@@ -7,4 +7,6 @@
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=MIDI/@EntryIndexedValue">MIDI</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=UI/@EntryIndexedValue">UI</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/Abbreviations/=AE/@EntryIndexedValue">AE</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/Abbreviations/=EA/@EntryIndexedValue">EA</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/Abbreviations/=EB/@EntryIndexedValue">EB</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/Abbreviations/=LFO/@EntryIndexedValue">LFO</s:String></wpf:ResourceDictionary>
