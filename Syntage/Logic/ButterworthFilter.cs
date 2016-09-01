@@ -66,13 +66,14 @@ namespace Syntage.Logic
             if (FilterType.Value == EFilterPass.None)
                 return;
             
-            CalculateCoefficients();
-
             var count = Processor.CurrentStreamLenght;
             var lc = stream.Channels[0];
             var rc = stream.Channels[1];
             for (int i = 0; i < count; ++i)
             {
+                var cutoff = CutoffFrequency.ProcessedValue(i);
+                CalculateCoefficients(cutoff);
+
                 var ls = _tablel.Process(lc.Samples[i]);
                 lc.Samples[i] = ls;
 
@@ -86,15 +87,14 @@ namespace Syntage.Logic
             return Math.Tan(Math.PI * w / Processor.SampleRate);
         }
 
-        private void CalculateCoefficients()
+        private void CalculateCoefficients(double cutoff)
         {
             double a0, a1, a2, b0, b1, b2;
-
             
             var filterType = FilterType.Value;
             if (filterType == EFilterPass.BandPass)
             {
-                var w = CutoffFrequency.Value;
+                var w = cutoff;
                 var d = w / 4;
                 var w1 = Math.Max(w - d, CutoffFrequency.Min);
                 var w2 = Math.Min(w + d, CutoffFrequency.Max);
@@ -112,7 +112,7 @@ namespace Syntage.Logic
             }
             else
             {
-                var w = TransformFrequency(CutoffFrequency.Value);
+                var w = TransformFrequency(cutoff);
 
                 b0 = 1 + Math.Sqrt(2) * w + w * w;
                 b1 = (-2 + 2 * w * w) / b0;

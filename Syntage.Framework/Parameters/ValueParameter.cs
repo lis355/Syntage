@@ -6,7 +6,9 @@ namespace Syntage.Framework.Parameters
 {
     [DebuggerDisplay("{Name}")]
     public abstract class Parameter<T> : Parameter where T : struct
-	{
+    {
+        private IParameterModifier _parameterModifier;
+
         protected Parameter(string name, string description, string label,
 			double min, double max, double step, bool canBeAutomated = true) :
             base(name, description, label, canBeAutomated)
@@ -57,5 +59,30 @@ namespace Syntage.Framework.Parameters
         {
             return FromValueToString(Value);
         }
-	}
+
+        public IParameterModifier ParameterModifier
+        {
+            get { return _parameterModifier; }
+            set
+            {
+                if (_parameterModifier == value)
+                    return;
+
+                if (_parameterModifier != null
+                    && !CanBeAutomated)
+                    throw new ArgumentException();
+
+                _parameterModifier = value;
+            }
+        }
+
+        public T ProcessedValue(int sampleNumber)
+        {
+            if (_parameterModifier == null)
+                return Value;
+
+            var modifiedRealValue = _parameterModifier.ModifyRealValue(RealValue, sampleNumber);
+            return FromReal(modifiedRealValue);
+        }
+    }
 }

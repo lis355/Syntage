@@ -57,6 +57,9 @@ namespace Syntage.Logic
 
 				// мастер-обработка
 				Processor.Master.Process(stream);
+
+                // скажем лфо что был обработан блок
+                Processor.LFOModifier.Process(stream);
 			}
 
 			// отправляем результат в осциллограф

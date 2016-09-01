@@ -101,7 +101,7 @@ namespace Syntage.Logic
 			var count = Processor.CurrentStreamLenght;
 			for (int i = 0; i < count; ++i)
 			{
-				var frequency = DSPFunctions.GetNoteFrequency(tone.Note + Fine.Value);
+				var frequency = DSPFunctions.GetNoteFrequency(tone.Note + Fine.ProcessedValue(i));
 				var sample = WaveGenerator.GenerateNextSample(OscillatorType.Value, frequency, tone.Time);
 
 				if (tone.State == Tone.EToneState.Out
@@ -116,9 +116,9 @@ namespace Syntage.Logic
 					sample *= fadeMultiplier;
 				}
 
-				sample *= Volume.Value;
+				sample *= Volume.ProcessedValue(i);
 
-				var panR = Panning.Value;
+				var panR = Panning.ProcessedValue(i);
 				var panL = 1 - panR;
 
                 leftChannel.Samples[i] += sample * panL;

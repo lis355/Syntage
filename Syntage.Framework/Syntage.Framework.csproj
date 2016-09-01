@@ -57,6 +57,7 @@
     <Compile Include="Parameters\EnumParameter.cs" />
     <Compile Include="Parameters\FrequencyParameter.cs" />
     <Compile Include="Parameters\IntegerParameter.cs" />
+    <Compile Include="Parameters\IParameterModifier.cs" />
     <Compile Include="Parameters\Parameter.cs" />
     <Compile Include="Parameters\Program.cs" />
     <Compile Include="Parameters\ValueParameter.cs" />

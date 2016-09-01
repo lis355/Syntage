@@ -8,20 +8,14 @@ namespace Syntage.Framework.Parameters
 	// Например, если шаг 0.5, это значит что у параметра есть 3 значения: 0, 0.5 и 1.
 
 	public abstract class Parameter
-	{
-	    private double _realValue;
-
-	    public string Name { get; }
+    {
+        public string Name { get; }
         public string Description { get; }
         public string Label { get; }
 
-	    public double RealValue
-	    {
-	        get { return _realValue; }
-	        //set { SetRealValue(value, EChangeType.Plugin); }
-	    }
+	    public double RealValue { get; private set; }
 
-        public double RealStep { get; protected set; } = 0.01;
+	    public double RealStep { get; protected set; } = 0.01;
 
         public double? RealDefaultValue { get; protected set; }
 
@@ -79,7 +73,7 @@ namespace Syntage.Framework.Parameters
         public ParametersManager Manger { get; set; }
         public int Index { get; set; }
 
-        protected Parameter(string systemName, string description, string label, bool canBeAutomated = true)
+	    protected Parameter(string systemName, string description, string label, bool canBeAutomated = true)
 	    {
 	        Name = systemName;
 	        Description = description;
@@ -90,9 +84,9 @@ namespace Syntage.Framework.Parameters
 
         private void SetRealValue(double value, EChangeType changeType)
         {
-            if (!DSPFunctions.IsZero(Math.Abs(_realValue - value)))
+            if (!DSPFunctions.IsZero(Math.Abs(RealValue - value)))
             {
-                _realValue = value;
+                RealValue = value;
                 OnValueChange?.Invoke(changeType);
             }
         }

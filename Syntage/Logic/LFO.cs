@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using Syntage.Framework.MIDI;
 using Syntage.Framework.Parameters;
+using Syntage.Framework.Tools;
+using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public class LFO : AudioProcessorPartWithParameters
+    public class LFO : AudioProcessorPartWithParameters, IProcessor, IParameterModifier
     {
         private double _time;
 
@@ -35,63 +37,31 @@ namespace Syntage.Logic
             if (MatchKey.Value)
                 _time = 0;
         }
-        /*
-        private void GenerateToneToStream(Tone tone)
+        
+        public void Process(IAudioStream stream)
         {
-            if (tone.State == Tone.EToneState.None)
-                return;
-
-            var leftChannel = _stream.Channels[0];
-            var rightChannel = _stream.Channels[1];
-
-            double timeDelta = 1.0 / Processor.SampleRate;
-            var count = Processor.CurrentStreamLenght;
-            for (int i = 0; i < count; ++i)
-            {
-                var frequency = DSPFunctions.GetNoteFrequency(tone.Note + Fine.Value);
-                var sample = WaveGenerator.GenerateNextSample(OscillatorType.Value, frequency, tone.Time);
-
-                if (tone.State == Tone.EToneState.Out
-                    || tone.State == Tone.EToneState.In)
-                {
-                    double fadeSamplesCount = Math.Min(KFadeSamples, count);
-                    double fadeMultiplier = (i < fadeSamplesCount) ? i / fadeSamplesCount : 1;
-
-                    if (tone.State == Tone.EToneState.In)
-                        fadeMultiplier = 1 - fadeMultiplier;
-
-                    sample *= fadeMultiplier;
-                }
-
-                sample *= Volume.Value;
-
-                var panR = Panning.Value;
-                var panL = 1 - panR;
-
-                leftChannel.Samples[i] += sample * panL;
-                rightChannel.Samples[i] += sample * panR;
-
-                tone.Time += timeDelta;
-            }
-
-            switch (tone.State)
-            {
-                case Tone.EToneState.Out:
-                    tone.State = Tone.EToneState.Active;
-                    break;
-
-                case Tone.EToneState.In:
-                    tone.State = Tone.EToneState.None;
-                    break;
-            }
+            _time += Processor.CurrentStreamLenght / Processor.SampleRate;
         }
-        */
-        public void ProcessModification()
+
+        public double ModifyRealValue(double currentValue, int sampleNumber)
         {
-            if (TargetParameter == null)
-                return;
+            var gain = Gain.Value;
+            if (DSPFunctions.IsZero(gain))
+                return currentValue;
 
+            var amplitude = GetCurrentAmplitude(sampleNumber);
+            gain *= amplitude * 0.5;
 
+            return DSPFunctions.Clamp01(currentValue + gain);
+        }
+
+        private double GetCurrentAmplitude(int sampleNumber)
+        {
+            var timePass = sampleNumber / Processor.SampleRate;
+            var currentTime = _time + timePass;
+            var sample = WaveGenerator.GenerateNextSample(OscillatorType.Value, Frequency.Value, currentTime);
+
+            return sample;
         }
     }
 }

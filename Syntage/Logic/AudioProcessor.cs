@@ -114,8 +114,8 @@ namespace Syntage.Logic
             parameters.AddRange(LFOModifier.CreateParameters("G"));
             parameters.AddRange(Master.CreateParameters("M"));
 			parameters.AddRange(Oscillograph.CreateParameters("O"));
-			
-			return parameters;
+            
+            return parameters;
         }
 
         public IAudioStream CreateAudioStream()
