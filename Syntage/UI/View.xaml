@@ -223,7 +223,7 @@
                                FontSize="10"
                                Margin="5"
                                Height="15"
-                               TextOptions.TextFormattingMode="Display">SYNTH</TextBlock>
+                               TextOptions.TextFormattingMode="Display">OSCILLOGRAPH</TextBlock>
 
 
                     <ui:Oscilloscope x:Name="Oscilloscope"
@@ -384,7 +384,7 @@
                                FontSize="10"
                                Margin="5"
                                Height="15"
-                               TextOptions.TextFormattingMode="Display">SYNTH</TextBlock>
+                               TextOptions.TextFormattingMode="Display">MASTER</TextBlock>
                     <ui:Switch x:Name="CPwr"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
