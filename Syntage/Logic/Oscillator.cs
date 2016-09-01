@@ -102,7 +102,10 @@ namespace Syntage.Logic
 			if (tone.State == Tone.EToneState.None)
 				return;
 
-			double timeDelta = 1.0 / Processor.SampleRate;
+            var leftChannel = _stream.Channels[0];
+            var rightChannel = _stream.Channels[1];
+
+            double timeDelta = 1.0 / Processor.SampleRate;
 			var count = Processor.CurrentStreamLenght;
 			for (int i = 0; i < count; ++i)
 			{
@@ -126,8 +129,8 @@ namespace Syntage.Logic
 				var panR = Panning.Value;
 				var panL = 1 - panR;
 
-				_stream.Channels[0].Samples[i] += sample * panL;
-				_stream.Channels[1].Samples[i] += sample * panR;
+                leftChannel.Samples[i] += sample * panL;
+                rightChannel.Samples[i] += sample * panR;
 
 				tone.Time += timeDelta;
 			}

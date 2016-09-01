@@ -55,6 +55,9 @@ namespace Syntage.Logic
 			    // эффект дисторшн
 				Processor.Distortion.Process(stream);
 
+                // дилэй
+                Processor.Delay.Process(stream);
+
 				// клиппинг перед мастером
 				//if (Processor.Clip.ClipSample.Value)
 				//	Processor.Clip.Process(stream);

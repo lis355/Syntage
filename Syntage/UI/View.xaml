@@ -157,6 +157,26 @@
                            VerticalAlignment="Top"
                            SwitchColor="ForestGreen"
                            Margin="310,105,0,0" />
+                <ui:Switch x:Name="DlyPwr"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           SwitchColor="ForestGreen"
+                           Margin="10,198,0,0" />
+                <ui:Knob x:Name="DlyDry"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="55,191,0,0"
+                         KnobBackColor="LightPink"/>
+                <ui:Knob x:Name="DlySec"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="100,191,0,0"
+                         KnobBackColor="SteelBlue" />
+                <ui:Knob x:Name="DlyFbck"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="145,191,0,0"
+                         KnobBackColor="OrangeRed" />
             </Grid>
         </Grid>
     </UserControl.Content>

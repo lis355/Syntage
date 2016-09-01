@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
 using Jacobi.Vst.Framework.Plugin;
@@ -26,10 +27,11 @@ namespace Syntage.Logic
         public ButterworthFilter Filter { get; }
         public Distortion Distortion { get; }
         public Clip Clip { get; }
+        public Delay Delay { get; }
         public Master Master { get; }
 		public Oscillograph Oscillograph { get; }
 
-        public AudioProcessor(Plugin.PluginController pluginController) :
+        public AudioProcessor(PluginController pluginController) :
 			base(0, 2, 0)
         {
             PluginController = pluginController;
@@ -45,9 +47,32 @@ namespace Syntage.Logic
             Filter = new ButterworthFilter(this);
             Distortion = new Distortion(this);
             Clip = new Clip(this);
+            Delay = new Delay(this);
             Master = new Master(this);
 			Oscillograph = new Oscillograph(this);
 		}
+
+        public override float SampleRate
+        {
+            get { return base.SampleRate; }
+            set
+            {
+                base.SampleRate = value;
+                OnSampleRateChanged?.Invoke(this, new SampleRateEventArgs(SampleRate));
+            }
+        }
+
+        public class SampleRateEventArgs : EventArgs
+        {
+            public float SampleRate { get; private set; }
+
+            public SampleRateEventArgs(float sampleRate)
+            {
+                SampleRate = sampleRate;
+            }
+        }
+
+        public event EventHandler<SampleRateEventArgs> OnSampleRateChanged;
 
         public bool Bypass
         {
@@ -86,7 +111,8 @@ namespace Syntage.Logic
             parameters.AddRange(Filter.CreateParameters("F"));
             parameters.AddRange(Distortion.CreateParameters("D"));
             parameters.AddRange(Clip.CreateParameters("K"));
-			parameters.AddRange(Master.CreateParameters("M"));
+            parameters.AddRange(Delay.CreateParameters("Dly")); 
+            parameters.AddRange(Master.CreateParameters("M"));
 			parameters.AddRange(Oscillograph.CreateParameters("O"));
 			
 			return parameters;
