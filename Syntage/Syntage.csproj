@@ -75,10 +75,12 @@
     <Compile Include="Logic\Audio\IGenerator.cs" />
     <Compile Include="Logic\Input.cs" />
     <Compile Include="Logic\Audio\IProcessor.cs" />
+    <Compile Include="Logic\LFO.cs" />
     <Compile Include="Logic\Noise.cs" />
     <Compile Include="Logic\Master.cs" />
     <Compile Include="Logic\Oscillator.cs" />
     <Compile Include="Logic\Routing.cs" />
+    <Compile Include="Logic\WaveGenerator.cs" />
     <Compile Include="Plugin\PluginCommandStub.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

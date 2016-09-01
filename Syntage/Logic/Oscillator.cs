@@ -9,14 +9,6 @@ namespace Syntage.Logic
 {
 	public class Oscillator : AudioProcessorPartWithParameters, IGenerator
 	{
-		public enum EOscillatorType
-		{
-			Sine,
-			Triangle,
-			Square,
-			Saw
-		}
-
 		private class Tone
 		{
 			public enum EToneState
@@ -38,7 +30,7 @@ namespace Syntage.Logic
 		private Tone _lastTone;
 
 		public VolumeParameter Volume { get; private set; }
-		public EnumParameter<EOscillatorType> OscillatorType { get; private set; }
+		public EnumParameter<WaveGenerator.EOscillatorType> OscillatorType { get; private set; }
 		public RealParameter Fine { get; private set; }
 		public RealParameter Panning { get; private set; }
 
@@ -53,7 +45,7 @@ namespace Syntage.Logic
 		public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
 		{
 			Volume = new VolumeParameter(parameterPrefix + "Vol", "Oscillator Volume");
-			OscillatorType = new EnumParameter<EOscillatorType>(parameterPrefix + "Osc", "Oscillator Type");
+			OscillatorType = new EnumParameter<WaveGenerator.EOscillatorType>(parameterPrefix + "Osc", "Oscillator Type", "Osc", false);
 
 			Fine = new RealParameter(parameterPrefix + "Fine", "Oscillator pitch", "Fine", -2, 2, 0.01);
 			Fine.SetDefaultValue(0);
@@ -110,7 +102,7 @@ namespace Syntage.Logic
 			for (int i = 0; i < count; ++i)
 			{
 				var frequency = DSPFunctions.GetNoteFrequency(tone.Note + Fine.Value);
-				var sample = GenerateNextSample(frequency, tone.Time);
+				var sample = WaveGenerator.GenerateNextSample(OscillatorType.Value, frequency, tone.Time);
 
 				if (tone.State == Tone.EToneState.Out
 				    || tone.State == Tone.EToneState.In)
@@ -144,37 +136,6 @@ namespace Syntage.Logic
 				case Tone.EToneState.In:
 					tone.State = Tone.EToneState.None;
 					break;
-			}
-		}
-
-		private double GenerateNextSample(double frequency, double time)
-		{
-			var ph = time * frequency;
-			ph -= (int)ph;
-
-			return GetTableSample(ph);
-		}
-
-		private double GetTableSample(double t)
-		{
-			switch (OscillatorType.Value)
-			{
-				case EOscillatorType.Sine:
-					return Math.Sin(DSPFunctions.Pi2 * t);
-
-				case EOscillatorType.Triangle:
-					if (t < 0.25) return 4 * t;
-					if (t < 0.75) return 2 - 4 * t;
-					return 4 * (t - 1);
-
-				case EOscillatorType.Square:
-					return (t < 0.5f) ? 1 : -1;
-
-				case EOscillatorType.Saw:
-					return 2 * t - 1;
-
-				default:
-					throw new ArgumentOutOfRangeException();
 			}
 		}
 	}
