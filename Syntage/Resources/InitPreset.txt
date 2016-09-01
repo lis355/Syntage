@@ -12,12 +12,11 @@ BVol      0.00
 BOsc      Saw
 BFine     0.00
 BPan      0.50
-NVol      -80.00
 FPass     LowPass
 FCutoff   182.55
 DPwr      On
 DTrshd    0.20
-KClip     True
+KClip     On
 DlyPwr    On
 DlyDry    0.75
 DlySec    0.26
@@ -25,3 +24,7 @@ DlyFbck   0.50
 MVol      0.00
 OPwr      On
 OStp      1
+GOsc		Sine
+GFrq		1
+GMtch	True
+GGain 1

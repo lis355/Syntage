@@ -22,12 +22,12 @@ namespace Syntage.Logic
         public Routing Commutator { get; }
         public Oscillator OscillatorA { get; }
         public Oscillator OscillatorB { get; }
-        public Noise NoiseGenerator { get; }
         public ADSR Envelope { get; }
         public ButterworthFilter Filter { get; }
         public Distortion Distortion { get; }
-        public Clip Clip { get; }
         public Delay Delay { get; }
+        public Clip Clip { get; }
+        public LFO LFOModifier { get; }
         public Master Master { get; }
 		public Oscillograph Oscillograph { get; }
 
@@ -43,11 +43,11 @@ namespace Syntage.Logic
             Envelope = new ADSR(this);
             OscillatorA = new Oscillator(this);
             OscillatorB = new Oscillator(this);
-            NoiseGenerator = new Noise(this);
             Filter = new ButterworthFilter(this);
             Distortion = new Distortion(this);
             Clip = new Clip(this);
             Delay = new Delay(this);
+            LFOModifier = new LFO(this);
             Master = new Master(this);
 			Oscillograph = new Oscillograph(this);
 		}
@@ -107,11 +107,11 @@ namespace Syntage.Logic
             parameters.AddRange(OscillatorA.CreateParameters("A"));
             parameters.AddRange(Envelope.CreateParameters("E"));
             parameters.AddRange(OscillatorB.CreateParameters("B"));
-            parameters.AddRange(NoiseGenerator.CreateParameters("N"));
             parameters.AddRange(Filter.CreateParameters("F"));
             parameters.AddRange(Distortion.CreateParameters("D"));
+            parameters.AddRange(Delay.CreateParameters("Dly"));
             parameters.AddRange(Clip.CreateParameters("K"));
-            parameters.AddRange(Delay.CreateParameters("Dly")); 
+            parameters.AddRange(LFOModifier.CreateParameters("G"));
             parameters.AddRange(Master.CreateParameters("M"));
 			parameters.AddRange(Oscillograph.CreateParameters("O"));
 			

@@ -39,12 +39,6 @@ namespace Syntage.Logic
 
 				// смешиваем звук с осциллятора А и B
 				stream.Mix(oscAStream, 1 - OscillatorsMix.Value, oscBStream, OscillatorsMix.Value);
-
-                // создаем шум
-			    var noiseStream = Processor.NoiseGenerator.Generate();
-
-			    // смешиваем шум и звук с осцилляторов
-			    stream.Mix(stream, 1, noiseStream, 1);
                 
                 // огибающая
                 Processor.Envelope.Process(stream);
@@ -59,8 +53,7 @@ namespace Syntage.Logic
                 Processor.Delay.Process(stream);
 
 				// клиппинг перед мастером
-				//if (Processor.Clip.ClipSample.Value)
-				//	Processor.Clip.Process(stream);
+				Processor.Clip.Process(stream);
 
 				// мастер-обработка
 				Processor.Master.Process(stream);

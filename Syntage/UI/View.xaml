@@ -57,11 +57,6 @@
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Margin="355,98,0,0" />
-                <ui:Knob x:Name="NVol"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Margin="-5,98,0,0"
-                         KnobBackColor="LightSteelBlue" />
                 <ui:Slider x:Name="MVol"
                            HorizontalAlignment="Left"
                            Margin="466,26,0,0"
@@ -166,7 +161,7 @@
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Margin="55,191,0,0"
-                         KnobBackColor="LightPink"/>
+                         KnobBackColor="LightPink" />
                 <ui:Knob x:Name="DlySec"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
@@ -177,6 +172,31 @@
                          VerticalAlignment="Top"
                          Margin="145,191,0,0"
                          KnobBackColor="OrangeRed" />
+                <ui:Switch x:Name="KClip"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           SwitchColor="ForestGreen"
+                           Margin="210,204,0,0" />
+                <ui:Switch x:Name="GMtch"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           SwitchColor="ForestGreen"
+                           Margin="454,196,0,0" />
+                <ui:Knob x:Name="GOsc"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="310,189,0,0"
+                         KnobBackColor="Purple" />
+                <ui:Knob x:Name="GFrq"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="355,189,0,0"
+                         KnobBackColor="Chocolate" />
+                <ui:Knob x:Name="GGain"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="400,189,0,0"
+                         KnobBackColor="PaleVioletRed" />
             </Grid>
         </Grid>
     </UserControl.Content>

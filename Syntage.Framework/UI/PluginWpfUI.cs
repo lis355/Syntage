@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Controls;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
-using Syntage.Framework.Parameters;
 
 namespace Syntage.Framework.UI
 {

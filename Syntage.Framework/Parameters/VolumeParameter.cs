@@ -1,5 +1,4 @@
-﻿using System;
-using Syntage.Framework.Tools;
+﻿using Syntage.Framework.Tools;
 
 namespace Syntage.Framework.Parameters
 {

@@ -10,8 +10,11 @@ namespace Syntage.Logic
             Sine,
             Triangle,
             Square,
-            Saw
+            Saw,
+            Noise
         }
+
+        private static readonly Random _random = new Random();
 
         public static double GenerateNextSample(EOscillatorType oscillatorType, double frequency, double time)
         {
@@ -38,6 +41,9 @@ namespace Syntage.Logic
 
                 case EOscillatorType.Saw:
                     return 2 * t - 1;
+
+                case EOscillatorType.Noise:
+                    return _random.NextDouble() * 2 - 1;
 
                 default:
                     throw new ArgumentOutOfRangeException();
