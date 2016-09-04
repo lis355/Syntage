@@ -48,7 +48,6 @@
                                Margin="5"
                                Height="15"
                                TextOptions.TextFormattingMode="Display">OSCILLATOR A</TextBlock>
-
                     <ui:Knob x:Name="AVol"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
@@ -89,11 +88,7 @@
                                Margin="107,76,0,0"
                                VerticalAlignment="Top"
                                SliderBackColor="#FF722D" />
-
                 </Grid>
-
-
-
                 <Label x:Name="LogLabel"
                        Content="Log"
                        HorizontalAlignment="Left"
@@ -112,7 +107,6 @@
                                Margin="5"
                                Height="15"
                                TextOptions.TextFormattingMode="Display">OSCILLATOR B</TextBlock>
-
                     <ui:Knob x:Name="BVol"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
@@ -153,7 +147,6 @@
                                Margin="107,76,0,0"
                                VerticalAlignment="Top"
                                SliderBackColor="#FF722D" />
-
                 </Grid>
                 <Grid Margin="202,10,466,0"
                       Height="195"
@@ -168,7 +161,6 @@
                                Margin="5"
                                Height="15"
                                TextOptions.TextFormattingMode="Display">MIX</TextBlock>
-
                     <ui:Knob x:Name="CMix"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
@@ -209,10 +201,9 @@
                                FontSize="10"
                                Margin="5"
                                Height="15"><Run Text="MIX" /></TextBlock>
-
                 </Grid>
                 <Grid Margin="459,10,10,0"
-                      Height="256"
+                      Height="243"
                       VerticalAlignment="Top">
                     <Rectangle StrokeThickness="1"
                                Stroke="Black"
@@ -224,11 +215,9 @@
                                Margin="5"
                                Height="15"
                                TextOptions.TextFormattingMode="Display">OSCILLOGRAPH</TextBlock>
-
-
                     <ui:Oscilloscope x:Name="Oscilloscope"
                                      Margin="20,20,20,0"
-                                     Height="167"
+                                     Height="152"
                                      VerticalAlignment="Top"
                                      RenderTransformOrigin="0.5,0.5">
                         <ui:Oscilloscope.RenderTransform>
@@ -244,11 +233,11 @@
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
                                SwitchColor="ForestGreen"
-                               Margin="71,195,0,0" />
+                               Margin="71,181,0,0" />
                     <ui:Knob x:Name="OStp"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
-                             Margin="127,188,0,0"
+                             Margin="127,174,0,0"
                              KnobBackColor="Violet" />
                 </Grid>
                 <Grid Margin="121,210,520,0"
@@ -372,8 +361,8 @@
                               SelectionChanged="LFOParamsListOnSelectionChanged"
                               Margin="237,37,0,0" />
                 </Grid>
-                <Grid Margin="459,271,10,0"
-                      Height="120"
+                <Grid Margin="459,258,10,0"
+                      Height="133"
                       VerticalAlignment="Top">
                     <Rectangle StrokeThickness="1"
                                Stroke="Black"
@@ -389,19 +378,20 @@
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
                                SwitchColor="OrangeRed"
-                               Margin="71,22,0,0" />
+                               Margin="71,20,0,0" />
                     <ui:Knob x:Name="MVol"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
                              KnobBackColor="OrangeRed"
-                             Margin="127,15,0,0" />
+                             Margin="127,13,0,0" />
                     <Label Content="Syntage"
                            FontSize="50"
                            HorizontalContentAlignment="Center"
                            VerticalContentAlignment="Center"
                            Height="52"
                            VerticalAlignment="Bottom"
-                           TextOptions.TextFormattingMode="Display" />
+                           TextOptions.TextFormattingMode="Display"
+                           Margin="0,0,0,7" />
                 </Grid>
             </Grid>
         </Grid>

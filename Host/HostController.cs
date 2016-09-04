@@ -17,6 +17,7 @@ namespace SimplyHost
         private readonly MainForm _form;
         private WaveOut _audioPlayer;
         private AudioGenerator _audioGenerator;
+        private int _oktava;
 
         public HostController(MainForm form)
         {
@@ -130,7 +131,7 @@ namespace SimplyHost
 
             int note = GetKeyNote(keyEventArgs);
 			if (note >= 0)
-				SendEventNotePress(note);
+				SendEventNotePress(note + _oktava * 12);
 		}
 
 		public void KeyUp(KeyEventArgs keyEventArgs)
@@ -138,9 +139,19 @@ namespace SimplyHost
 		    _pressedKeys.Remove(keyEventArgs.KeyCode);
 
             int note = GetKeyNote(keyEventArgs);
-			if (note >= 0)
-				SendEventNoteRelease(note);
-		}
+		    if (note >= 0)
+		    {
+		        SendEventNoteRelease(note + _oktava * 12);
+		    }
+            else if (keyEventArgs.KeyCode == Keys.PageUp)
+            {
+                _oktava++;
+            }
+            else if (keyEventArgs.KeyCode == Keys.PageDown)
+            {
+                _oktava--;
+            }
+        }
 
 	    private void SendEventNotePress(int note)
 	    {
