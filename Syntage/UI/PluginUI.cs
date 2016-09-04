@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Syntage.Framework.MIDI;
 using Syntage.Framework.UI;
@@ -29,22 +30,29 @@ namespace Syntage.UI
 
         public override void Open(IntPtr hWnd)
         {
-            base.Open(hWnd);
+            base.Open(hWnd); 
             
-            BindParameters(PluginController.ParametersManager.Parameters);
-            FillLFOParameters(PluginController.ParametersManager.Parameters);
-
+            BindParameters(PluginController.ParametersManager.Parameters); 
+            FillLFOParameters(PluginController.ParametersManager.Parameters); 
+            
             Control.Oscilloscope.SetOscillogpaph(PluginController.AudioProcessor.Oscillograph);
-
-            PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn;
+            
+            PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn; 
             PluginController.MidiListener.OnNoteOff += MidiListenerOnNoteOff;
+        }
+
+        public override void Close()
+        {
+            base.Close();
+
+            _keys.Clear();
         }
 
         public override void ProcessIdle()
         {
             base.ProcessIdle();
 
-            Control.Oscilloscope.Update();
+            UIThread.Instance.InvokeUIAction(() => Control.Oscilloscope.Update());
         }
         
         public void Log(string m)
@@ -54,11 +62,14 @@ namespace Syntage.UI
 
         public void RegisterPianoKey(Key key)
         {
-            int number = key.KeyNumber;
-            _keys.Add(number, key);
+            UIThread.Instance.InvokeUIAction(() =>
+            {
+                int number = key.KeyNumber;
+                _keys.Add(number, key);
 
-            key.OnPressFromUI += () => KeyOnPressFromUI(KKeyStartNum + number);
-            key.OnReleaseFromUI += () => KeyOnReleaseFromUI(KKeyStartNum + number);
+                key.OnPressFromUI += () => KeyOnPressFromUI(KKeyStartNum + number);
+                key.OnReleaseFromUI += () => KeyOnReleaseFromUI(KKeyStartNum + number);
+            });
         }
 
 		private void BindParameters(IEnumerable<Parameter> parameters)

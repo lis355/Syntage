@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 
 namespace Syntage.Framework.Tools
 {
@@ -17,7 +16,7 @@ namespace Syntage.Framework.Tools
         private Log()
         {
         }
-
+        
         public bool WriteToFile
         {
             get { return _writeToFile; }
@@ -29,10 +28,7 @@ namespace Syntage.Framework.Tools
                 _writeToFile = value;
                 if (_writeToFile)
                 {
-                    _path = string.Format("{0}\\{1}{2}", 
-                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
-                        Assembly.GetExecutingAssembly().GetName().Name,
-                        "Log.txt");
+                    _path = string.Format("{0}\\{1}", Directory.GetCurrentDirectory(), "Log.txt");
 
                     if (File.Exists(_path))
                         File.Delete(_path);

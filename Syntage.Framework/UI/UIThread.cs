@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace Syntage.Framework.UI
 {
@@ -20,11 +21,23 @@ namespace Syntage.Framework.UI
 
         public void Update()
         {
-            while (_uiActions.Count > 0)
+#if DEBUG
+            try
             {
-                _uiActions[0]();
-                _uiActions.RemoveAt(0);
+#endif
+                while (_uiActions.Count > 0)
+                {
+                    _uiActions[0]();
+                    _uiActions.RemoveAt(0);
+                }
+#if DEBUG
             }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message + Environment.NewLine + exception.StackTrace);
+                throw;
+            }
+#endif
         }
     }
 }

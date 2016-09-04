@@ -41,7 +41,8 @@ namespace Syntage.Framework
         protected void LogMethod(MethodBase method, params object[] p)
         {
             //var name = method.Name;
-			//Tools.Log.Print(name + " " + string.Join(" ", p));
+            //Tools.Log.Instance.WriteToFile = true;
+            //Tools.Log.Print(name + " " + string.Join(" ", p));
         }
 
         //public override void ProcessReplacing(VstAudioBuffer[] inputs, VstAudioBuffer[] outputs)
@@ -197,7 +198,7 @@ namespace Syntage.Framework
 
         public override void EditorIdle()
         {
-            LogMethod(MethodBase.GetCurrentMethod());
+            //LogMethod(MethodBase.GetCurrentMethod());
 
             UIThread.Instance.Update();
 
