@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syntage.Framework.MIDI;
+using Syntage.Framework.Midi;
 
 namespace Syntage.Logic
 {

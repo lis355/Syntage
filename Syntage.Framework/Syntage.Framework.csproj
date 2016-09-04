@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CannedBytes.Midi.Message">
+      <HintPath>..\Libs\CannedBytes.Midi.Message.dll</HintPath>
+    </Reference>
     <Reference Include="Jacobi.Vst.Core">
       <HintPath>..\Libs\Jacobi.Vst.Core.dll</HintPath>
     </Reference>
@@ -50,8 +53,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MIDI\MidiListener.cs" />
-    <Compile Include="MIDI\MidiMessage.cs" />
+    <Compile Include="Midi\MidiListener.cs" />
+    <Compile Include="Midi\MidiMessage.cs" />
     <Compile Include="Parameters\BooleanParameter.cs" />
     <Compile Include="Parameters\BypassParameter.cs" />
     <Compile Include="Parameters\EnumParameter.cs" />

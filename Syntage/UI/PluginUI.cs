@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
-using Syntage.Framework.MIDI;
+using Syntage.Framework.Midi;
 using Syntage.Framework.UI;
 using Syntage.Plugin;
 using Syntage.Framework.Parameters;
@@ -112,7 +111,7 @@ namespace Syntage.UI
 
         private void KeyOnReleaseFromUI(int num)
         {
-            var noteEvent = new MidiListener.NoteEventArgs { Note = num % 12, Octava = num / 12, Velocity = 127 };
+            var noteEvent = new MidiListener.NoteEventArgs(num, 127);
             PluginController.MidiListener.NoteReleasedFromUI(noteEvent);
 
             //UILog(string.Format("Key released {0}{1} frequency {2:F2} hZ", DSPFunctions.ToNoteName(noteEvent.Note), noteEvent.Octava,
@@ -121,7 +120,7 @@ namespace Syntage.UI
 
         private void KeyOnPressFromUI(int num)
         {
-            var noteEvent = new MidiListener.NoteEventArgs { Note = num % 12, Octava = num / 12, Velocity = 127 };
+            var noteEvent = new MidiListener.NoteEventArgs(num, 127);
             PluginController.MidiListener.NotePressedFromUI(noteEvent);
 
             //UILog(string.Format("Key pressed {0}{1} frequency {2:F2} hZ", DSPFunctions.ToNoteName(noteEvent.Note), noteEvent.Octava,

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syntage.Framework.MIDI;
+using Syntage.Framework.Midi;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
 using Syntage.Logic.Audio;
