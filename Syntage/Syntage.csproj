@@ -81,12 +81,12 @@
     <Compile Include="Logic\Routing.cs" />
     <Compile Include="Logic\WaveGenerator.cs" />
     <Compile Include="Plugin\PluginCommandStub.cs" />
+    <Compile Include="Logic\Oscillograph.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Oscillograph.cs" />
     <Compile Include="UI\App\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -174,8 +174,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -185,9 +185,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\InitPreset.txt" />
+    <None Include="Resources\Synt1.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Synt3.txt" />
+    <None Include="Resources\Synt2.txt" />
+    <None Include="Resources\Butterfly.txt" />
+    <Content Include="Resources\Sine.txt" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Syntage.Framework\Syntage.Framework.csproj">
       <Project>{392d6c09-0673-44ab-9fae-c9e43aa3837e}</Project>

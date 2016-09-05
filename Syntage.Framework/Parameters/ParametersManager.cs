@@ -136,7 +136,7 @@ namespace Syntage.Framework.Parameters
 
             foreach (var line in lines)
             {
-                var sline = line.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+                var sline = line.Split(new[] {' ', '\t'}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
                 var paramName = sline[0];
                 var valueS = sline[1];
 
@@ -145,7 +145,7 @@ namespace Syntage.Framework.Parameters
                     throw new NullReferenceException();
 
                 prmts.Remove(parameter);
-                
+
                 program.Parameters.Add(parameter.Name, parameter.Parse(valueS));
             }
 
@@ -153,6 +153,12 @@ namespace Syntage.Framework.Parameters
                 throw new ArgumentException();
 
             return program;
+        }
+
+        public Program CreateProgramFromSerializedParameters(string programName, string preset)
+        {
+            return CreateProgramFromSerializedParameters(programName,
+                preset.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

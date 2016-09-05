@@ -61,30 +61,203 @@ namespace Syntage.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CPwr	On
-        ///AVol	1
-        ///AOsc	Sine
-        ///AFine	0
-        ///APan	0.5
-        ///AEAtk	0
-        ///AEDec	0
-        ///AEStn	0.5
-        ///AERel	0
-        ///BVol	1
-        ///BOsc	Saw
-        ///BFine	0
-        ///BPan	0.75
-        ///CMix	0
-        ///MVol	1
-        ///NVol	0
-        ///DTrshd	1    
-        ///KClip	True
-        ///OPwr	On	
-        ///OStp	2.
+        ///   Looks up a localized string similar to CPwr      On
+        ///CMix      0.00
+        ///AVol      0.00
+        ///AOsc      Noise
+        ///AFine     0.00
+        ///APan      0.50
+        ///EAAtk     0.15
+        ///EADec     0.99
+        ///EAStn     0.00
+        ///EARel     0.23
+        ///BVol      0.00
+        ///BOsc      Sine
+        ///BFine     0.00
+        ///BPan      0.50
+        ///EBAtk     0.01
+        ///EBDec     0.01
+        ///EBStn     1.00
+        ///EBRel     0.01
+        ///FPass     LowPass
+        ///FCutoff   1129.30
+        ///DPwr      Off
+        ///DTrshd    1.00
+        ///DlyPwr    Off
+        ///DlyDry    1.00
+        ///DlySec    5.00
+        ///DlyFbck   1.00
+        ///KClip     On
+        ///GOsc      Square
+        ///GFrq      18.98
+        ///GMtch     True
+        ///GGain     1.00
+        ///MVol      0. [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string InitPreset {
+        internal static string Butterfly {
             get {
-                return ResourceManager.GetString("InitPreset", resourceCulture);
+                return ResourceManager.GetString("Butterfly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPwr      On
+        ///CMix      0.00
+        ///AVol      0.00
+        ///AOsc      Sine
+        ///AFine     0.00
+        ///APan      0.50
+        ///EAAtk     0.01
+        ///EADec     0.01
+        ///EAStn     1.00
+        ///EARel     0.01
+        ///BVol      0.00
+        ///BOsc      Sine
+        ///BFine     0.00
+        ///BPan      0.50
+        ///EBAtk     0.01
+        ///EBDec     0.01
+        ///EBStn     1.00
+        ///EBRel     0.01
+        ///FPass     None
+        ///FCutoff   20000.00
+        ///DPwr      Off
+        ///DTrshd    1.00
+        ///DlyPwr    Off
+        ///DlyDry    1.00
+        ///DlySec    5.00
+        ///DlyFbck   1.00
+        ///KClip     Off
+        ///GOsc      Sine
+        ///GFrq      1000.00
+        ///GMtch     False
+        ///GGain     1.00
+        ///MVol      0.0 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Sine {
+            get {
+                return ResourceManager.GetString("Sine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPwr      On
+        ///CMix      0.00
+        ///AVol      0.00
+        ///AOsc      Square
+        ///AFine     0.00
+        ///APan      0.50
+        ///EAAtk     0.01
+        ///EADec     0.20
+        ///EAStn     0.10
+        ///EARel     0.01
+        ///BVol      0.00
+        ///BOsc      Saw
+        ///BFine     0.00
+        ///BPan      0.50
+        ///EBAtk     0.01
+        ///EBDec     0.01
+        ///EBStn     1.00
+        ///EBRel     0.01
+        ///FPass     LowPass
+        ///FCutoff   180.00
+        ///DPwr      On
+        ///DTrshd    0.20
+        ///DlyPwr    On
+        ///DlyDry    0.75
+        ///DlySec    0.26
+        ///DlyFbck   0.50
+        ///KClip     On
+        ///GOsc      Sine
+        ///GFrq      1.00
+        ///GMtch     True
+        ///GGain     1.00
+        ///MVol      0.00
+        ///OP [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Synt1 {
+            get {
+                return ResourceManager.GetString("Synt1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPwr      On
+        ///CMix      0.00
+        ///AVol      0.00
+        ///AOsc      Square
+        ///AFine     -0.12
+        ///APan      0.50
+        ///EAAtk     0.01
+        ///EADec     0.01
+        ///EAStn     1.00
+        ///EARel     0.21
+        ///BVol      0.00
+        ///BOsc      Saw
+        ///BFine     0.12
+        ///BPan      0.50
+        ///EBAtk     0.01
+        ///EBDec     0.01
+        ///EBStn     1.00
+        ///EBRel     0.21
+        ///FPass     None
+        ///FCutoff   20000.00
+        ///DPwr      Off
+        ///DTrshd    1.00
+        ///DlyPwr    On
+        ///DlyDry    1.00
+        ///DlySec    5.00
+        ///DlyFbck   0.00
+        ///KClip     Off
+        ///GOsc      Sine
+        ///GFrq      4.24
+        ///GMtch     False
+        ///GGain     0.52
+        ///MVol      -12.0 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Synt2 {
+            get {
+                return ResourceManager.GetString("Synt2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPwr      On
+        ///CMix      0.00
+        ///AVol      0.00
+        ///AOsc      Square
+        ///AFine     -0.12
+        ///APan      0.50
+        ///EAAtk     0.01
+        ///EADec     0.01
+        ///EAStn     1.00
+        ///EARel     0.21
+        ///BVol      0.00
+        ///BOsc      Saw
+        ///BFine     0.12
+        ///BPan      0.50
+        ///EBAtk     0.01
+        ///EBDec     0.01
+        ///EBStn     1.00
+        ///EBRel     0.21
+        ///FPass     None
+        ///FCutoff   20000.00
+        ///DPwr      Off
+        ///DTrshd    1.00
+        ///DlyPwr    On
+        ///DlyDry    1.00
+        ///DlySec    5.00
+        ///DlyFbck   0.00
+        ///KClip     Off
+        ///GOsc      Sine
+        ///GFrq      4.24
+        ///GMtch     False
+        ///GGain     0.52
+        ///MVol      -12.0 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Synt3 {
+            get {
+                return ResourceManager.GetString("Synt3", resourceCulture);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
 using Syntage.Framework;
@@ -31,12 +32,15 @@ namespace Syntage.Plugin
             PluginUI.Instance.PluginController = this;
 
             ParametersManager.SetParameters(AudioProcessor.CreateParameters());
-
-            var lines = Properties.Resources.InitPreset.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            ParametersManager.SetPrograms(new List<Program>
+            
+            ParametersManager.SetPrograms(new Dictionary<string, string>
             {
-                ParametersManager.CreateProgramFromSerializedParameters("-", lines)
-            });
+                {"Sine", Properties.Resources.Sine},
+                {"Synt1", Properties.Resources.Synt1},
+                {"Synt2", Properties.Resources.Synt2},
+                {"Synt3", Properties.Resources.Synt3},
+                {"Butterfly", Properties.Resources.Butterfly}
+            }.Select(x => ParametersManager.CreateProgramFromSerializedParameters(x.Key, x.Value)));
         }
 
         protected override IVstPluginAudioProcessor CreateAudioProcessor(IVstPluginAudioProcessor instance)
