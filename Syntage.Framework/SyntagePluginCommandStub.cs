@@ -72,7 +72,7 @@ namespace Syntage.Framework
         {
             LogMethod(MethodBase.GetCurrentMethod(), index);
 
-            return Plugin.ParametersManager.GetParameter(index);
+            return (float)Plugin.ParametersManager.GetParameter(index).RealValue;
 
             //return base.GetParameter(index);
         }

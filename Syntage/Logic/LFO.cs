@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Syntage.Framework.Midi;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
@@ -15,6 +16,7 @@ namespace Syntage.Logic
         public FrequencyParameter Frequency { get; private set; }
         public BooleanParameter MatchKey { get; private set; }
         public RealParameter Gain { get; private set; }
+        public IntegerParameter TargetParameterNumber { get; private set; }
 
         public LFO(AudioProcessor audioProcessor) :
 			base(audioProcessor)
@@ -28,34 +30,34 @@ namespace Syntage.Logic
             Frequency = new FrequencyParameter(parameterPrefix + "Frq", "LFO Frequency", "Frq", 0.01, 1000, false);
             MatchKey = new BooleanParameter(parameterPrefix + "Mtch", "LFO Phase Key Link", "Match", false);
             Gain = new RealParameter(parameterPrefix + "Gain", "LFO Gain", "Gain", 0, 1, 0.01, false);
+            TargetParameterNumber = new IntegerParameter(parameterPrefix + "Num", "LFO Parameter Number", "Num", -1, 34, 1, false);
 
-            return new List<Parameter> {OscillatorType, Frequency, MatchKey, Gain};
+            TargetParameterNumber.OnValueChange += TargetParameterNumberOnValueChange;
+
+            return new List<Parameter> {OscillatorType, Frequency, MatchKey, Gain, TargetParameterNumber};
         }
 
-        public Parameter Target
-        {
-            get { return _target; }
-            set
-            {
-                if (_target == value)
-                    return;
+        //public Parameter Target
+        //{
+        //    get { return _target; }
+        //    set
+        //    {
+        //        if (_target == value)
+        //            return;
+        //
+        //        //var index = Processor.PluginController.ParametersManager.GetParameterIndex(value);
+        //        //TargetParameterNumber.Value = index;
+        //
+        //        if (_target != null)
+        //            _target.ParameterModifier = null;
+        //
+        //        _target = value;
+        //
+        //        if (_target != null)
+        //            _target.ParameterModifier = this;
+        //    }
+        //}
 
-                if (_target != null)
-                    _target.ParameterModifier = null;
-
-                _target = value;
-
-                if (_target != null)
-                    _target.ParameterModifier = this;
-            }
-        }
-
-        private void MidiListenerOnNoteOn(object sender, MidiListener.NoteEventArgs e)
-        {
-            if (MatchKey.Value)
-                _time = 0;
-        }
-        
         public void Process(IAudioStream stream)
         {
             _time += Processor.CurrentStreamLenght / Processor.SampleRate;
@@ -68,7 +70,7 @@ namespace Syntage.Logic
                 return currentValue;
 
             var amplitude = GetCurrentAmplitude(sampleNumber);
-            gain *= amplitude * 0.5;
+            gain *= amplitude * Math.Max(currentValue, 1 - currentValue);
 
             return DSPFunctions.Clamp01(currentValue + gain);
         }
@@ -80,6 +82,26 @@ namespace Syntage.Logic
             var sample = WaveGenerator.GenerateNextSample(OscillatorType.Value, Frequency.Value, currentTime);
 
             return sample;
+        }
+
+        private void MidiListenerOnNoteOn(object sender, MidiListener.NoteEventArgs e)
+        {
+            if (MatchKey.Value)
+                _time = 0;
+        }
+
+        private void TargetParameterNumberOnValueChange(Parameter.EChangeType obj)
+        {
+            var number = TargetParameterNumber.Value;
+            var parameter = (number >= 0 ) ? Processor.PluginController.ParametersManager.GetParameter(number) : null;
+
+            if (_target != null)
+                _target.ParameterModifier = null;
+            
+            _target = parameter;
+            
+            if (_target != null)
+                _target.ParameterModifier = this;
         }
     }
 }

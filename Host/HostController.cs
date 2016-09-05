@@ -43,7 +43,7 @@ namespace SimplyHost
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(e.Message + Environment.NewLine + e.StackTrace);
             }
 
             return null;

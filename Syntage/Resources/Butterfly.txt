@@ -26,9 +26,10 @@ DlySec    5.00
 DlyFbck   1.00
 KClip     On
 GOsc      Square
-GFrq      18.98
+GFrq      21.05
 GMtch     True
 GGain     1.00
+GNum      5
 MVol      0.00
 OPwr      On
 OStp      10

@@ -1,6 +1,6 @@
 CPwr      On
 CMix      0.10
-AVol      -6.20
+AVol      0.00
 AOsc      Square
 AFine     0.00
 APan      0.50
@@ -29,6 +29,7 @@ GOsc      Square
 GFrq      9.40
 GMtch     True
 GGain     1.00
+GNum      2
 MVol      0.00
 OPwr      On
 OStp      10

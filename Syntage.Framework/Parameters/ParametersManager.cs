@@ -59,10 +59,20 @@ namespace Syntage.Framework.Parameters
         {
             _parametersList[index].SetValueFromHost(value);
         }
-
-        public float GetParameter(int index)
+        
+        public Parameter GetParameter(int index)
         {
-            return (float)_parametersList[index].RealValue;
+            return _parametersList[index];
+        }
+
+        public int GetParameterIndex(Parameter parameter)
+        {
+            return _parametersList.IndexOf(parameter);
+        }
+
+        public Parameter FindParameter(string parameterName)
+        {
+            return _parametersList.FirstOrDefault(x => parameterName == x.Name);
         }
 
         public void SetProgram(int programNumber)

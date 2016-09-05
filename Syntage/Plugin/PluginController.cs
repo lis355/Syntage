@@ -36,10 +36,10 @@ namespace Syntage.Plugin
             ParametersManager.SetPrograms(new Dictionary<string, string>
             {
                 {"Sine", Properties.Resources.Sine},
+                {"Butterfly", Properties.Resources.Butterfly},
                 {"Synt1", Properties.Resources.Synt1},
                 {"Synt2", Properties.Resources.Synt2},
-                {"Synt3", Properties.Resources.Synt3},
-                {"Butterfly", Properties.Resources.Butterfly}
+                {"Synt3", Properties.Resources.Synt3}
             }.Select(x => ParametersManager.CreateProgramFromSerializedParameters(x.Key, x.Value)));
         }
 

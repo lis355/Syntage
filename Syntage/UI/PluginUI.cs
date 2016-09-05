@@ -19,6 +19,8 @@ namespace Syntage.UI
 
         private const int KKeyStartNum = 12;
         private readonly Dictionary<int, Key> _keys = new Dictionary<int, Key>();
+        private List<Parameter> _lfoParameters;
+        private bool _lfoUserChange;
 
         public PluginController PluginController { get; set; }
 
@@ -90,23 +92,58 @@ namespace Syntage.UI
 
         private void FillLFOParameters(IEnumerable<Parameter> parameters)
         {
+            _lfoParameters = parameters.Where(parameter => parameter.CanBeAutomated).ToList();
+
             var paramBox = new TextBlock();
             paramBox.Text = "--";
             Control.LFOParamsList.Items.Add(paramBox);
             Control.LFOParamsList.SelectedIndex = 0;
 
-            foreach (var parameter in parameters.Where(parameter => parameter.CanBeAutomated))
+            foreach (var parameter in _lfoParameters)
             {
                 paramBox = new TextBlock();
                 paramBox.Text = parameter.Name;
                 Control.LFOParamsList.Items.Add(paramBox);
             }
-
+            
             Control.LFOParameterChanged += x =>
             {
-                var parameter = PluginController.ParametersManager.Parameters.FirstOrDefault(y => y.Name == x.Text);
-                PluginController.AudioProcessor.LFOModifier.Target = parameter;
+                if (!_lfoUserChange)
+                {
+                    var parameter = PluginController.ParametersManager.FindParameter(x.Text);
+                    PluginController.AudioProcessor.LFOModifier.TargetParameterNumber.Value = PluginController.ParametersManager.GetParameterIndex(parameter);
+                }
             };
+            
+            PluginController.AudioProcessor.LFOModifier.TargetParameterNumber.OnValueChange += type =>
+            {
+                if (type == Parameter.EChangeType.Host
+                    || type == Parameter.EChangeType.Plugin)
+                    UpdateLFOParamsListByValue();
+            };
+            
+            UpdateLFOParamsListByValue();
+        }
+
+        private void UpdateLFOParamsListByValue()
+        {
+            UIThread.Instance.InvokeUIAction(() =>
+            {
+                int index = 0;
+                var number = PluginController.AudioProcessor.LFOModifier.TargetParameterNumber.Value;
+                if (number >= 0)
+                {
+                    var parameter = PluginController.ParametersManager.GetParameter(number);
+
+                    for (int i = 0; i < _lfoParameters.Count; ++i)
+                        if (_lfoParameters[i].Name == parameter.Name)
+                            index = i + 1;
+                }
+
+                _lfoUserChange = true;
+                Control.LFOParamsList.SelectedIndex = index;
+                _lfoUserChange = false;
+            });
         }
 
         private void KeyOnReleaseFromUI(int num)
