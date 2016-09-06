@@ -16,7 +16,7 @@ namespace Syntage.Logic
 
 		public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
 		{
-			Power = new BypassParameter(parameterPrefix + "Pwr", "Power", Processor);
+			Power = new BypassParameter(parameterPrefix + "Pwr", "Power", Processor, "Pwr", false);
 			OscillatorsMix = new RealParameter(parameterPrefix + "Mix", "Oscillators Mix", "Mix", 0, 1, 0.01);
             OscillatorsMix.SetDefaultValue(0.5);
 

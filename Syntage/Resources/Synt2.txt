@@ -29,7 +29,7 @@ GOsc      Sine
 GFrq      2.64
 GMtch     False
 GGain     1.00
-GNum      1
+GNum      CMix
 MVol      -1.42
 OPwr      On
 OStp      10

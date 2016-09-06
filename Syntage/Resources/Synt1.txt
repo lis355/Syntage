@@ -29,7 +29,7 @@ GOsc      Sine
 GFrq      1.00
 GMtch     True
 GGain     1.00
-GNum      -1
+GNum      None
 MVol      0.00
 OPwr      On
 OStp      10

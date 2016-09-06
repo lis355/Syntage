@@ -111,11 +111,11 @@ namespace Syntage.UI
                 if (!_lfoUserChange)
                 {
                     var parameter = PluginController.ParametersManager.FindParameter(x.Text);
-                    PluginController.AudioProcessor.LFOModifier.TargetParameterNumber.Value = PluginController.ParametersManager.GetParameterIndex(parameter);
+                    PluginController.AudioProcessor.LFOModifier.TargetParameter.Value = PluginController.ParametersManager.GetParameterIndex(parameter);
                 }
             };
             
-            PluginController.AudioProcessor.LFOModifier.TargetParameterNumber.OnValueChange += type =>
+            PluginController.AudioProcessor.LFOModifier.TargetParameter.OnValueChange += type =>
             {
                 if (type == Parameter.EChangeType.Host
                     || type == Parameter.EChangeType.Plugin)
@@ -130,7 +130,7 @@ namespace Syntage.UI
             UIThread.Instance.InvokeUIAction(() =>
             {
                 int index = 0;
-                var number = PluginController.AudioProcessor.LFOModifier.TargetParameterNumber.Value;
+                var number = PluginController.AudioProcessor.LFOModifier.TargetParameter.Value;
                 if (number >= 0)
                 {
                     var parameter = PluginController.ParametersManager.GetParameter(number);

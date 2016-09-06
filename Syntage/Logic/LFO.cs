@@ -12,15 +12,37 @@ namespace Syntage.Logic
         private double _time;
         private Parameter _target;
 
+        private class ParameterName : IntegerParameter
+        {
+            private readonly ParametersManager _parametersManager;
+
+            public ParameterName(string parameterPrefix, ParametersManager parametersManager) :
+                base(parameterPrefix + "Num", "LFO Parameter Number", "Num", -1, 34, 1, false)
+            {
+                _parametersManager = parametersManager;
+            }
+
+            public override int FromStringToValue(string s)
+            {
+                var parameter = _parametersManager.FindParameter(s);
+                return (parameter == null) ? -1 : _parametersManager.GetParameterIndex(parameter);
+            }
+
+            public override string FromValueToString(int value)
+            {
+                return _parametersManager.GetParameter(value).Name;
+            }
+        }
+
         public EnumParameter<WaveGenerator.EOscillatorType> OscillatorType { get; private set; }
         public FrequencyParameter Frequency { get; private set; }
         public BooleanParameter MatchKey { get; private set; }
         public RealParameter Gain { get; private set; }
-        public IntegerParameter TargetParameterNumber { get; private set; }
+        public IntegerParameter TargetParameter { get; private set; }
 
         public LFO(AudioProcessor audioProcessor) :
-			base(audioProcessor)
-		{
+            base(audioProcessor)
+        {
             audioProcessor.PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn;
         }
 
@@ -30,33 +52,12 @@ namespace Syntage.Logic
             Frequency = new FrequencyParameter(parameterPrefix + "Frq", "LFO Frequency", "Frq", 0.01, 1000, false);
             MatchKey = new BooleanParameter(parameterPrefix + "Mtch", "LFO Phase Key Link", "Match", false);
             Gain = new RealParameter(parameterPrefix + "Gain", "LFO Gain", "Gain", 0, 1, 0.01, false);
-            TargetParameterNumber = new IntegerParameter(parameterPrefix + "Num", "LFO Parameter Number", "Num", -1, 34, 1, false);
+            TargetParameter = new ParameterName(parameterPrefix, Processor.PluginController.ParametersManager);
 
-            TargetParameterNumber.OnValueChange += TargetParameterNumberOnValueChange;
+            TargetParameter.OnValueChange += TargetParameterNumberOnValueChange;
 
-            return new List<Parameter> {OscillatorType, Frequency, MatchKey, Gain, TargetParameterNumber};
+            return new List<Parameter> {OscillatorType, Frequency, MatchKey, Gain, TargetParameter};
         }
-
-        //public Parameter Target
-        //{
-        //    get { return _target; }
-        //    set
-        //    {
-        //        if (_target == value)
-        //            return;
-        //
-        //        //var index = Processor.PluginController.ParametersManager.GetParameterIndex(value);
-        //        //TargetParameterNumber.Value = index;
-        //
-        //        if (_target != null)
-        //            _target.ParameterModifier = null;
-        //
-        //        _target = value;
-        //
-        //        if (_target != null)
-        //            _target.ParameterModifier = this;
-        //    }
-        //}
 
         public void Process(IAudioStream stream)
         {
@@ -92,14 +93,14 @@ namespace Syntage.Logic
 
         private void TargetParameterNumberOnValueChange(Parameter.EChangeType obj)
         {
-            var number = TargetParameterNumber.Value;
-            var parameter = (number >= 0 ) ? Processor.PluginController.ParametersManager.GetParameter(number) : null;
+            var number = TargetParameter.Value;
+            var parameter = (number >= 0) ? Processor.PluginController.ParametersManager.GetParameter(number) : null;
 
             if (_target != null)
                 _target.ParameterModifier = null;
-            
+
             _target = parameter;
-            
+
             if (_target != null)
                 _target.ParameterModifier = this;
         }

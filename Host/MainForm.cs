@@ -62,7 +62,7 @@ namespace SimplyHost
 
 		private void printParametersToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			_hostController.PrintParameters();
+			_hostController.CopyParameters();
 		}
 	}
 }

@@ -17,7 +17,7 @@ EBDec     0.01
 EBStn     1.00
 EBRel     0.21
 FPass     None
-FCutoff   19970.31
+FCutoff   20000.00
 DPwr      Off
 DTrshd    1.00
 DlyPwr    On
@@ -26,10 +26,10 @@ DlySec    1.09
 DlyFbck   0.00
 KClip     Off
 GOsc      Square
-GFrq      9.40
+GFrq      4.65
 GMtch     True
 GGain     1.00
-GNum      2
+GNum      AVol
 MVol      0.00
 OPwr      On
 OStp      10

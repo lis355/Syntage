@@ -29,7 +29,7 @@ GOsc      Square
 GFrq      21.05
 GMtch     True
 GGain     1.00
-GNum      5
+GNum      APan
 MVol      0.00
 OPwr      On
 OStp      10

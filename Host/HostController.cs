@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Interop.Host;
@@ -51,60 +52,86 @@ namespace SimplyHost
 
         public void Start()
         {
-            var args = Environment.GetCommandLineArgs();
-            if (args.Length >= 2)
+            const string extension = ".net.vstdll";
+            var pluginName = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + extension, SearchOption.AllDirectories).FirstOrDefault();
+            if (pluginName == null)
+                throw new Exception("No plugin in directoy.");
+
+            pluginName = pluginName.Replace(extension, ".dll");
+            _plugin = OpenPlugin(pluginName);
+            if (_plugin != null)
             {
-                var pluginName = args[1];
-                _plugin = OpenPlugin(Directory.GetCurrentDirectory() + "\\" + pluginName);
-                if (_plugin != null)
+                _form.Text = string.Format("{0} {1} {2} {3}",
+                    _plugin.PluginCommandStub.GetEffectName(),
+                    _plugin.PluginCommandStub.GetProductString(),
+                    _plugin.PluginCommandStub.GetVendorString(),
+                    _plugin.PluginCommandStub.GetVendorVersion());
+
+                _plugin.PluginCommandStub.MainsChanged(true);
+
+                Rectangle wndRect;
+                if (_plugin.PluginCommandStub.EditorGetRect(out wndRect))
                 {
-                    _form.Text = string.Format("{0} {1} {2} {3}",
-                        _plugin.PluginCommandStub.GetEffectName(),
-                        _plugin.PluginCommandStub.GetProductString(),
-                        _plugin.PluginCommandStub.GetVendorString(),
-                        _plugin.PluginCommandStub.GetVendorVersion());
+                    var panelSize = _form.GetSizeFromClientSize(new Size(wndRect.Width, wndRect.Height));
+                    panelSize.Height += _form.FMenu.Height;
+                    _form.Size = panelSize;
 
-                    _plugin.PluginCommandStub.MainsChanged(true);
+                    _plugin.PluginCommandStub.EditorOpen(_form.PluginPanel.Handle);
+                }
+                else
+                {
+                    FillParametersForm();
+                }
 
-                    Rectangle wndRect;
-                    if (_plugin.PluginCommandStub.EditorGetRect(out wndRect))
-                    {
-                        var panelSize = _form.GetSizeFromClientSize(new Size(wndRect.Width, wndRect.Height));
-                        panelSize.Height += _form.FMenu.Height;
-                        _form.Size = panelSize;
+                FillProgramsList();
 
-                        _plugin.PluginCommandStub.EditorOpen(_form.PluginPanel.Handle);
-                    }
-                    else
-                    {
-                        _form.PluginPanel.AutoScroll = true;
-                        for (int i = 0; i < _plugin.PluginInfo.ParameterCount; ++i)
-                        {
-                            var editor = new ParameterEditor(i, _plugin.PluginCommandStub);
-                            editor.Location = new Point(0, i * editor.Height);
-                            _form.PluginPanel.Controls.Add(editor);
-                        }
-                    }
+                _plugin.PluginCommandStub.MainsChanged(false);
 
-                    _plugin.PluginCommandStub.MainsChanged(false);
+                _audioGenerator = new AudioGenerator(_host, _plugin);
+                _audioPlayer = new WaveOut();
+                _audioPlayer.DesiredLatency = 110;
 
-                    _audioGenerator = new AudioGenerator(_host, _plugin);
-                    _audioPlayer = new WaveOut();
-                    _audioPlayer.DesiredLatency = 110;
-
-                    _audioPlayer.Init(_audioGenerator);
-                    _audioPlayer.Play();
-
-					// Press note at start
-					//SendEventNotePress(9);
-				}
-			}
+                _audioPlayer.Init(_audioGenerator);
+                _audioPlayer.Play();
+            }
 
             if (_plugin == null)
             {
                 MessageBox.Show("No plugin loaded.");
                 _form.Close();
             }
+        }
+
+        private void FillParametersForm()
+        {
+            _form.PluginPanel.AutoScroll = true;
+            for (int i = 0; i < _plugin.PluginInfo.ParameterCount; ++i)
+            {
+                var editor = new ParameterEditor(i, _plugin.PluginCommandStub);
+                editor.Location = new Point(0, i * editor.Height);
+                _form.PluginPanel.Controls.Add(editor);
+            }
+        }
+
+        private void FillProgramsList()
+        {
+            for (int i = 0; i < _plugin.PluginInfo.ProgramCount; ++i)
+            {
+                var localI = i;
+                var item = new ToolStripMenuItem(_plugin.PluginCommandStub.GetProgramNameIndexed(localI));
+                item.Click += (sender, args) =>
+                {
+                    foreach (var menuItem in _form.programsToolStripMenuItem.DropDownItems.Cast<ToolStripMenuItem>())
+                        menuItem.Checked = false;
+
+                    item.Checked = true;
+                    _plugin.PluginCommandStub.SetProgram(localI);
+                };
+                
+                _form.programsToolStripMenuItem.DropDownItems.Add(item);
+            }
+
+            (_form.programsToolStripMenuItem.DropDownItems[0] as ToolStripMenuItem).Checked = true;
         }
 
         public void Finish()
@@ -203,7 +230,7 @@ namespace SimplyHost
             _plugin.PluginCommandStub.SetBypass(bypass);
         }
 
-	    public void PrintParameters()
+	    public void CopyParameters()
 	    {
 		    var parameterStrings = new List<string>();
 		    for (int i = 0; i < _plugin.PluginInfo.ParameterCount; ++i)
@@ -214,8 +241,9 @@ namespace SimplyHost
 		    }
 
 		    var presetString = string.Join(Environment.NewLine, parameterStrings);
-			MessageBox.Show(presetString);
 			Clipboard.SetText(presetString);
+			
+            //MessageBox.Show(presetString);
 	    }
     }
 }
