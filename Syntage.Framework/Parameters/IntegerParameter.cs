@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Syntage.Framework.Tools;
 
 namespace Syntage.Framework.Parameters
@@ -13,7 +14,7 @@ namespace Syntage.Framework.Parameters
 
 		public override int FromReal(double value)
 		{
-			return (int)DSPFunctions.Lerp(Min, Max, value);
+            return (int)Math.Round(DSPFunctions.Lerp(Min, Max, value), MidpointRounding.AwayFromZero);
 		}
 
 		public override double ToReal(int value)
@@ -23,8 +24,8 @@ namespace Syntage.Framework.Parameters
 		
 		public override int FromStringToValue(string s)
 		{
-			return (int)DSPFunctions.Clamp(int.Parse(s, CultureInfo.InvariantCulture), Min, Max);
-		}
+			return (int)Math.Round(DSPFunctions.Clamp(int.Parse(s, CultureInfo.InvariantCulture), Min, Max), MidpointRounding.AwayFromZero);
+        }
 
 		public override string FromValueToString(int value)
 		{

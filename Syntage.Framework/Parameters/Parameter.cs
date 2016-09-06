@@ -85,7 +85,7 @@ namespace Syntage.Framework.Parameters
 
                 if (_parameterModifier != null
                     && !CanBeAutomated)
-                    throw new ArgumentException();
+                    throw new ArgumentException("Parameter cannot be automated.");
 
                 _parameterModifier = value;
             }
