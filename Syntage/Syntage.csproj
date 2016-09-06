@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{16519991-1BFB-451A-9F55-FB05B246A35F}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Syntage</RootNamespace>
     <AssemblyName>Syntage</AssemblyName>
@@ -87,13 +87,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI\App\App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Arc.cs" />
-    <Compile Include="UI\Group.xaml.cs">
-      <DependentUpon>Group.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\IUIParameterController.cs" />
     <Compile Include="UI\Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
@@ -104,15 +98,11 @@
     <Compile Include="UI\Switch.xaml.cs">
       <DependentUpon>Switch.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\App\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Piano.xaml.cs">
       <DependentUpon>Piano.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\PluginUI.cs" />
     <Compile Include="Plugin\PluginController.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Oscilloscope.xaml.cs">
       <DependentUpon>Oscilloscope.xaml</DependentUpon>
     </Compile>
@@ -124,21 +114,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="UI\App\App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="UI\Group.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Key.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\App\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Piano.xaml">
       <SubType>Designer</SubType>
@@ -169,7 +147,6 @@
     <Resource Include="Resources\Visitor TT1 BRK.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <None Include="UI\App\App.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
