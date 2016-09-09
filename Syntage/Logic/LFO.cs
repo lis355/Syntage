@@ -30,7 +30,7 @@ namespace Syntage.Logic
 
             public override string FromValueToString(int value)
             {
-                return _parametersManager.GetParameter(value).Name;
+                return (value >= 0) ? _parametersManager.GetParameter(value).Name : "--";
             }
         }
 

@@ -165,6 +165,9 @@
     <None Include="Resources\Synt1.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Elastic.txt" />
+    <None Include="Resources\FineFeedback.txt" />
+    <Content Include="Resources\Telephone.txt" />
     <None Include="Resources\Synt3.txt" />
     <None Include="Resources\Synt2.txt" />
     <None Include="Resources\Butterfly.txt" />

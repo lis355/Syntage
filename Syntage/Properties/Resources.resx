@@ -121,6 +121,12 @@
   <data name="Butterfly" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Butterfly.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="Elastic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Elastic.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FineFeedback" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FineFeedback.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
   <data name="Sine" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sine.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
@@ -132,5 +138,8 @@
   </data>
   <data name="Synt3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Synt3.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="Telephone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Telephone.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
 </root>

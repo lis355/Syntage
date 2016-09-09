@@ -16,7 +16,7 @@ namespace Syntage.Plugin
     {
         public AudioProcessor AudioProcessor { get; }
         public MidiListener MidiListener { get; }
-        
+
         public PluginController() : base(
             "Syntage",
             new VstProductInfo("Study Synth", "lis355", 1000),
@@ -32,14 +32,17 @@ namespace Syntage.Plugin
             PluginUI.Instance.PluginController = this;
 
             ParametersManager.SetParameters(AudioProcessor.CreateParameters());
-            
+
             ParametersManager.SetPrograms(new Dictionary<string, string>
             {
                 {"Sine", Properties.Resources.Sine},
-                {"Butterfly", Properties.Resources.Butterfly},
                 {"Synt1", Properties.Resources.Synt1},
                 {"Synt2", Properties.Resources.Synt2},
-                {"Synt3", Properties.Resources.Synt3}
+                {"Synt3", Properties.Resources.Synt3},
+                {"Butterfly", Properties.Resources.Butterfly},
+                {"Telephone", Properties.Resources.Telephone},
+                {"Elastic", Properties.Resources.Elastic},
+                {"FineFeedback", Properties.Resources.FineFeedback}
             }.Select(x => ParametersManager.CreateProgramFromSerializedParameters(x.Key, x.Value)));
         }
 
