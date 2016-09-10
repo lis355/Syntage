@@ -14,6 +14,18 @@ namespace Syntage.Framework.Parameters
 
         public IVstHostCommands20 HostAutomation { get; private set; }
 
+        public class ProgramChangeEventArgs : EventArgs
+        {
+            public Program NewProgram { get; }
+
+            public ProgramChangeEventArgs(Program program)
+            {
+                NewProgram = program;
+            }
+        }
+
+        public EventHandler<ProgramChangeEventArgs> OnProgramChange;
+
         public Program ActiveProgram
         {
             get { return _programs[_activeProgram]; }
@@ -80,6 +92,8 @@ namespace Syntage.Framework.Parameters
             _activeProgram = programNumber;
             foreach (var parameter in ActiveProgram.Parameters)
                 _parametersDict[parameter.Key].SetValueFromPlugin(parameter.Value);
+
+            OnProgramChange?.Invoke(this, new ProgramChangeEventArgs(ActiveProgram));
         }
 
         public int GetProgram()

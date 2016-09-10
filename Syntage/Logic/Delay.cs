@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Syntage.Framework.Parameters;
 using Syntage.Logic.Audio;
 
@@ -30,6 +31,7 @@ namespace Syntage.Logic
             base(audioProcessor)
         {
             audioProcessor.OnSampleRateChanged += OnSampleRateChanged;
+            audioProcessor.PluginController.ParametersManager.OnProgramChange += ParametersManagerOnProgramChange;
         }
 
         public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
@@ -40,6 +42,15 @@ namespace Syntage.Logic
             Feedback = new RealParameter(parameterPrefix + "Fbck", "Feedback", "Feedback", 0, 1, 0.01);
 
             return new List<Parameter> {Power, DryLevel, DelaySeconds, Feedback};
+        }
+
+        public void ClearBuffer()
+        {
+            if (_rbuffer != null)
+                Array.Clear(_rbuffer.Data, 0, _rbuffer.Data.Length);
+
+            if (_lbuffer != null)
+                Array.Clear(_lbuffer.Data, 0, _lbuffer.Data.Length);
         }
 
         public void Process(IAudioStream stream)
@@ -57,7 +68,7 @@ namespace Syntage.Logic
                 rightChannel.Samples[i] = ProcessSample(rightChannel.Samples[i], i, _rbuffer);
             }
         }
-
+        
         private void OnSampleRateChanged(object sender, AudioProcessor.SampleRateEventArgs e)
         {
             var size = (int)(e.SampleRate * DelaySeconds.Max);
@@ -78,6 +89,11 @@ namespace Syntage.Logic
             buffer.Index = (buffer.Index + 1) % length;
 
             return output;
+        }
+
+        private void ParametersManagerOnProgramChange(object sender, ParametersManager.ProgramChangeEventArgs e)
+        {
+            ClearBuffer();
         }
     }
 }
