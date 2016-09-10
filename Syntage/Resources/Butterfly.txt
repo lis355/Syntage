@@ -19,12 +19,12 @@ EBRel     0.01
 FPass     LowPass
 FCutoff   1129.30
 DPwr      Off
-DTrshd    1.00
+DTrshd    0.10
 DlyPwr    Off
-DlyDry    1.00
-DlySec    5.00
-DlyFbck   1.00
-KClip     On
+DlyDry    0.00
+DlySec    0.00
+DlyFbck   0.00
+KClip     Off
 GOsc      Square
 GFrq      21.05
 GMtch     True
