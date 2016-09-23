@@ -62,6 +62,21 @@ namespace Syntage.Framework.Parameters
             SetProgram(0);
         }
 
+        public void CreateAndSetDefaultProgram()
+        {
+            SetPrograms(new List<Program> {CreateDefaultProgram()});
+        }
+
+        public Program CreateDefaultProgram()
+        {
+            var program = new Program {Name = "--"};
+            
+            foreach (var parameter in _parametersList)
+                program.Parameters.Add(parameter.Name, 0);
+
+            return program;
+        }
+
         public void SetHost(IVstHostCommands20 hostAutomation)
         {
             HostAutomation = hostAutomation;
@@ -133,7 +148,9 @@ namespace Syntage.Framework.Parameters
 
         public bool String2Parameter(int index, string str)
         {
-            throw new NotImplementedException();
+            var parameter = GetParameter(index);
+            parameter.SetValueFromHost((float)parameter.Parse(str));
+            return true;
         }
 
         public string GetProgramNameIndexed(int index)
