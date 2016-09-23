@@ -12,20 +12,7 @@ namespace Syntage.Logic
 
         public readonly PluginController PluginController;
 
-        public Input Input { get; }
-
-        public Routing Commutator { get; }
-        public Oscillator OscillatorA { get; }
-        public ADSR EnvelopeA { get; }
-        public Oscillator OscillatorB { get; }
-        public ADSR EnvelopeB { get; }
-        public ButterworthFilter Filter { get; }
-        public Distortion Distortion { get; }
-        public Delay Delay { get; }
-        public Clip Clip { get; }
-        public LFO LFOModifier { get; }
-        public Master Master { get; }
-		public Oscillograph Oscillograph { get; }
+        public Oscillator Oscillator { get; }
 
         public AudioProcessor(PluginController pluginController) :
 			base(0, 2, 0)
@@ -34,43 +21,14 @@ namespace Syntage.Logic
 
             PluginController = pluginController;
 
-            Input = new Input(this);
-
-            Commutator = new Routing(this);
-            OscillatorA = new Oscillator(this);
-            EnvelopeA = new ADSR(this);
-            OscillatorB = new Oscillator(this);
-            EnvelopeB = new ADSR(this);
-            Filter = new ButterworthFilter(this);
-            Distortion = new Distortion(this);
-            Clip = new Clip(this);
-            Delay = new Delay(this);
-            LFOModifier = new LFO(this);
-            Master = new Master(this);
-			Oscillograph = new Oscillograph(this);
-
-            OnBypassChanged += (sender, args) =>
-            {
-                Commutator.Power.Value = (Bypass) ? EPowerStatus.Off : EPowerStatus.On;
-            };
+            Oscillator = new Oscillator(this);
         }
         
         public override IEnumerable<Parameter> CreateParameters()
         {
             var parameters = new List<Parameter>();
-
-            parameters.AddRange(Commutator.CreateParameters("C"));
-            parameters.AddRange(OscillatorA.CreateParameters("A"));
-            parameters.AddRange(EnvelopeA.CreateParameters("EA"));
-            parameters.AddRange(OscillatorB.CreateParameters("B"));
-            parameters.AddRange(EnvelopeB.CreateParameters("EB"));
-            parameters.AddRange(Filter.CreateParameters("F"));
-            parameters.AddRange(Distortion.CreateParameters("D"));
-            parameters.AddRange(Delay.CreateParameters("Dly"));
-            parameters.AddRange(Clip.CreateParameters("K"));
-            parameters.AddRange(LFOModifier.CreateParameters("G"));
-            parameters.AddRange(Master.CreateParameters("M"));
-			parameters.AddRange(Oscillograph.CreateParameters("O"));
+            
+            parameters.AddRange(Oscillator.CreateParameters("O"));
             
             return parameters;
         }
@@ -79,7 +37,11 @@ namespace Syntage.Logic
         {
             base.Process(inChannels, outChannels);
 
-            Commutator.Process(_mainStream);
+            // генерируем семплы
+            var stream = Oscillator.Generate();
+
+            // копируем полученный stream в _mainStream
+            _mainStream.Mix(stream, 1, _mainStream, 0);
 
             // отправляем результат 
             _mainStream.WriteToVstOut(outChannels);

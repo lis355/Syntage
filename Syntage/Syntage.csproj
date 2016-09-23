@@ -40,16 +40,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jacobi.Vst.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
-      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Core.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Jacobi.Vst.Core.dll</HintPath>
     </Reference>
     <Reference Include="Jacobi.Vst.Framework, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
-      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Jacobi.Vst.Interop, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
-      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Interop.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Jacobi.Vst.Framework.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -66,117 +62,20 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic\ADSR.cs" />
     <Compile Include="Logic\AudioProcessor.cs" />
-    <Compile Include="Logic\ButterworthFilter.cs" />
-    <Compile Include="Logic\Clip.cs" />
-    <Compile Include="Logic\Delay.cs" />
-    <Compile Include="Logic\Distortion.cs" />
-    <Compile Include="Logic\Input.cs" />
-    <Compile Include="Logic\LFO.cs" />
-    <Compile Include="Logic\Master.cs" />
     <Compile Include="Logic\Oscillator.cs" />
-    <Compile Include="Logic\Routing.cs" />
     <Compile Include="Logic\WaveGenerator.cs" />
     <Compile Include="Plugin\PluginCommandStub.cs" />
-    <Compile Include="Logic\Oscillograph.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Arc.cs" />
-    <Compile Include="UI\IUIParameterController.cs" />
-    <Compile Include="UI\Key.xaml.cs">
-      <DependentUpon>Key.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Slider.xaml.cs">
-      <DependentUpon>Slider.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Switch.xaml.cs">
-      <DependentUpon>Switch.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Piano.xaml.cs">
-      <DependentUpon>Piano.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\PluginUI.cs" />
     <Compile Include="Plugin\PluginController.cs" />
-    <Compile Include="UI\Oscilloscope.xaml.cs">
-      <DependentUpon>Oscilloscope.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Knob.xaml.cs">
-      <DependentUpon>Knob.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\View.xaml.cs">
-      <DependentUpon>View.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="UI\Key.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Piano.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Oscilloscope.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Knob.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Slider.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Switch.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\View.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visitor TT1 BRK.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="UI\ViewResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Resources\Synt1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Elastic.txt" />
-    <None Include="Resources\FineFeedback.txt" />
-    <Content Include="Resources\Telephone.txt" />
-    <None Include="Resources\Synt3.txt" />
-    <None Include="Resources\Synt2.txt" />
-    <None Include="Resources\Butterfly.txt" />
-    <Content Include="Resources\Sine.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Syntage.Framework\Syntage.Framework.csproj">
       <Project>{392d6c09-0673-44ab-9fae-c9e43aa3837e}</Project>
       <Name>Syntage.Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -7,136 +7,58 @@ using Syntage.Framework.Tools;
 
 namespace Syntage.Logic
 {
-	public class Oscillator : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IGenerator
-	{
-		private class Tone
-		{
-			public enum EToneState
-			{
-				None,
-				Out,
-				Active,
-				In
-			}
+    public class Oscillator : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IGenerator
+    {
+        private readonly IAudioStream _stream; // поток, куда будем генерировать семплы
+        private double _time;
 
-			public int Note;
-			public double Time;
-			public EToneState State;
-		}
+        public EnumParameter<WaveGenerator.EOscillatorType> OscillatorType { get; private set; }
+        public RealParameter Frequency { get; private set; }
 
-		private const int KFadeSamples = 256;
-		private readonly IAudioStream _stream;
-		private Tone _tone;
-		private Tone _lastTone;
+        public Oscillator(AudioProcessor audioProcessor) :
+            base(audioProcessor)
+        {
+            _stream = Processor.CreateAudioStream(); // запрашиваем поток
+        }
 
-		public VolumeParameter Volume { get; private set; }
-		public EnumParameter<WaveGenerator.EOscillatorType> OscillatorType { get; private set; }
-		public RealParameter Fine { get; private set; }
-		public RealParameter Panning { get; private set; }
+        public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
+        {
+            OscillatorType = new EnumParameter<WaveGenerator.EOscillatorType>(parameterPrefix + "Osc", "Oscillator Type", "Osc", false);
+            Frequency = new FrequencyParameter(parameterPrefix + "Frq", "Oscillator Frequency", "Hz");
 
-		public Oscillator(AudioProcessor audioProcessor) :
-			base(audioProcessor)
-		{
-			_stream = Processor.CreateAudioStream();
+            return new List<Parameter> { OscillatorType, Frequency };
+        }
 
-			audioProcessor.PluginController.MidiListener.OnNoteOn += MidiListenerOnNoteOn;
-		}
+        public IAudioStream Generate()
+        {
+            _stream.Clear(); // очищаем все, что было раньше
 
-		public override IEnumerable<Parameter> CreateParameters(string parameterPrefix)
-		{
-			Volume = new VolumeParameter(parameterPrefix + "Vol", "Oscillator Volume");
-			OscillatorType = new EnumParameter<WaveGenerator.EOscillatorType>(parameterPrefix + "Osc", "Oscillator Type", "Osc", false);
+            GenerateToneToStream(); // самое интересное
 
-			Fine = new RealParameter(parameterPrefix + "Fine", "Oscillator pitch", "Fine", -2, 2, 0.01);
-			Fine.SetDefaultValue(0);
+            return _stream;
+        }
 
-			Panning = new RealParameter(parameterPrefix + "Pan", "Oscillator Panorama", "", 0, 1, 0.01);
-			Panning.SetDefaultValue(0.5);
+        private void GenerateToneToStream()
+        {
+            var count = Processor.CurrentStreamLenght; // сколько семплов нужо сгенерировать
+            double timeDelta = 1.0 / Processor.SampleRate; // столько времени разделяет два соседних семпла
 
-			return new List<Parameter> {Volume, OscillatorType, Fine, Panning};
-		}
-
-		private void MidiListenerOnNoteOn(object sender, MidiListener.NoteEventArgs e)
-		{
-			if (_lastTone == null
-				&& _tone != null)
-			{
-				_lastTone = _tone;
-				_lastTone.State = Tone.EToneState.In;
-			}
-
-			_tone = new Tone
-			{
-				Time = 0,
-				Note = e.NoteAbsolute,
-				State = Tone.EToneState.Out
-			};
-		}
-
-		public IAudioStream Generate()
-		{
-			_stream.Clear();
-
-			if (_lastTone != null)
-			{
-				GenerateToneToStream(_lastTone);
-				_lastTone = null;
-			}
-
-			if (_tone != null)
-				GenerateToneToStream(_tone);
-
-			return _stream;
-		}
-
-		private void GenerateToneToStream(Tone tone)
-		{
-			if (tone.State == Tone.EToneState.None)
-				return;
-
+            // кешируем ссылки на каналы, чтобы было меньше обращений в цикле
             var leftChannel = _stream.Channels[0];
             var rightChannel = _stream.Channels[1];
 
-            double timeDelta = 1.0 / Processor.SampleRate;
-			var count = Processor.CurrentStreamLenght;
-			for (int i = 0; i < count; ++i)
-			{
-				var frequency = DSPFunctions.GetNoteFrequency(tone.Note + Fine.ProcessedValue(i));
-				var sample = WaveGenerator.GenerateNextSample(OscillatorType.Value, frequency, tone.Time);
+            for (int i = 0; i < count; ++i)
+            {
+                // Frequency и OscillatorType лучше не кешировать - это параметры плагина и
+                // они могут меняться
+                var frequency = DSPFunctions.GetNoteFrequency(Frequency.Value);
+                var sample = WaveGenerator.GenerateNextSample(OscillatorType.Value, frequency, _time);
 
-				if (tone.State == Tone.EToneState.Out
-				    || tone.State == Tone.EToneState.In)
-				{
-					double fadeSamplesCount = Math.Min(KFadeSamples, count);
-					double fadeMultiplier = (i < fadeSamplesCount) ? i / fadeSamplesCount : 1;
+                leftChannel.Samples[i] = sample;
+                rightChannel.Samples[i] = sample;
 
-					if (tone.State == Tone.EToneState.In)
-						fadeMultiplier = 1 - fadeMultiplier;
-
-					sample *= fadeMultiplier;
-				}
-
-				sample *= Volume.ProcessedValue(i);
-
-				var panR = Panning.ProcessedValue(i);
-				var panL = 1 - panR;
-
-                leftChannel.Samples[i] += sample * panL;
-                rightChannel.Samples[i] += sample * panR;
-
-				tone.Time += timeDelta;
-			}
-
-			switch (tone.State)
-			{
-				case Tone.EToneState.Out:
-					tone.State = Tone.EToneState.Active;
-					break;
-
-				case Tone.EToneState.In:
-					tone.State = Tone.EToneState.None;
-					break;
-			}
-		}
-	}
+                _time += timeDelta;
+            }
+        }
+    }
 }
