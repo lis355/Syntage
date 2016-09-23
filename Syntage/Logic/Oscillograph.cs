@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-	public class Oscillograph : AudioProcessorPartWithParameters, IProcessor
+	public class Oscillograph : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IProcessor
 	{
 		public class Buffer
 		{

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-	public class Routing : AudioProcessorPartWithParameters, IProcessor
+	public class Routing : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IProcessor
 	{
 		public BypassParameter Power { get; private set; }
 		public RealParameter OscillatorsMix { get; private set; }

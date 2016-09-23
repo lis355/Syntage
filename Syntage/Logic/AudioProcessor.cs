@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Jacobi.Vst.Core;
-using Jacobi.Vst.Framework;
-using Jacobi.Vst.Framework.Plugin;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
-using Syntage.Logic.Audio;
 using Syntage.Plugin;
 
 namespace Syntage.Logic
 {
-    public class AudioProcessor : VstPluginAudioProcessorBase, IVstPluginBypass, IAudioStreamProvider
+    public class AudioProcessor : SyntageAudioProcessor
     {
-        private readonly List<AudioStream> _audioStreams = new List<AudioStream>();
         private readonly AudioStream _mainStream;
-        private bool _bypass;
-        
+
         public readonly PluginController PluginController;
 
         public Input Input { get; }
@@ -35,8 +30,9 @@ namespace Syntage.Logic
         public AudioProcessor(PluginController pluginController) :
 			base(0, 2, 0)
         {
-            PluginController = pluginController;
             _mainStream = (AudioStream)CreateAudioStream();
+
+            PluginController = pluginController;
 
             Input = new Input(this);
 
@@ -52,56 +48,14 @@ namespace Syntage.Logic
             LFOModifier = new LFO(this);
             Master = new Master(this);
 			Oscillograph = new Oscillograph(this);
-		}
 
-        public override float SampleRate
-        {
-            get { return base.SampleRate; }
-            set
+            OnBypassChanged += (sender, args) =>
             {
-                base.SampleRate = value;
-                OnSampleRateChanged?.Invoke(this, new SampleRateEventArgs(SampleRate));
-            }
+                Commutator.Power.Value = (Bypass) ? EPowerStatus.Off : EPowerStatus.On;
+            };
         }
-
-        public class SampleRateEventArgs : EventArgs
-        {
-            public float SampleRate { get; private set; }
-
-            public SampleRateEventArgs(float sampleRate)
-            {
-                SampleRate = sampleRate;
-            }
-        }
-
-        public event EventHandler<SampleRateEventArgs> OnSampleRateChanged;
-
-        public bool Bypass
-        {
-            get { return _bypass; }
-            set
-            {
-                _bypass = value;
-                Commutator.Power.Value = (_bypass) ? EPowerStatus.Off : EPowerStatus.On;
-            }
-        }
-
-        public override int BlockSize
-        {
-            get { return base.BlockSize; }
-            set
-            {
-                if (base.BlockSize == value)
-                    return;
-
-                base.BlockSize = value;
-
-                foreach (var stream in _audioStreams)
-                    stream.SetBlockSize(BlockSize);
-            }
-        }
-
-        public IEnumerable<Parameter> CreateParameters()
+        
+        public override IEnumerable<Parameter> CreateParameters()
         {
             var parameters = new List<Parameter>();
 
@@ -121,27 +75,9 @@ namespace Syntage.Logic
             return parameters;
         }
 
-        public IAudioStream CreateAudioStream()
-        {
-            var stream = new AudioStream();
-            stream.Initialize(OutputCount, this);
-            stream.SetBlockSize(BlockSize);
-
-            _audioStreams.Add(stream);
-
-            return stream;
-        }
-
-        public void ReleaseAudioStream(IAudioStream stream)
-        {
-            _audioStreams.Remove(stream as AudioStream);
-        }
-
-        public int CurrentStreamLenght { get; private set; }
-        
         public override void Process(VstAudioBuffer[] inChannels, VstAudioBuffer[] outChannels)
         {
-            CurrentStreamLenght = outChannels[0].SampleCount;
+            base.Process(inChannels, outChannels);
 
             Commutator.Process(_mainStream);
 

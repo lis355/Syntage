@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public class ADSR : AudioProcessorPartWithParameters, IProcessor
+    public class ADSR : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IProcessor
     {
         private class NoteEnvelope
         {

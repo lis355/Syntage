@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public class Master : AudioProcessorPartWithParameters, IProcessor
+    public class Master : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IProcessor
     {
         public VolumeParameter MasterVolume { get; private set; }
 

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syntage.Framework.Midi;
+using Syntage.Framework.Audio;
+using Syntage.Framework.MIDI;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-	public class Oscillator : AudioProcessorPartWithParameters, IGenerator
+	public class Oscillator : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IGenerator
 	{
 		private class Tone
 		{

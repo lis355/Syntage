@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Syntage.Framework.Midi;
+using Syntage.Framework.Audio;
+using Syntage.Framework.MIDI;
 
 namespace Syntage.Logic
 {
-    public class Input : AudioProcessorPart
+    public class Input : SyntageAudioProcessorComponent<AudioProcessor>
     {
         private readonly List<MidiListener.NoteEventArgs> _pressedNotes = new List<MidiListener.NoteEventArgs>();
 

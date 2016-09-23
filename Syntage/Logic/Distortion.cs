@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public class Distortion : AudioProcessorPartWithParameters, IProcessor
+    public class Distortion : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IProcessor
     {
 		public EnumParameter<EPowerStatus> Power { get; private set; }
 		

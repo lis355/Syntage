@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public class Delay : AudioProcessorPartWithParameters, IProcessor
+    public class Delay : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IProcessor
     {
         private class Buffer
         {
@@ -69,7 +69,7 @@ namespace Syntage.Logic
             }
         }
         
-        private void OnSampleRateChanged(object sender, AudioProcessor.SampleRateEventArgs e)
+        private void OnSampleRateChanged(object sender, SyntageAudioProcessor.SampleRateEventArgs e)
         {
             var size = (int)(e.SampleRate * DelaySeconds.Max);
             _lbuffer = new Buffer(size);

@@ -1,7 +1,7 @@
 ﻿using System;
 using Jacobi.Vst.Core;
 
-namespace Syntage.Logic.Audio
+namespace Syntage.Framework.Audio
 {
     public interface IAudioStream
     {

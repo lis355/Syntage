@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Syntage.Logic.Audio
+namespace Syntage.Framework.Audio
 {
     public interface IAudioChannel
     {

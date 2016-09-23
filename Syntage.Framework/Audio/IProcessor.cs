@@ -1,4 +1,4 @@
-﻿namespace Syntage.Logic.Audio
+﻿namespace Syntage.Framework.Audio
 {
     public interface IProcessor
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using Syntage.Framework.Midi;
+using Syntage.Framework.MIDI;
 using Syntage.Framework.UI;
 using Syntage.Plugin;
 using Syntage.Framework.Parameters;

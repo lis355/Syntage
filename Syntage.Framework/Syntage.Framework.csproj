@@ -53,6 +53,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\AudioChannel.cs" />
+    <Compile Include="Audio\AudioStream.cs" />
+    <Compile Include="Audio\IAudioStreamProvider.cs" />
+    <Compile Include="Audio\IGenerator.cs" />
+    <Compile Include="Audio\IProcessor.cs" />
+    <Compile Include="Audio\SyntageAudioProcessor.cs" />
+    <Compile Include="Audio\SyntageAudioProcessorComponent.cs" />
     <Compile Include="Midi\MidiListener.cs" />
     <Compile Include="Midi\MidiMessage.cs" />
     <Compile Include="Parameters\BooleanParameter.cs" />

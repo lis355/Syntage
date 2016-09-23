@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CannedBytes.Midi.Message;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
-using CannedBytes.Midi.Message;
 
-namespace Syntage.Framework.Midi
+namespace Syntage.Framework.MIDI
 {
     public class MidiListener : IVstMidiProcessor
     {

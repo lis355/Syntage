@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
@@ -14,7 +14,7 @@ namespace Syntage.Logic
         BandPass
     }
 
-    public class ButterworthFilter : AudioProcessorPartWithParameters, IProcessor
+    public class ButterworthFilter : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IProcessor
     {
         private class BiquadConvolutionTable
         {

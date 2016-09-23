@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using Syntage.Framework.Audio;
 using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
-using Syntage.Logic.Audio;
 
 namespace Syntage.Logic
 {
-    public class Clip : AudioProcessorPartWithParameters, IProcessor
+    public class Clip : SyntageAudioProcessorComponentWithParameters<AudioProcessor>, IProcessor
     {
         public EnumParameter<EPowerStatus> Power { get; private set; }
 

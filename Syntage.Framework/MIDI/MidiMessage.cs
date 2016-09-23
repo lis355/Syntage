@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst.Core;
 
-namespace Syntage.Framework.Midi
+namespace Syntage.Framework.MIDI
 {
     public class MidiMessage
     {

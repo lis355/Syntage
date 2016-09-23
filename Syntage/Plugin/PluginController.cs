@@ -3,7 +3,7 @@ using System.Linq;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
 using Syntage.Framework;
-using Syntage.Framework.Midi;
+using Syntage.Framework.MIDI;
 using Syntage.Framework.Tools;
 using Syntage.Logic;
 using Syntage.UI;
