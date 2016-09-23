@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Jacobi.Vst.Core;
 using Jacobi.Vst.Framework;
 using Syntage.Framework;
 using Syntage.Framework.Midi;
-using Syntage.Framework.Parameters;
 using Syntage.Framework.Tools;
 using Syntage.Logic;
 using Syntage.UI;

@@ -12,8 +12,7 @@ namespace Syntage.UI
 		private bool _isMouseOn;
 
 		private Parameter _parameter;
-		private string _shortLabel;
-		private double _value;
+	    private double _value;
 
 		public Color SwitchColor
 		{
@@ -37,8 +36,7 @@ namespace Syntage.UI
 			_parameter = parameter;
 
 			NameLabel.Content = _parameter.Name;
-			_shortLabel = _parameter.Label;
-        }
+		}
 
 		private double GetRealValue()
 		{

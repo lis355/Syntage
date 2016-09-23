@@ -67,7 +67,7 @@
     <Compile Include="Logic\AudioProcessor.cs" />
     <Compile Include="Logic\AudioProcessorPart.cs" />
     <Compile Include="Logic\Audio\AudioStream.cs" />
-    <Compile Include="Logic\Audio\AudioStreamProvider.cs" />
+    <Compile Include="Logic\Audio\IAudioStreamProvider.cs" />
     <Compile Include="Logic\ButterworthFilter.cs" />
     <Compile Include="Logic\Clip.cs" />
     <Compile Include="Logic\Delay.cs" />

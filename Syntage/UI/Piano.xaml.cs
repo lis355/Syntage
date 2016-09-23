@@ -18,19 +18,18 @@ namespace Syntage.UI
 	        int left = -1;
 	        for (int i = 0; i < kOctavs; ++i)
 	        {
-		        Key key;
-				key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 0 * 13); KeysPanel.Children.Add(key);
-				key = CreateBlackKey(); Canvas.SetLeft(key, left +  8 + 0 * 13); KeysPanel.Children.Add(key);
-				key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 1 * 13); KeysPanel.Children.Add(key);
-				key = CreateBlackKey(); Canvas.SetLeft(key, left +  9 + 1 * 14); KeysPanel.Children.Add(key);
-				key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 2 * 13); KeysPanel.Children.Add(key);
-				key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 3 * 13); KeysPanel.Children.Add(key);
-				key = CreateBlackKey(); Canvas.SetLeft(key, left +  8 + 3 * 13); KeysPanel.Children.Add(key);
-				key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 4 * 13); KeysPanel.Children.Add(key);
-				key = CreateBlackKey(); Canvas.SetLeft(key, left +  9 + 4 * 13); KeysPanel.Children.Add(key);
-				key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 5 * 13); KeysPanel.Children.Add(key);
-				key = CreateBlackKey(); Canvas.SetLeft(key, left + 10 + 5 * 13); KeysPanel.Children.Add(key);
-				key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 6 * 13); KeysPanel.Children.Add(key);
+	            var key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 0 * 13); KeysPanel.Children.Add(key);
+				    key = CreateBlackKey(); Canvas.SetLeft(key, left +  8 + 0 * 13); KeysPanel.Children.Add(key);
+				    key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 1 * 13); KeysPanel.Children.Add(key);
+				    key = CreateBlackKey(); Canvas.SetLeft(key, left +  9 + 1 * 14); KeysPanel.Children.Add(key);
+				    key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 2 * 13); KeysPanel.Children.Add(key);
+				    key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 3 * 13); KeysPanel.Children.Add(key);
+				    key = CreateBlackKey(); Canvas.SetLeft(key, left +  8 + 3 * 13); KeysPanel.Children.Add(key);
+				    key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 4 * 13); KeysPanel.Children.Add(key);
+				    key = CreateBlackKey(); Canvas.SetLeft(key, left +  9 + 4 * 13); KeysPanel.Children.Add(key);
+				    key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 5 * 13); KeysPanel.Children.Add(key);
+				    key = CreateBlackKey(); Canvas.SetLeft(key, left + 10 + 5 * 13); KeysPanel.Children.Add(key);
+				    key = CreateWhiteKey(); Canvas.SetLeft(key, left +  0 + 6 * 13); KeysPanel.Children.Add(key);
 
 				left += 91;
 	        }

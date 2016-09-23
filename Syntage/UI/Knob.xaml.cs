@@ -21,8 +21,7 @@ namespace Syntage.UI
 		private double _invertedStep = 100;
 
 		private Parameter _parameter;
-		private string _shortLabel;
-		private double _value;
+	    private double _value;
 		
 		public Color KnobBackColor
 		{
@@ -47,8 +46,7 @@ namespace Syntage.UI
 			_invertedStep = 1 / _parameter.RealStep;
 
 			NameLabel.Content = _parameter.Name;
-			_shortLabel = _parameter.Label;
-        }
+		}
 		
 		public void UpdateController()
 		{
