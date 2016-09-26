@@ -199,7 +199,7 @@ namespace Syntage.Framework.Parameters
         public Program CreateProgramFromSerializedParameters(string programName, string preset)
         {
             return CreateProgramFromSerializedParameters(programName,
-                preset.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));
+                preset.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }
