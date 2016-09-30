@@ -106,18 +106,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jacobi.Vst.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Jacobi.Vst.Core.dll</HintPath>
+      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Jacobi.Vst.Framework">
-      <HintPath>..\Libs\Jacobi.Vst.Framework.dll</HintPath>
+    <Reference Include="Jacobi.Vst.Framework, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
+      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Jacobi.Vst.Interop, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Jacobi.Vst.Interop.dll</HintPath>
+    <Reference Include="Jacobi.Vst.Interop, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
+      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Interop.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\Libs\NAudio.dll</HintPath>
+    <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.7.3\lib\net35\NAudio.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -149,6 +151,7 @@
       <DependentUpon>ParameterEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

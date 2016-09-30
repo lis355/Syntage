@@ -31,13 +31,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CannedBytes.Midi.Message">
-      <HintPath>..\Libs\CannedBytes.Midi.Message.dll</HintPath>
+      <HintPath>..\Libs\MIDI .NET\CannedBytes.Midi.Message.dll</HintPath>
     </Reference>
-    <Reference Include="Jacobi.Vst.Core">
-      <HintPath>..\Libs\Jacobi.Vst.Core.dll</HintPath>
+    <Reference Include="Jacobi.Vst.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
+      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Jacobi.Vst.Framework">
-      <HintPath>..\Libs\Jacobi.Vst.Framework.dll</HintPath>
+    <Reference Include="Jacobi.Vst.Framework, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
+      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Jacobi.Vst.Interop, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fa678e13c1efc859, processorArchitecture=x86">
+      <HintPath>..\packages\VST.NET.x86.1.1\lib\net40\Jacobi.Vst.Interop.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -84,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
