@@ -181,13 +181,17 @@ namespace Syntage.Framework.Parameters
                 var paramName = sline[0];
                 var valueS = sline[1];
 
-                var parameter = _parametersDict[paramName];
+                Parameter parameter;
+                _parametersDict.TryGetValue(paramName, out parameter);
                 if (parameter == null)
                     throw new NullReferenceException();
 
-                prmts.Remove(parameter);
+                if (parameter != null)
+                {
+                    prmts.Remove(parameter);
 
-                program.Parameters.Add(parameter.Name, parameter.Parse(valueS));
+                    program.Parameters.Add(parameter.Name, parameter.Parse(valueS));
+                }
             }
 
             if (prmts.Any())
