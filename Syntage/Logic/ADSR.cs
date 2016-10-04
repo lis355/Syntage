@@ -20,7 +20,6 @@ namespace Syntage.Logic
             }
 
             private readonly ADSR _ownerEnvelope;
-			private double _timeDelta;
 			private double _time;
 			private double _multiplier;
 	        private double _startMultiplier;
@@ -34,36 +33,49 @@ namespace Syntage.Logic
 
 			public double GetNextMultiplier(int sampleNumber)
 			{
-			    _sampleNumber = sampleNumber;
+                _sampleNumber = sampleNumber;
 
-                _multiplier = 0;
+			    var startMultiplier = GetCurrentStateStartValue();
+                var finishMultiplier = GetCurrentStateFinishValue();
+                
+                // время уменьшается, поэтому используем обратную величину
+                var stateTime = 1 - _time / GetCurrentStateMultiplier();
 
-		        switch (_state)
+                // логика интерполяция между startMultiplier и finishMultiplier скрыта в CalculateLevel
+                _multiplier = CalculateLevel(startMultiplier, finishMultiplier, stateTime);
+			    
+                switch (_state)
 		        {
-					case EState.Attack:
-                        _multiplier = DSPFunctions.Lerp(_startMultiplier, 1, 1 - _time / _ownerEnvelope.Attack.ProcessedValue(_sampleNumber));
-						if (_time < 0)
+                    case EState.None:
+                        break;
+
+                    case EState.Attack:
+                        if (_time < 0)
 							SetState(EState.Decay);
 						break;
 
 					case EState.Decay:
-						_multiplier = DSPFunctions.Lerp(_startMultiplier, _ownerEnvelope.Sustain.ProcessedValue(_sampleNumber), 1 - _time / _ownerEnvelope.Decay.ProcessedValue(_sampleNumber));
-						if (_time < 0)
+                        if (_time < 0)
 							SetState(EState.Sustain);
 						break;
 
 					case EState.Sustain:
-						_multiplier = _ownerEnvelope.Sustain.ProcessedValue(_sampleNumber);
-						break;
+                        // сустейн не ограничен по времени
+                        break;
 
 					case EState.Release:
-						_multiplier = DSPFunctions.Lerp(_startMultiplier, 0, 1 - _time / _ownerEnvelope.Release.ProcessedValue(_sampleNumber));
-						if (_time < 0)
+                        if (_time < 0)
 							SetState(EState.None);
 						break;
-		        }
 
-				_time -= _timeDelta;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                // вычитаем время одного семпла
+			    var timeDelta = 1.0 / _ownerEnvelope.Processor.SampleRate;
+                _time -= timeDelta;
+                
 				return _multiplier;
 			}
 
@@ -77,36 +89,77 @@ namespace Syntage.Logic
 		        SetState(EState.Release);
 			}
 
+            private static double CalculateLevel(double a, double b, double t)
+            {
+                return DSPFunctions.Lerp(a, b, t);
+            }
+
 			private void SetState(EState newState)
 			{
-				switch (newState)
-				{
-					case EState.None:
-						break;
-                        
-                    case EState.Attack:
-                        _timeDelta = 1.0 / _ownerEnvelope.Processor.SampleRate;
-                        _time = _ownerEnvelope.Attack.ProcessedValue(_sampleNumber);
-						break;
-
-					case EState.Decay:
-						_time = _ownerEnvelope.Decay.ProcessedValue(_sampleNumber);
-						break;
-
-					case EState.Sustain:
-						break;
-
-					case EState.Release:
-						_time = _ownerEnvelope.Release.ProcessedValue(_sampleNumber);
-						break;
-
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
-
-				_startMultiplier = _multiplier;
                 _state = newState;
+
+                // получим время новой фазы
+                _time = GetCurrentStateMultiplier();
+
+                // запомним текущее значение огибающей - это будет стартовое значение для новой фазы
+				_startMultiplier = _multiplier;
 			}
+
+            private double GetCurrentStateStartValue()
+            {
+                return _startMultiplier;
+            }
+
+            private double GetCurrentStateFinishValue()
+            {
+                switch (_state)
+                {
+                    case EState.None:
+                        return 0;
+
+                    case EState.Attack:
+                        return 1;
+
+                    case EState.Decay:
+                    case EState.Sustain:
+                        return GetSustainMultiplier();
+
+                    case EState.Release:
+                        return 0;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            private double GetCurrentStateMultiplier()
+            {
+                switch (_state)
+                {
+                    case EState.None:
+                        return 1;
+
+                    case EState.Attack:
+                        return _ownerEnvelope.Attack.ProcessedValue(_sampleNumber);
+
+                    case EState.Decay:
+                        return _ownerEnvelope.Decay.ProcessedValue(_sampleNumber);
+
+                    case EState.Sustain:
+                        return GetSustainMultiplier();
+
+                    case EState.Release:
+                        return _ownerEnvelope.Release.ProcessedValue(_sampleNumber);
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            private double GetSustainMultiplier()
+            {
+                return _ownerEnvelope.Sustain.ProcessedValue(_sampleNumber);
+            }
 		}
 
         private readonly NoteEnvelope _noteEnvelope;
@@ -133,6 +186,27 @@ namespace Syntage.Logic
 
 		    return new List<Parameter> {Attack, Decay, Sustain, Release};
 	    }
+        
+        private void OnPressedNotesChanged(object sender, EventArgs e)
+        {
+            // если сейчас нажаты какие-то клавиши, а раньше не были - регистрируем нажатие
+            // если сейчас нет нажатых клавиш, а раньше были нажаты - значит отжали последнюю клвишу,
+            // регистрируем релиз
+
+            var currentPressedNotesCount = Processor.Input.PressedNotesCount;
+            if (currentPressedNotesCount > 0
+                && _lastPressedNotesCount == 0)
+            {
+                _noteEnvelope.Press();
+            }
+            else if (currentPressedNotesCount == 0
+                && _lastPressedNotesCount > 0)
+            {
+                _noteEnvelope.Release();
+            }
+
+            _lastPressedNotesCount = currentPressedNotesCount;
+        }
 
         public void Process(IAudioStream stream)
         {
@@ -146,23 +220,6 @@ namespace Syntage.Logic
                 lc.Samples[i] *= multiplier;
                 rc.Samples[i] *= multiplier;
             }
-        }
-
-		private void OnPressedNotesChanged(object sender, EventArgs e)
-        {
-            var currentPressedNotesCount = Processor.Input.PressedNotesCount;
-            if (currentPressedNotesCount > 0
-				&& _lastPressedNotesCount == 0)
-            {
-                _noteEnvelope.Press();
-            }
-            else if (currentPressedNotesCount == 0
-				&& _lastPressedNotesCount > 0)
-            {
-                _noteEnvelope.Release();
-            }
-
-			_lastPressedNotesCount = currentPressedNotesCount;
         }
     }
 }
