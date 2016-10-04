@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Syntage.Framework.Tools
 {
-	public class DSPFunctions
+	public static class DSPFunctions
 	{
 		public const double Pi2 = 2 * Math.PI;
 		public static readonly double KMinADb = -80;
@@ -54,6 +54,11 @@ namespace Syntage.Framework.Tools
         public static bool IsZero(double value)
 	    {
 	        return Math.Abs(value) < 0.001;
+	    }
+
+	    public static double Frac(double x)
+	    {
+	        return x - (int)x;
 	    }
 
         public static List<string> NoteNames = new List<string> {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"};
