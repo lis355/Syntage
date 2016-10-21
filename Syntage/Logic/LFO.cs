@@ -71,7 +71,7 @@ namespace Syntage.Logic
                 return currentValue;
 
             var amplitude = GetCurrentAmplitude(sampleNumber);
-            gain *= amplitude * Math.Max(currentValue, 1 - currentValue);
+            gain *= amplitude * Math.Min(currentValue, 1 - currentValue);
 
             return DSPFunctions.Clamp01(currentValue + gain);
         }
